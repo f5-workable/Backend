@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="EgovHbzScpDao">
+
+	<typeAlias  alias="HashMap" type="java.util.HashMap"/>
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	
+	<select id="EgovHbzScpDao.selectIdCheck" parameterClass="HashMap" resultClass="egovMap">
+		SELECT 	*
+		FROM 	lettnemplyrinfo 
+		WHERE 	EMPLYR_ID = #id#
+	</select>
+	
+	<select id="EgovHbzScpDao.getCnt" resultClass="java.lang.Integer">
+		SELECT COUNT(*)
+		FROM DATAPOTAL
+	</select>
+	
+	<select id="EgovHbzScpDao.selectAction" resultClass="egovMap" parameterClass="HashMap">
+		SELECT 	* 
+		FROM	DATAPOTAL
+		ORDER BY DATA_SEQ DESC
+		LIMIT #offset# , #recordSize#
+	</select>
+	
+	<insert id="EgovHbzScpDao.insertAction" parameterClass="HashMap" >
+		INSERT INTO DATAPOTAL
+		(
+			 BASE_DATE
+			,BASE_TIME
+			,NX
+			,NY
+			,AREA
+			,PTY
+			,REH
+			,RN1
+			,T1H
+			,UUU
+			,VEC
+			,VVV
+			,WSD
+			,INS_DT
+		)
+		VALUES
+		( 	 #BASE_DATE#
+			,#BASE_TIME#
+			,#NX#
+			,#NY#
+			,#AREA#
+			,#PTY#
+			,#REH#
+			,#RN1#
+			,#T1H#
+			,#UUU#
+			,#VEC#
+			,#VVV#
+			,#WSD#
+			,NOW()
+	 	)	
+	</insert>
+
+</sqlMap>
