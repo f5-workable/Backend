@@ -4,8 +4,6 @@ import java.io.Serializable;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
-import lombok.Data;
-
 /**
  * 게시물에 대한 데이터 처리 모델 클래스
  * @author 공통 서비스 개발팀 이삼섭
