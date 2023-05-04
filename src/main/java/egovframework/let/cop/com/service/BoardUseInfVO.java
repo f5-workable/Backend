@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
+import lombok.Data;
+
 
 /**
  * 게시판의 이용정보를 관리하기 위한 VO 클래스
@@ -22,6 +24,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
  *
  * </pre>
  */
+@Data
 public class BoardUseInfVO extends BoardUseInf implements Serializable {
 
     /**
