@@ -15,5 +15,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
     
 <div id="nialogo"><img src="<c:url value='/images/footer/img_mois.png' />" alt="행정안전부" /></div>
-<div id="nialogo"><img src="<c:url value='/images/footer/img_nia.png' />" alt="한국정보화진흥원" /></div>
+<div id="nialogo"><img src="<c:url value='/images/footer/img_nia_2020.png' />" width="118" height="39" alt="NIA 한국지능정보사회진흥원" /></div>
 <div id="copyright">대구광역시 동구 첨단로 53 (41068)<br/>© MINISTRY OF THE INTERIOR AND SAFETY. ALL RIGHTS RESERVED.</div>

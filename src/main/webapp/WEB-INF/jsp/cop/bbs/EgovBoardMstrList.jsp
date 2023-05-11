@@ -1,6 +1,6 @@
 <%--
   Class Name : EgovFileList.jsp
-  Description : 파일목록화면
+  Description : 게시판 정보
   Modification Information
  
       수정일         수정자                   수정내용

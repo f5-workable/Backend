@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- <mapper namespace="egovframework.mapper.job.CompanyResumeMapper">
+    <insert id="egovframework.job.vo.CompanyResume"  parameterType="egovframework.job.dto.CompanyResumeDTO"
+    useGeneratedKeys="true" keyProperty="cr_num">
+       <selectKey keyColumn="RFNM_BNAC_RGST_SRMB" keyProperty="rfnmBnacRgstSrmb" order="AFTER" resultType="java.lang.String">
+        INSERT INTO COMPANYRESUME (age, place, job, payment, payment_type, ob_type, disease, career, pr, m_num, title)
+        VALUES (#{age}, #{place}, #{job}, #{payment}, #{payment_type}, #{ob_type}, #{disease}, #{career}, #{pr}, #{m_num}, #{title})
+        </selectKey>
+    </insert>
+    
+</mapper> -->
