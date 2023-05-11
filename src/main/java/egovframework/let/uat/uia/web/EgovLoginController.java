@@ -1,13 +1,5 @@
 package egovframework.let.uat.uia.web;
 
-import egovframework.com.cmm.EgovMessageSource;
-import egovframework.com.cmm.LoginVO;
-import egovframework.com.cmm.util.EgovUserDetailsHelper;
-import egovframework.let.uat.uia.service.EgovLoginService;
-
-import egovframework.rte.fdl.cmmn.trace.LeaveaTrace;
-import egovframework.rte.fdl.property.EgovPropertyService;
-
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -18,6 +10,14 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
+
+import egovframework.com.cmm.EgovMessageSource;
+import egovframework.com.cmm.LoginVO;
+import egovframework.com.cmm.util.EgovUserDetailsHelper;
+import egovframework.let.uat.uia.service.EgovLoginService;
+
+import org.egovframe.rte.fdl.cmmn.trace.LeaveaTrace;
+import org.egovframe.rte.fdl.property.EgovPropertyService;
 
 /**
  * 일반 로그인을 처리하는 컨트롤러 클래스
@@ -120,9 +120,7 @@ public class EgovLoginController {
 	 */
 	@RequestMapping(value = "/uat/uia/actionLogout.do")
 	public String actionLogout(HttpServletRequest request, ModelMap model) throws Exception {
-
 		RequestContextHolder.getRequestAttributes().removeAttribute("LoginVO", RequestAttributes.SCOPE_SESSION);
-
 		return "forward:/cmm/main/mainPage.do";
 	}
 

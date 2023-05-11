@@ -4,14 +4,10 @@ import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.net.URLEncoder;
 import java.util.Map;
-
-import egovframework.com.cmm.service.EgovFileMngService;
-import egovframework.com.cmm.service.FileVO;
-import egovframework.com.cmm.util.EgovUserDetailsHelper;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -23,6 +19,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import egovframework.com.cmm.service.EgovFileMngService;
+import egovframework.com.cmm.service.FileVO;
+import egovframework.com.cmm.util.EgovUserDetailsHelper;
+
+import org.egovframe.rte.fdl.cmmn.exception.EgovBizException;
 
 /**
  * 파일 다운로드를 위한 컨트롤러 클래스
@@ -77,7 +79,8 @@ public class EgovFileDownloadController {
 	 * @param response
 	 * @throws Exception
 	 */
-	private void setDisposition(String filename, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	private void setDisposition(String filename, HttpServletRequest request, HttpServletResponse response)
+		throws Exception {
 		String browser = getBrowser(request);
 
 		String dispositionPrefix = "attachment; filename=";
@@ -124,8 +127,8 @@ public class EgovFileDownloadController {
 	@RequestMapping(value = "/cmm/fms/FileDown.do")
 	public void cvplFileDownload(@RequestParam Map<String, Object> commandMap, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-		String atchFileId = (String) commandMap.get("atchFileId");
-		String fileSn = (String) commandMap.get("fileSn");
+		String atchFileId = (String)commandMap.get("atchFileId");
+		String fileSn = (String)commandMap.get("fileSn");
 
 		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
 
@@ -140,7 +143,8 @@ public class EgovFileDownloadController {
 			long fSize = uFile.length();
 
 			if (fSize > 0) {
-				String mimetype = "application/x-msdownload";
+				//String mimetype = "application/x-msdownload";
+				String mimetype = "application/x-stuff";
 
 				//response.setBufferSize(fSize);	// OutOfMemeory 발생
 				response.setContentType(mimetype);
@@ -163,7 +167,7 @@ public class EgovFileDownloadController {
 
 					FileCopyUtils.copy(in, out);
 					out.flush();
-				} catch (Exception ex) {
+				} catch (FileNotFoundException ex) {
 					// 다음 Exception 무시 처리
 					// Connection reset by peer: socket write error
 					LOGGER.debug("IGNORED: {}", ex.getMessage());
@@ -171,30 +175,21 @@ public class EgovFileDownloadController {
 					if (in != null) {
 						try {
 							in.close();
-						} catch (Exception ignore) {
+						} catch (IOException ignore) {
 							LOGGER.debug("IGNORED: {}", ignore.getMessage());
 						}
 					}
 					if (out != null) {
 						try {
 							out.close();
-						} catch (Exception ignore) {
+						} catch (IOException ignore) {
 							LOGGER.debug("IGNORED: {}", ignore.getMessage());
 						}
 					}
 				}
 
 			} else {
-				response.setContentType("application/x-msdownload");
-
-				PrintWriter printwriter = response.getWriter();
-				printwriter.println("<html>");
-				printwriter.println("<br><br><br><h2>Could not get file name:<br>" + fvo.getOrignlFileNm() + "</h2>");
-				printwriter.println("<br><br><br><center><h3><a href='javascript: history.go(-1)'>Back</a></h3></center>");
-				printwriter.println("<br><br><br>&copy; webAccess");
-				printwriter.println("</html>");
-				printwriter.flush();
-				printwriter.close();
+				throw new EgovBizException();
 			}
 		}
 	}
