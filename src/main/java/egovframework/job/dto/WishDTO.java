@@ -1,28 +1,27 @@
 package egovframework.job.dto;
 
-import egovframework.job.domain.Wish;
-import lombok.AccessLevel;
+import egovframework.job.vo.WishVO;
 import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
+@Setter
 public class WishDTO {
 
 	private Long w_id;
-    private Long m_num;
-    private Long j_num;
-
-    @Builder
-    public WishDTO(final Wish entity) {
+	private Long m_num;
+	private Long j_num;
+	
+	@Builder
+    public WishDTO(final WishVO entity) {
     	this.w_id = entity.getW_id();
     	this.m_num = entity.getM_num();
     	this.j_num = entity.getJ_num();
     }
     
-    public Wish toEntity() {
-    	return Wish.builder()
+    public WishVO toEntity() {
+    	return WishVO.builder()
     			.w_id(w_id)
     			.m_num(m_num)
     			.j_num(j_num)

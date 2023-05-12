@@ -1,20 +1,22 @@
 package egovframework.job.dto;
 
-import egovframework.job.domain.Resume;
-import lombok.AccessLevel;
+import egovframework.job.vo.ResumeVO;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
+@Setter
+@NoArgsConstructor
 public class ResumeDTO {
+
 	private Long r_id;
 	private int age;
     private String place;
     private String job;
-    private String payment;
     private String payment_type;
+    private int payment;
     private String ob_type;
     private String disease;
     private String career;
@@ -25,13 +27,13 @@ public class ResumeDTO {
     private String title;
     
     @Builder
-    public ResumeDTO(final Resume entity) {
-    	this.r_id = entity.getR_id();
+    public ResumeDTO(final ResumeVO entity) {
+    	this.r_id =entity.getR_id();
     	this.age = entity.getAge();
     	this.place = entity.getPlace();
     	this.job = entity.getJob();
-    	this.payment = entity.getPayment();
     	this.payment_type = entity.getPayment_type();
+    	this.payment = entity.getPayment();
     	this.ob_type = entity.getOb_type();
     	this.disease = entity.getDisease();
     	this.career = entity.getCareer();
@@ -39,8 +41,8 @@ public class ResumeDTO {
     	this.title = entity.getTitle();
     }
     
-    public Resume toEntity() {
-    	return Resume.builder()
+    public ResumeVO toEntity() {
+    	return ResumeVO.builder()
     			.r_id(r_id)
     			.age(age)
     			.place(place)

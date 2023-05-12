@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="egovframework.mapper.job.ApplyMapper">
+   <select id="selectApplyList" resultType="egovframework.job.vo.ApplyVO">
+        SELECT * FROM APPLY
+    </select>
+    
+     <select id="selectApplyById" parameterType="Long" resultType="egovframework.job.vo.ApplyVO">
+        SELECT * FROM APPLY WHERE a_id = #{j_id}
+    </select>
+    
+    <insert id="createApply" parameterType="egovframework.job.dto.ApplyDTO">
+        INSERT INTO APPLY (j_num, cr_num)
+        VALUES (#{j_num}, #{cr_num})
+    </insert>
+    
+     <select id="selectApplyListByMemberAndState" parameterType="hashmap" resultType="egovframework.job.vo.ApplyVO">
+        SELECT * 
+        FROM APPLY
+        <where>
+			cr_num IN (
+        		SELECT cr_num FROM COMPANYRESUME WHERE M_NUM=#{m_num}
+        	)
+			<if test="state == '지원완료' || staete='최종합격' || state =='불합격' ">AND STATE = #{state} </if>
+		</where>
+    </select>
+    
+    <delete id="deleteApply" parameterType="Long">
+    	DELETE FROM APPLY WHERE A_ID=#{a_id}
+    </delete>
+    
+    <select id="countApplyState" parameterType="Long" resultType="map">
+        SELECT STATE, count(*) AS CNT
+        FROM APPLY
+        WHERE
+			cr_num IN (
+        		SELECT cr_num FROM COMPANYRESUME WHERE M_NUM=#{m_num}
+        	)
+		GROUP BY STATE
+    </select>
+    
+    <select id="countApplyStateByMember" parameterType="hashmap" resultType="Integer">
+      	SELECT count(*) AS CNT
+        FROM APPLY
+        <where>
+			cr_num IN (
+        		SELECT cr_num FROM COMPANYRESUME WHERE M_NUM=#{m_num}
+        	)
+			<if test="state != '전체'">AND STATE = #{state} </if>
+		</where>
+    </select>
+    
+    <update id="updateApply" parameterType="egovframework.job.dto.ApplyDTO">
+        UPDATE APPLY SET 
+           state = #{state}
+        WHERE a_id = #{a_id}
+    </update>
+    
+</mapper>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="egovframework.mapper.job.CompanyMapper">
+	<select id="selectCompanyList" resultType="egovframework.job.vo.CompanyVO">
+        SELECT * FROM company
+    </select>
+    
+     <select id="selectCompanyById" resultType="egovframework.job.vo.CompanyVO">
+        SELECT * FROM company WHERE c_name = #{c_name}
+    </select>
+    
+    <insert id="insertCompany" parameterType="egovframework.job.vo.CompanyVO">
+        INSERT INTO company (c_id, password, c_name, rnum, address, logo, company_type, phone)
+        VALUES (#{c_id}, #{password}, #{c_name}, #{rnum}, #{address}, #{logo}, #{company_type}, #{phone})
+    </insert>
+    
+    <update id="updateCompany" parameterType="egovframework.job.vo.CompanyVO">
+        UPDATE company SET c_id = #{c_id}, password = #{password}, c_name = #{c_name},
+        rnum = #{rnum}, address = #{address}, logo = #{logo}, company_type = #{company_type}, phone = #{phone}
+        WHERE c_name = #{c_name}
+    </update>
+    
+    <delete id="deleteCompany" parameterType="String">
+    	DELETE FROM company WHERE c_name = #{c_name}
+    </delete>
+</mapper>
