@@ -13,6 +13,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+
 import egovframework.job.dto.JobinfoDTO;
 import egovframework.job.service.JobinfoService;
 import egovframework.job.vo.JobinfoResultVO;
@@ -27,7 +30,6 @@ public class JobinfoController {
    @GetMapping("/jobinfo")
    public ResponseEntity<List> selectJobinfo() {
       List<JobinfoDTO> res =  service.getJobinfoList();
-//      }
       return ResponseEntity.ok(res);
    }
 //   id별(기본키) 조회 
@@ -38,16 +40,16 @@ public class JobinfoController {
    }
 //   Create
    @PostMapping("/jobinfo")
-   public ResponseEntity createJobinfo(@RequestBody JobinfoDTO dto) {
-      JobinfoVO vo = service.addJobinfo(dto);
-      return ResponseEntity.ok(vo);
+   public ResponseEntity createJobinfo(@RequestBody JobinfoDTO jobinfoDto) {
+      JobinfoVO res = service.addJobinfo(jobinfoDto);
+      return ResponseEntity.ok(res);
    }
 //   Update
     @PutMapping("/jobinfo/{id}")
-    public ResponseEntity updateJobinfo(@PathVariable Long id, @RequestBody JobinfoDTO dto) {
+    public ResponseEntity updateJobinfo(@PathVariable Long id, @RequestBody JobinfoDTO jobinfoDto) {
 //       dto의 j_id : null, 쿼리스트링으로 받아온 id값을 set
-       dto.setJ_id(id);
-       service.updateJobinfo(dto);       
+       jobinfoDto.setJ_id(id);
+       service.updateJobinfo(jobinfoDto);       
        JobinfoVO res = service.getJobinfoById(id);
        return ResponseEntity.ok(res);
     }
@@ -59,8 +61,17 @@ public class JobinfoController {
     }
 //  조건 검색
     @GetMapping("/jobinfo/search")
-    public ResponseEntity searchJobinfo(@RequestBody JobinfoSearchVO vo) {
-    	List<JobinfoResultVO> res = service.searchJobinfo(vo);
+    public ResponseEntity searchJobinfo(@RequestBody JobinfoSearchVO jobinfosearchVO) {
+    	List<JobinfoResultVO> res = service.searchJobinfo(jobinfosearchVO);
         return ResponseEntity.ok(res);
     }
+    
+//  페이징 PageHelper  
+//    @GetMapping("/jobinfo/search")
+//    public ResponseEntity searchJobinfo(@RequestBody JobinfoSearchVO jobinfosearchVO) {
+////    	pageNum:현재 페이지, pageSize:페이지당 수량
+//    	PageHelper.startPage(0, 3);
+//    	List<JobinfoResultVO> res = service.searchJobinfo(jobinfosearchVO);
+//        return ResponseEntity.ok(PageInfo.of(res));
+//    }
 }

@@ -23,5 +23,6 @@
     	<mapper resource="egovframework/mapper/job/JobinfoMapper.xml" />
     	<mapper resource="egovframework/mapper/job/ApplyMapper.xml" />
     	<mapper resource="egovframework/mapper/job/CompanyMapper.xml" />
+    	<mapper resource="egovframework/mapper/job/ResumeMapper.xml" />
     </mappers>
 </configuration> 
