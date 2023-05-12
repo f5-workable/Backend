@@ -1,5 +1,6 @@
 package egovframework.job.web;
 
+import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import egovframework.job.dto.JobinfoDTO;
 import egovframework.job.service.JobinfoService;
+import egovframework.job.vo.JobinfoResultVO;
 import egovframework.job.vo.JobinfoSearchVO;
 import egovframework.job.vo.JobinfoVO;
 
@@ -58,7 +60,7 @@ public class JobinfoController {
 //  조건 검색
     @GetMapping("/jobinfo/search")
     public ResponseEntity searchJobinfo(@RequestBody JobinfoSearchVO vo) {
-       List<JobinfoVO> res = service.searchJobinfo(vo);
-       return ResponseEntity.ok(res);
+    	List<JobinfoResultVO> res = service.searchJobinfo(vo);
+        return ResponseEntity.ok(res);
     }
 }

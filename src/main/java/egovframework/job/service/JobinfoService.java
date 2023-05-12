@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import egovframework.job.dao.JobinfoDAO;
 import egovframework.job.dto.JobinfoDTO;
+import egovframework.job.vo.JobinfoResultVO;
 import egovframework.job.vo.JobinfoSearchVO;
 import egovframework.job.vo.JobinfoVO;
 
@@ -38,7 +39,7 @@ public class JobinfoService {
     public void deleteJobinfo(Long id) {
        dao.deleteJobinfo(id);
     }
-    public List<JobinfoVO> searchJobinfo(JobinfoSearchVO vo) {
+    public List<JobinfoResultVO> searchJobinfo(JobinfoSearchVO vo) {
        return dao.searchJobinfo(vo);
     }
 }

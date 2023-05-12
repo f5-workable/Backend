@@ -3,12 +3,10 @@ package egovframework.job.dto;
 import egovframework.job.vo.ResumeVO;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
-@NoArgsConstructor
 public class ResumeDTO {
 
 	private Long r_id;

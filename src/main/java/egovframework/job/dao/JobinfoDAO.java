@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import egovframework.job.dto.JobinfoDTO;
+import egovframework.job.vo.JobinfoResultVO;
 import egovframework.job.vo.JobinfoSearchVO;
 import egovframework.job.vo.JobinfoVO;
 
@@ -41,8 +42,9 @@ public class JobinfoDAO {
        sqlSession.delete("egovframework.mapper.job.JobinfoMapper.deleteJobinfo", id);
     }
     
-    public List<JobinfoVO> searchJobinfo(JobinfoSearchVO vo) {
-       List<JobinfoVO> res = sqlSession.selectList("egovframework.mapper.job.JobinfoMapper.searchJobinfo");
+    public List<JobinfoResultVO> searchJobinfo(JobinfoSearchVO vo) {
+//     controller에서 받아온 vo를 selectList에 매개변수로 넣어준다.
+       List<JobinfoResultVO> res = sqlSession.selectList("egovframework.mapper.job.JobinfoMapper.searchJobinfo", vo);
        return res;
     }
 }
