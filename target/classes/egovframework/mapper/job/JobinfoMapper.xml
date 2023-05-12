@@ -32,7 +32,6 @@
     <delete id="deleteJobinfo" parameterType="Long">
         delete from JOBINFO where j_id=#{j_id}
     </delete>
-    
     <select id="searchJobinfo" resultType="egovframework.job.vo.JobinfoResultVO" parameterType="egovframework.job.vo.JobinfoSearchVO">
       SELECT T.employment_type, T.payment_type, C.temp_address, C.tempcompany_type, T.tempjob_type, T.company_name
 	  	FROM TEMP T INNER JOIN TEMPCOMPANY C

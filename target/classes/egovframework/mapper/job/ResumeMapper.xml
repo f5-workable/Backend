@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="egovframework.mapper.job.ResumeMapper">
+
+	<!-- <resultMap id="ResumeResultMap" type="egovframework.job.dto.ResumeDTO">
+        <id property="r_id" column="r_id"/>
+        <result property="age" column="age"/>
+        <result property="place" column="place"/>
+        <result property="job" column="job"/>
+        <result property="payment_type" column="payment_type"/>
+        <result property="payment" column="payment"/>
+        <result property="ob_type" column="ob_type"/>
+        <result property="disease" column="disease"/>
+        <result property="career" column="career"/>
+        <result property="pr" column="pr"/>
+        <result property="r_default" column="r_default" jdbcType="TINYINT" javaType="Boolean"/>
+        <result property="r_open" column="r_open" jdbcType="TINYINT" javaType="Boolean"/>
+        <result property="title" column="title"/>
+    </resultMap> -->
+
+	<select id="selectResumeList" resultType="egovframework.job.dto.ResumeDTO">
+        SELECT * FROM RESUME LIMIT 10
+    </select>
+
+    <select id="selectResumeById" resultType="egovframework.job.dto.ResumeDTO">
+        SELECT * FROM RESUME WHERE r_id = #{r_id}
+    </select>
+    
+    <insert id="createResume" parameterType="egovframework.job.dto.ResumeDTO">
+        INSERT INTO RESUME (r_id, age, place, job, payment_type, payment, ob_type, disease, career, pr, r_open, title)
+        VALUES (#{r_id}, #{age}, #{place}, #{job}, #{payment_type}, #{payment}, #{ob_type}, #{disease}, #{career}, #{pr}, #{r_open}, #{title})
+    </insert>
+    
+    <update id="updateResume" parameterType="egovframework.job.dto.ResumeDTO">
+        UPDATE RESUME SET 
+           age = #{age},
+           place = #{place}, 
+           job = #{job}, 
+           payment_type = #{payment_type}, 
+           payment = #{payment}, 
+           ob_type = #{ob_type}, 
+           disease = #{disease},
+           career = #{career},
+           pr = #{pr},
+           r_open = #{r_open},
+           title = #{title}
+        WHERE r_id = #{r_id}
+    </update>
+    
+    <delete id="deleteResume" parameterType="Long">
+        delete from RESUME where r_id=#{r_id}
+    </delete>
+    
+    <select id="searchResume" resultType="egovframework.job.vo.ResumeResultVO" parameterType="egovframework.job.vo.ResumeSearchVO">
+      SELECT * FROM RESUME
+      <where>
+         <if test="payment_type != null">
+               and payment_type in 
+               <foreach item="ptype" collection="payment_type" open="(" close=")" separator="," >
+                  #{ptype}
+               </foreach>
+         </if>
+         <if test="disease != null">
+               and disease in 
+               <foreach item="d" collection="disease" open="(" close=")" separator="," >
+                  #{d}
+               </foreach>
+         </if>
+         <if test="ob_type != null">
+               and ob_type in 
+               <foreach item="ob" collection="ob_type" open="(" close=")" separator="," >
+                  #{ob}
+               </foreach>
+         </if>
+         <if test="place != null">
+               and place in 
+               <foreach item="p" collection="place" open="(" close=")" separator="," >
+                  #{p}
+               </foreach>
+         </if>
+         <if test="keyword != null">
+         	and job LIKE CONCAT('%', #{keyword}, '%')
+         </if>
+      </where>
+   	</select>
+</mapper>
