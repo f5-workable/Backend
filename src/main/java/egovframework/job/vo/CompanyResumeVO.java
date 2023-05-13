@@ -14,8 +14,8 @@ public class CompanyResumeVO {
 	private int age;
 	private String place;
 	private String job;
-	private String payment_type;
 	private int payment;
+	private String payment_type;
 	private String ob_type;
 	private String disease;
 	private String career;
