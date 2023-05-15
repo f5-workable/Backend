@@ -29,7 +29,7 @@ public class JobinfoController {
 //   
    @GetMapping("/jobinfo")
    public ResponseEntity<List> selectJobinfo() {
-      List<JobinfoDTO> res =  service.getJobinfoList();
+      List<JobinfoVO> res =  service.getJobinfoList();
       return ResponseEntity.ok(res);
    }
 //   id별(기본키) 조회 

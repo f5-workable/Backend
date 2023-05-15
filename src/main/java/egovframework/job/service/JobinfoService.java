@@ -19,7 +19,7 @@ public class JobinfoService {
    @Autowired
    private JobinfoDAO dao;
    
-   public List<JobinfoDTO> getJobinfoList() {
+   public List<JobinfoVO> getJobinfoList() {
         return dao.selectJobinfoList();
     }
 

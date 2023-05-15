@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="egovframework.mapper.job.JobinfoMapper">
-   <select id="selectJobinfoList" resultType="egovframework.job.dto.JobinfoDTO">
-        SELECT * FROM JOBINFO
+   <select id="selectJobinfoList" resultType="egovframework.job.vo.JobinfoVO">
+        SELECT * FROM JOBINFO LIMIT 10
     </select>
 
     <select id="selectJobinfoById" resultType="egovframework.job.vo.JobinfoVO">
