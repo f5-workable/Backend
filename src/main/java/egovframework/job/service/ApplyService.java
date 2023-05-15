@@ -76,8 +76,8 @@ public class ApplyService {
 	}
 	
 	// 기업 - 업종별 지원 내역 목록 조회
-	public List<Object> selecteCRAndMemberById(long j_num){
-		return applyDAO.selecteCRAndMemberById(j_num);
+	public List<Object> selecteCRAndMemberById(long j_num, String state){
+		return applyDAO.selecteCRAndMemberById(j_num, state);
 	}
 	
 }

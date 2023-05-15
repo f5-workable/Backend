@@ -33,6 +33,7 @@ public class ApplyController {
 	private CompanyResumeService CompanyResumeService;
 	@Autowired
 	private ResumeService ResumeService;
+	
 	//  id별(기본키) 조회 
 	@GetMapping("/apply/{id}")
 	public ResponseEntity selectOne(@PathVariable Long id) {
@@ -91,10 +92,17 @@ public class ApplyController {
 	// 기업의 jobinfo -> 직종 목록 조회
 	
 	// 업종별 지원 목록 조회
-	// 지원내역에서 j_num 조회
+	// 지원내역에서 j_num 조회 + 지원상태 함께 조회 
+	//company/apply/list/{j_num}?state=<대기/최종합격/불합격>
 	@GetMapping("/company/apply/list/{j_num}")
-	public ResponseEntity  selecteCRAndMemberById(@PathVariable long j_num) {
-		List<Object> res = applyService.selecteCRAndMemberById(j_num);
+	public ResponseEntity  selecteCRAndMemberById(@PathVariable(name="j_num") long j_num,
+													@RequestParam(name="state", required = false,  defaultValue = "전체")String state) {
+		if(state.equals("대기")) 
+			state = "지원완료";
+		else if(!(state.equals("최종합격") || state.equals("불합격"))) 
+			state = null;
+
+		List<Object> res = applyService.selecteCRAndMemberById(j_num, state);
 		return ResponseEntity.ok(res);
 	}
 	

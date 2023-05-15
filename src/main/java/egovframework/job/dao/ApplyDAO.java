@@ -80,8 +80,11 @@ public class ApplyDAO {
 	}
 	
 	// 기업 - 업종별 지원 내역 목록 조회
-	public List<Object> selecteCRAndMemberById(long j_num){
-		return sqlSession.selectList("egovframework.mapper.job.ApplyMapper.selecteCRAndMemberById", j_num);
+	public List<Object> selecteCRAndMemberById(long j_num, String state){
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("j_num", j_num);
+		map.put("state", state);
+		return sqlSession.selectList("egovframework.mapper.job.ApplyMapper.selecteCRAndMemberById", map);
 	}
 	
 }
