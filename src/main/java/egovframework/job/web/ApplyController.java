@@ -86,4 +86,16 @@ public class ApplyController {
 		return ResponseEntity.ok(res);
 	}
 	
+	// 기업 내 업종 조회 
+	// 기업의 jobinfo -> 직종 목록 조회
+	
+	// 업종별 지원 목록 조회
+	// 지원내역에서 j_num 조회
+	@GetMapping("/company/apply/list/{j_num}")
+	public ResponseEntity  selecteCRAndMemberById(@PathVariable long j_num) {
+		List<Object> res = applyService.selecteCRAndMemberById(j_num);
+		return ResponseEntity.ok(res);
+	}
+	
+	
 }

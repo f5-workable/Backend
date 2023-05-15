@@ -30,4 +30,5 @@ public class CompanyResumeDAO {
 		return sqlSession.delete("egovframework.mapper.job.CompanyResumeMapper.deleteCompanyResumeById",cr_num);
 		
 	}
+
 }

@@ -56,9 +56,10 @@
         WHERE a_id = #{a_id}
     </update>
     
-     <select id="selecteCrNumById" parameterType="Long" resultType="Long">
-      	SELECT cr_num
-        FROM APPLY
-		WHERE a_id = #{a_id}
+     <select id="selecteCRAndMemberById" parameterType="Long"  resultType="HashMap">
+      	SELECT b.cr_num, m.name,  b.ob_type, b.disease, b.payment
+		FROM APPLY a JOIN COMPANYRESUME b ON (a.cr_num = b.cr_num)
+		LEFT JOIN MEMBER m ON (m.m_num = b.m_num)
+		WHERE a.j_num = #{a.j_num}
     </select>
 </mapper>
