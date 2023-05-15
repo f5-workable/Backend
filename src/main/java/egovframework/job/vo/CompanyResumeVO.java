@@ -10,14 +10,12 @@ import lombok.Getter;
 @Getter
 @Builder
 public class CompanyResumeVO {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long cr_num;
 	private int age;
 	private String place;
 	private String job;
-	private String payment_type;
 	private int payment;
+	private String payment_type;
 	private String ob_type;
 	private String disease;
 	private String career;

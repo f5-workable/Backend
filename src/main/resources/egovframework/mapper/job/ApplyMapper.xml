@@ -5,13 +5,74 @@
         SELECT * FROM APPLY
     </select>
     
-     <select id="selectApplyById" resultType="egovframework.job.vo.ApplyVO">
+     <select id="selectApplyById" parameterType="Long" resultType="egovframework.job.vo.ApplyVO">
         SELECT * FROM APPLY WHERE a_id = #{j_id}
     </select>
     
     <insert id="createApply" parameterType="egovframework.job.dto.ApplyDTO">
-        INSERT INTO APPLY (j_num, c_num)
-        VALUES (#{j_num}, #{c_num})
+        INSERT INTO APPLY (j_num, cr_num)
+        VALUES (#{j_num}, #{cr_num})
     </insert>
     
+     <select id="selectApplyListByMemberAndState" parameterType="hashmap" resultType="hashmap">
+        SELECT j.j_id, j.j_name, j.job_type, j.payment, j.payment_type, c.address
+        FROM APPLY a 
+        JOIN JOBINFO j ON (a.j_num = j.j_id)
+        JOIN COMPANY c ON (j.j_name = c.c_name) 
+        <where>
+			cr_num IN (
+        		SELECT cr_num FROM COMPANYRESUME WHERE M_NUM=#{m_num}
+        	)
+			<if test="state == '지원완료' || staete='최종합격' || state =='불합격' ">AND STATE = #{state} </if>
+		</where>
+    </select>
+    
+    <delete id="deleteApply" parameterType="Long">
+    	DELETE FROM APPLY WHERE A_ID=#{a_id}
+    </delete>
+    
+    <select id="countApplyState" parameterType="Long" resultType="map">
+        SELECT STATE, count(*) AS CNT
+        FROM APPLY
+        WHERE
+			cr_num IN (
+        		SELECT cr_num FROM COMPANYRESUME WHERE M_NUM=#{m_num}
+        	)
+		GROUP BY STATE
+    </select>
+    
+    <select id="countApplyStateByMember" parameterType="hashmap" resultType="Integer">
+      	SELECT count(*) AS CNT
+        FROM APPLY
+        <where>
+        	<choose>
+				<when test = "type == 'company'">
+					j_num = #{num}
+				</when>
+				<otherwise>
+					cr_num IN (
+        				SELECT cr_num FROM COMPANYRESUME WHERE M_NUM=#{num}
+        			)
+				</otherwise>
+			</choose>
+			<if test=" state =='지원완료' || state =='최종합격' || state =='불합격'">AND STATE = #{state} </if>
+		</where>
+    </select>
+    
+    <update id="updateApply" parameterType="egovframework.job.dto.ApplyDTO">
+        UPDATE APPLY SET 
+           state = #{state}
+        WHERE a_id = #{a_id}
+    </update>
+    
+     <select id="selecteCRAndMemberById" parameterType="hashmap"  resultType="hashmap" >
+      	SELECT b.cr_num, m.name,  b.ob_type, b.disease, b.payment, b.payment_type
+		FROM APPLY a 
+		JOIN COMPANYRESUME b ON (a.cr_num = b.cr_num)
+		JOIN MEMBER m ON (m.m_num = b.m_num)
+		<where>
+			a.j_num = #{j_num}
+			<if test=" state =='지원완료' || state =='최종합격' || state =='불합격'">AND a.STATE = #{state} </if>
+		</where>
+    </select>
 </mapper>
