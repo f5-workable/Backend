@@ -16,4 +16,8 @@
         SELECT * FROM COMPANYRESUME WHERE cr_num = #{cr_num}
     </select>
     
+    <delete id="deleteCompanyResumeById" parameterType="Long" >
+        delete from COMPANYRESUME where cr_num = #{cr_num}
+    </delete>
+    
 </mapper>

@@ -56,4 +56,9 @@
         WHERE a_id = #{a_id}
     </update>
     
+     <select id="selecteCrNumById" parameterType="Long" resultType="Long">
+      	SELECT cr_num
+        FROM APPLY
+		WHERE a_id = #{a_id}
+    </select>
 </mapper>

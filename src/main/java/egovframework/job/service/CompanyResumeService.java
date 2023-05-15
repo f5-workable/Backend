@@ -25,5 +25,10 @@ public class CompanyResumeService {
 	public CompanyResumeVO seleteById(long cr_num) {
 		return companyResumeDAO.selectById(cr_num);
 	}
+	
+	// id에 따른 기업이력서 삭제
+	public int deleteById(long cr_num) {
+		return companyResumeDAO.deleteById(cr_num);
+	}
 
 }

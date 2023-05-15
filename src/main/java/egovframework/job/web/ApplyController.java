@@ -70,7 +70,12 @@ public class ApplyController {
 	// 지원 취소
 	@DeleteMapping("/apply/{a_id}")
 	public ResponseEntity deleteApply(@PathVariable long a_id) {
-		int res =  applyService.deleteApply(a_id);
+		// apply id로 해당 cr_num 조회
+		long cr_num = applyService.selecteCrNumById(a_id);
+		// apply 삭제
+		applyService.deleteApply(a_id);
+		// cr_num 삭제
+		int res = CompanyResumeService.deleteById(cr_num);
 		return ResponseEntity.ok(res);
 	}
 	

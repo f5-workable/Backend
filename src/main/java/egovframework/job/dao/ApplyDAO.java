@@ -75,4 +75,9 @@ public class ApplyDAO {
 		return sqlSession.update("egovframework.mapper.job.ApplyMapper.updateApply", dto);
 	}
 	
+	// apply id로 해당 cr_num 조회
+	public long selecteCrNumById(long a_id) {
+		return sqlSession.selectOne("egovframework.mapper.job.ApplyMapper.selecteCrNumById",a_id);
+	}
+	
 }

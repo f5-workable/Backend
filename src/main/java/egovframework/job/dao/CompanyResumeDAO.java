@@ -25,4 +25,9 @@ public class CompanyResumeDAO {
 		return sqlSession.selectOne("egovframework.mapper.job.CompanyResumeMapper.selectCompanyResumeById",cr_num);
 	}
 	
+	// id에 따른 삭제
+	public int deleteById(long cr_num) {
+		return sqlSession.delete("egovframework.mapper.job.CompanyResumeMapper.deleteCompanyResumeById",cr_num);
+		
+	}
 }

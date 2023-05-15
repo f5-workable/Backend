@@ -67,6 +67,9 @@ public class ApplyService {
 		return applyDAO.updateApplyState(dto);
 	}
 	
-	
+	// apply id로 해당 cr_num 조회
+	public long selecteCrNumById(long a_id) {
+		return applyDAO.selecteCrNumById(a_id);
+	}
 	
 }
