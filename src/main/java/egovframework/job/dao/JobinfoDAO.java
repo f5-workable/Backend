@@ -17,9 +17,9 @@ public class JobinfoDAO {
    @Autowired
    private SqlSession sqlSession;
    
-   public List<JobinfoDTO> selectJobinfoList() {
-        List<JobinfoDTO> jobinfoDTO = sqlSession.selectList("egovframework.mapper.job.JobinfoMapper.selectJobinfoList");
-        return jobinfoDTO;
+   public List<JobinfoVO> selectJobinfoList() {
+        List<JobinfoVO> vo = sqlSession.selectList("egovframework.mapper.job.JobinfoMapper.selectJobinfoList");
+        return vo;
     }
 
     public JobinfoVO selectJobinfoById(Long id) {

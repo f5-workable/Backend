@@ -18,11 +18,11 @@
         <result property="title" column="title"/>
     </resultMap> -->
 
-	<select id="selectResumeList" resultType="egovframework.job.dto.ResumeDTO">
+	<select id="selectResumeList" resultType="egovframework.job.vo.ResumeVO">
         SELECT * FROM RESUME LIMIT 10
     </select>
 
-    <select id="selectResumeById" resultType="egovframework.job.dto.ResumeDTO">
+    <select id="selectResumeById" resultType="egovframework.job.vo.ResumeVO">
         SELECT * FROM RESUME WHERE r_id = #{r_id}
     </select>
     

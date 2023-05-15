@@ -26,14 +26,14 @@ public class ResumeController {
 	private ResumeService service;
 //	전체 조회
 	@GetMapping("/resume")
-	public ResponseEntity<List> selectResumeList() {
-		List<ResumeDTO> res =  service.getResumeList();
+	public ResponseEntity selectResumeList() {
+		List<ResumeVO> res =  service.getResumeList();
 		return ResponseEntity.ok(res);
 	}
 //  id별(기본키) 조회 
 	@GetMapping("/resume/{id}")
 	public ResponseEntity selectOne(@PathVariable Long id) {
-		ResumeDTO res =  service.getResumeById(id);
+		ResumeVO res =  service.getResumeById(id);
 		return ResponseEntity.ok(res);
 	}
 //  Create
@@ -47,8 +47,8 @@ public class ResumeController {
 	public ResponseEntity updateResume(@PathVariable Long id, @RequestBody ResumeDTO resumeDto) {
 //      dto의 r_id : null, 쿼리스트링으로 받아온 id값을 set
 		resumeDto.setR_id(id);
-		service.updateResume(resumeDto);       
-		ResumeDTO res = service.getResumeById(id);
+		service.updateResume(resumeDto);
+		ResumeVO res = service.getResumeById(id);
 		return ResponseEntity.ok(res);
 	}
 //  Delete
@@ -63,4 +63,6 @@ public class ResumeController {
     	List<ResumeSearchVO> res = service.searchResume(resumeDto);
         return ResponseEntity.ok(res);
     }
+//  이력서 관리(회원별 모든 이력서 조회)
+    
 }
