@@ -36,13 +36,11 @@ public class ApplyDAO {
 	}
 
 	// 지원자별 지원내역 상태별 목록 조회
-	public List<ApplyVO> selectApplyListByMemberAndState(long m_num, String state) {
+	public List<Object> selectApplyListByMemberAndState(long m_num, String state) {
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("m_num", m_num);
 		map.put("state", state);
-
-		List<ApplyVO> applyVO = sqlSession.selectList("egovframework.mapper.job.ApplyMapper.selectApplyListByMemberAndState",map);
-		return applyVO;
+		return sqlSession.selectList("egovframework.mapper.job.ApplyMapper.selectApplyListByMemberAndState",map);
 	}
 
 	 //지원자별 지원상태별 개수 조회
@@ -56,9 +54,10 @@ public class ApplyDAO {
 	 }
 
 	// 지원자별 지원내역 상태별 목록 조회
-	public int countApplyStateByMember(long m_num, String state) {
+	public int countApplyStateByMember(long num, String type, String state) {
 		HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("m_num", m_num);
+		map.put("num", num);
+		map.put("type", type);
 		map.put("state", state);
 
 		int resultCnt = sqlSession.selectOne("egovframework.mapper.job.ApplyMapper.countApplyStateByMember",map);

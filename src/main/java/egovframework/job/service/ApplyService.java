@@ -37,20 +37,23 @@ public class ApplyService {
     }
     
     // 지원내역 상태별 조회 (사용자별 -> 지원상태별)
-	public List<ApplyVO> getApplyListByMemberAndState(long m_num, String state) {
+	public List<Object> getApplyListByMemberAndState(long m_num, String state) {
 		return applyDAO.selectApplyListByMemberAndState(m_num, state);
 	}
 
 	// 사용자의 지원내역별 개수 조회
-	 public  List<HashMap> countApplyState(long m_num) {
+	 public  List<HashMap> countApplyState(long num, String type) {
 		 String[] stateList = {"전체", "지원완료", "최종합격", "불합격"};	// 상태 리스트
 		// 지원내역별 개수
 		// [{"count": 2, "state": "지원완료"}...] 형태로 map을 담을 리스트 
 		List<HashMap> resultList = new ArrayList<HashMap>(); 
 		for(String state: stateList) {
 			HashMap<String, Object> map = new HashMap<String, Object>();
-			map.put("count", applyDAO.countApplyStateByMember(m_num, state));
-			map.put("state", state); 
+			map.put("count", applyDAO.countApplyStateByMember(num, type, state));
+			if(type.equals("company") && state == "지원완료") { 
+				state = "대기";
+			}
+			 map.put("state", state); 
 			// map {"count": 2, "state": "지원완료"} 을 리스트에 추가
 			resultList.add(map);
 		}

@@ -56,14 +56,15 @@ public class ApplyController {
 	@GetMapping("/apply/list/{m_num}")
 	public ResponseEntity<List> selectApplyList(@PathVariable(name="m_num") long m_num,
 												@RequestParam(name="state", required = false, defaultValue = "all") String state) {
-		List<ApplyVO> res = applyService.getApplyListByMemberAndState(m_num, state);	
+		List<Object> res = applyService.getApplyListByMemberAndState(m_num, state);	
 		return ResponseEntity.ok(res);
 	} 
 	
 	// 지원내역 상태별 갯수의 조회
-	@GetMapping("/apply/list/count/{m_num}")
-	public ResponseEntity countApplyState(@PathVariable(name="m_num") long m_num){
-		List<HashMap> res = applyService.countApplyState(m_num);
+	@GetMapping("/apply/list/count/{num}")
+	public ResponseEntity countApplyState(@PathVariable(name="num") long num ,
+											@RequestParam(name="type", required = false, defaultValue = "member") String type){
+		List<HashMap> res = applyService.countApplyState(num, type);
 		return ResponseEntity.ok(res);
 	}
 	
