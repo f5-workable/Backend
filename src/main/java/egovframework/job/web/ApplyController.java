@@ -20,6 +20,7 @@ import egovframework.job.dto.JobinfoDTO;
 import egovframework.job.dto.ResumeDTO;
 import egovframework.job.service.ApplyService;
 import egovframework.job.service.CompanyResumeService;
+import egovframework.job.service.ResumeService;
 import egovframework.job.vo.ApplyVO;
 import egovframework.job.vo.ResumeVO;
 
@@ -30,7 +31,8 @@ public class ApplyController {
 	private ApplyService applyService;
 	@Autowired
 	private CompanyResumeService CompanyResumeService;
-	
+	@Autowired
+	private ResumeService ResumeService;
 	//  id별(기본키) 조회 
 	@GetMapping("/apply/{id}")
 	public ResponseEntity selectOne(@PathVariable Long id) {
@@ -39,14 +41,14 @@ public class ApplyController {
 	}
 	
 	// 지원서 등록 (지원 이력서 선택 -> 기업이력서 등록 -> 어플라이 등록(기업이력서+채용공고+상태) )
-	@PostMapping("/apply/{j_num}")
-	public ResponseEntity addApply(@PathVariable(name="j_num") long j_num, @RequestBody ResumeDTO dto) {
+	@PostMapping("/apply")
+	public ResponseEntity addApply(@RequestParam(name="jobinfo") long j_id, @RequestParam(name="resume")long r_id) {
 		// 이력서 id로 이력서 조회
-		
+		ResumeDTO resumeDto = ResumeService.getResumeById(r_id);
 		// 기업 이력서 등록
-		long cr_num = CompanyResumeService.addCompanyResume(dto.toEntity());
+		long cr_num = CompanyResumeService.addCompanyResume(resumeDto.toEntity());
 		// 등록된 기업 이력서의 cr_num 과 j_num으로 apply 등록
-		int res = applyService.addApply(j_num, cr_num);
+		int res = applyService.addApply(j_id, cr_num);
 		return ResponseEntity.ok(res);
 	}
 	
