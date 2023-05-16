@@ -55,8 +55,9 @@ public class ApplyController {
 	
 	// 지원내역 상태별 조회
 	@GetMapping("/apply/list/{m_num}")
-	public ResponseEntity<List> selectApplyList(@PathVariable(name="m_num") long m_num,
+	public ResponseEntity selectApplyList(@PathVariable(name="m_num") long m_num,
 												@RequestParam(name="state", required = false, defaultValue = "all") String state) {
+		if(!(state.equals("지원완료")||state.equals("최종합격")||state.equals("불합격"))) state = null;
 		List<Object> res = applyService.getApplyListByMemberAndState(m_num, state);	
 		return ResponseEntity.ok(res);
 	} 
@@ -102,9 +103,5 @@ public class ApplyController {
 		List<Object> res = applyService.selecteCRAndMemberById(j_num, state);
 		return ResponseEntity.ok(res);
 	}
-	
-	// 기업 내 업종 조회 
-	// 기업의 jobinfo -> 직종 목록 조회
-	
 	
 }

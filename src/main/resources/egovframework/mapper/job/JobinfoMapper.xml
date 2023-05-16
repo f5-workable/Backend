@@ -73,4 +73,8 @@
          </choose>
       </where>
    </select>
+   
+    <select id="selectJobTypeByCNum"  parameterType="Long" resultType="hashmap" >
+        SELECT job_type FROM TMP_JOBINFO WHERE c_num = #{c_num}
+    </select>
 </mapper>

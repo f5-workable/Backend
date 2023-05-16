@@ -47,4 +47,11 @@ public class JobinfoDAO {
        List<JobinfoResultVO> res = sqlSession.selectList("egovframework.mapper.job.JobinfoMapper.searchJobinfo", vo);
        return res;
     }
+    
+    // 기업별 업종(JOB_TYPE) 목록 조회
+    public List<String> selectJobTypeByCNum(long c_num){
+    	 List<String> res = sqlSession.selectList("egovframework.mapper.job.JobinfoMapper.selectJobTypeByCNum",c_num);
+		return res;
+    	
+    }
 }

@@ -42,4 +42,10 @@ public class JobinfoService {
     public List<JobinfoResultVO> searchJobinfo(JobinfoSearchVO vo) {
        return dao.searchJobinfo(vo);
     }
+    
+    // 기업별 업종(JOB_TYPE) 목록 조회
+    public List<String> selectJobTypeByCNum(long c_num){
+    	return dao.selectJobTypeByCNum(c_num);
+    }
+    
 }
