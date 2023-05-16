@@ -2,6 +2,19 @@ package egovframework.let.cop.com.web;
 import java.util.List;
 import java.util.Map;
 
+import egovframework.com.cmm.ComDefaultCodeVO;
+import egovframework.com.cmm.EgovMessageSource;
+import egovframework.com.cmm.LoginVO;
+import egovframework.com.cmm.service.EgovCmmUseService;
+import egovframework.com.cmm.util.EgovUserDetailsHelper;
+import egovframework.let.cop.com.service.EgovTemplateManageService;
+import egovframework.let.cop.com.service.TemplateInf;
+import egovframework.let.cop.com.service.TemplateInfVO;
+
+import egovframework.rte.fdl.cmmn.exception.EgovBizException;
+import egovframework.rte.fdl.property.EgovPropertyService;
+import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
+
 import javax.annotation.Resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,19 +26,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springmodules.validation.commons.DefaultBeanValidator;
-
-import egovframework.com.cmm.ComDefaultCodeVO;
-import egovframework.com.cmm.EgovMessageSource;
-import egovframework.com.cmm.LoginVO;
-import egovframework.com.cmm.service.EgovCmmUseService;
-import egovframework.com.cmm.util.EgovUserDetailsHelper;
-import egovframework.let.cop.com.service.EgovTemplateManageService;
-import egovframework.let.cop.com.service.TemplateInf;
-import egovframework.let.cop.com.service.TemplateInfVO;
-
-import org.egovframe.rte.fdl.cmmn.exception.EgovBizException;
-import org.egovframe.rte.fdl.property.EgovPropertyService;
-import org.egovframe.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 
 /**
  * 템플릿 관리를 위한 컨트롤러 클래스
@@ -74,10 +74,7 @@ public class EgovTemplateManageController {
     @RequestMapping("/cop/com/selectTemplateInfs.do")
     public String selectTemplateInfs(@ModelAttribute("searchVO") TemplateInfVO tmplatInfVO, ModelMap model) throws Exception {
 
-    	if (!checkAuthority(model))
-		 {
-			return "cmm/uat/uia/EgovLoginUsr";	// server-side 권한 확인
-		}
+    	if (!checkAuthority(model)) return "cmm/uat/uia/EgovLoginUsr";	// server-side 권한 확인
 
 	    tmplatInfVO.setPageUnit(propertyService.getInt("pageUnit"));
 		tmplatInfVO.setPageSize(propertyService.getInt("pageSize"));
@@ -115,10 +112,7 @@ public class EgovTemplateManageController {
     @RequestMapping("/cop/com/selectTemplateInf.do")
     public String selectTemplateInf(@ModelAttribute("searchVO") TemplateInfVO tmplatInfVO, ModelMap model) throws Exception {
 
-    	if (!checkAuthority(model))
-		 {
-			return "cmm/uat/uia/EgovLoginUsr";	// server-side 권한 확인
-		}
+    	if (!checkAuthority(model)) return "cmm/uat/uia/EgovLoginUsr";	// server-side 권한 확인
 
 		ComDefaultCodeVO codeVO = new ComDefaultCodeVO();
 
@@ -146,10 +140,7 @@ public class EgovTemplateManageController {
     public String insertTemplateInf(@ModelAttribute("searchVO") TemplateInfVO searchVO, @ModelAttribute("templateInf") TemplateInf templateInf,
 	    BindingResult bindingResult, SessionStatus status, ModelMap model) throws Exception {
 
-    	if (!checkAuthority(model))
-		 {
-			return "cmm/uat/uia/EgovLoginUsr";	// server-side 권한 확인
-		}
+    	if (!checkAuthority(model)) return "cmm/uat/uia/EgovLoginUsr";	// server-side 권한 확인
 
 		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
 		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -188,10 +179,7 @@ public class EgovTemplateManageController {
     @RequestMapping("/cop/com/addTemplateInf.do")
     public String addTemplateInf(@ModelAttribute("searchVO") TemplateInfVO searchVO, ModelMap model) throws Exception {
 
-    	if (!checkAuthority(model))
-		 {
-			return "cmm/uat/uia/EgovLoginUsr";	// server-side 권한 확인
-		}
+    	if (!checkAuthority(model)) return "cmm/uat/uia/EgovLoginUsr";	// server-side 권한 확인
 
     	ComDefaultCodeVO vo = new ComDefaultCodeVO();
 
@@ -217,10 +205,7 @@ public class EgovTemplateManageController {
     public String updateTemplateInf(@ModelAttribute("searchVO") TemplateInfVO tmplatInfVO, @ModelAttribute("templateInf") TemplateInf templateInf,
 	    BindingResult bindingResult, SessionStatus status, ModelMap model) throws Exception {
 
-    	if (!checkAuthority(model))
-		 {
-			return "cmm/uat/uia/EgovLoginUsr";	// server-side 권한 확인
-		}
+    	if (!checkAuthority(model)) return "cmm/uat/uia/EgovLoginUsr";	// server-side 권한 확인
 
 		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
 		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -264,10 +249,7 @@ public class EgovTemplateManageController {
     public String deleteTemplateInf(@ModelAttribute("searchVO") TemplateInfVO searchVO, @ModelAttribute("tmplatInf") TemplateInf tmplatInf,
 	    SessionStatus status, ModelMap model) throws Exception {
 
-    	if (!checkAuthority(model))
-		 {
-			return "cmm/uat/uia/EgovLoginUsr";	// server-side 권한 확인
-		}
+    	if (!checkAuthority(model)) return "cmm/uat/uia/EgovLoginUsr";	// server-side 권한 확인
 
 		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
 		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -293,10 +275,7 @@ public class EgovTemplateManageController {
     public String selectTemplateInfsPop(@ModelAttribute("searchVO") TemplateInfVO tmplatInfVO,
     		@RequestParam Map<String, Object> commandMap, ModelMap model) throws Exception {
 
-    	if (!checkAuthority(model))
-		 {
-			return "cmm/uat/uia/EgovLoginUsr";	// server-side 권한 확인
-		}
+    	if (!checkAuthority(model)) return "cmm/uat/uia/EgovLoginUsr";	// server-side 권한 확인
 
 		String typeFlag = (String)commandMap.get("typeFlag");
 
@@ -350,10 +329,7 @@ public class EgovTemplateManageController {
     @RequestMapping("/cop/com/openPopup.do")
     public String openPopupWindow(@RequestParam Map<String, Object> commandMap, ModelMap model) throws Exception {
 
-    	if (!checkAuthority(model))
-		 {
-			return "cmm/uat/uia/EgovLoginUsr";	// server-side 권한 확인
-		}
+    	if (!checkAuthority(model)) return "cmm/uat/uia/EgovLoginUsr";	// server-side 권한 확인
 
     	String requestUrl = (String)commandMap.get("requestUrl");
     	String trgetId = (String)commandMap.get("trgetId");
@@ -361,14 +337,14 @@ public class EgovTemplateManageController {
     	String height = (String)commandMap.get("height");
     	String typeFlag = (String)commandMap.get("typeFlag");
 
-    	if (trgetId != null && !"".equals(trgetId)) {
+    	if (trgetId != null && trgetId != "") {
     	    if (typeFlag != null && typeFlag != "") {
     		model.addAttribute("requestUrl", requestUrl + "?trgetId=" + trgetId + "&PopFlag=Y&typeFlag=" + typeFlag);
     	    } else {
     		model.addAttribute("requestUrl", requestUrl + "?trgetId=" + trgetId + "&PopFlag=Y");
     	    }
     	} else {
-    	    if (typeFlag != null && !"".equals(typeFlag)) {
+    	    if (typeFlag != null && typeFlag != "") {
     		model.addAttribute("requestUrl", requestUrl + "?PopFlag=Y&typeFlag=" + typeFlag);
     	    } else {
     		model.addAttribute("requestUrl", requestUrl + "?PopFlag=Y");

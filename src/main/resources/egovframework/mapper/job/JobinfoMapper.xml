@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="egovframework.mapper.job.JobinfoMapper">
-   <select id="selectJobinfoList" resultType="egovframework.job.vo.JobinfoVO">
-        SELECT * FROM JOBINFO LIMIT 10
+   <select id="selectJobinfoList" resultType="egovframework.job.dto.JobinfoDTO">
+        SELECT * FROM JOBINFO
     </select>
 
     <select id="selectJobinfoById" resultType="egovframework.job.vo.JobinfoVO">
@@ -32,49 +32,36 @@
     <delete id="deleteJobinfo" parameterType="Long">
         delete from JOBINFO where j_id=#{j_id}
     </delete>
-    <select id="searchJobinfo" resultType="egovframework.job.vo.JobinfoResultVO" parameterType="egovframework.job.vo.JobinfoSearchVO">
-      SELECT T.employment_type, T.payment_type, C.temp_address, C.tempcompany_type, T.tempjob_type, T.company_name
-	  	FROM TEMP T INNER JOIN TEMPCOMPANY C
-		ON T.tempcompany_id = C.tempcompany_key
+    
+    
+    <select id="searchJobinfo" resultType="egovframework.job.vo.JobinfoVO" parameterType="egovframework.job.vo.JobinfoSearchVO">
+      select * from JOBINFO j, COMPANY c
       <where>
-      <!-- 예를들어 and employment_type in ('정규직', '계약직') 구문을 사용하면 '정규직' 또는 '계약직' 유형의 직무 정보를 검색가능-->
+      <!-- 시작과 끝(일) 추가해야함 -->
          <if test="employment_type != null">
-               and T.employment_type in 
-               <foreach item="employmenttype" collection="employment_type" open="(" close=")" separator="," >
-                  #{employmenttype}
+               and employment_type in <foreach item="employmenttype" collection="employment_type" open="(" close=")" separator="," >
+                  #{j.employmenttype}
                </foreach>
          </if>
          <if test="payment_type != null">
-               and T.payment_type in 
-               <foreach item="paymenttype" collection="payment_type" open="(" close=")" separator="," >
-                  #{paymenttype}
+               and payment_type in <foreach item="paymenttype" collection="payment_type" open="(" close=")" separator="," >
+                  #{j.paymenttype}
                </foreach>
          </if>
-         <if test="temp_address != null">
-		  	and (
-		    <foreach item="address" collection="temp_address" separator="OR">
-	            C.temp_address LIKE CONCAT(#{address}, '%')
-	        </foreach>
-		    )
-		 </if>
-         <if test="tempcompany_type != null">
-               and C.tempcompany_type in 
-               <foreach item="company_type" collection="tempcompany_type" open="(" close=")" separator="," >
-                  #{company_type}
+         <if test="region != null">
+               and region in <foreach item="r" collection="region" open="(" close=")" separator="," >
+                  #{c.address}
                </foreach>
          </if>
+         
          <choose>
-            <when test="tempjob_type == '업종'">
-               and T.tempjob_type LIKE CONCAT('%', #{keyword}, '%')
+            <when test="search_type == 'j_name'">
+               and j_name like '%' || #{keyword} || '%'
             </when>
-            <when test="tempjob_type == '기업명'">
-               and T.company_name LIKE CONCAT('%', #{keyword}, '%')
+            <when test="search_type == 'job_type'">
+               and job_type like '%' || #{keyword} || '%'
             </when>
          </choose>
       </where>
    </select>
-   
-    <select id="selectJobTypeByCNum"  parameterType="Long" resultType="hashmap" >
-        SELECT j_id ,job_type, d_date FROM TMP_JOBINFO WHERE c_num = #{c_num}
-    </select>
 </mapper>

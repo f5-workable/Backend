@@ -5,7 +5,7 @@ import java.util.List;
 import egovframework.let.cop.com.service.BoardUseInf;
 import egovframework.let.cop.com.service.BoardUseInfVO;
 
-import org.egovframe.rte.psl.dataaccess.EgovAbstractMapper;
+import egovframework.rte.psl.dataaccess.EgovAbstractDAO;
 
 import org.springframework.stereotype.Repository;
 
@@ -27,7 +27,7 @@ import org.springframework.stereotype.Repository;
  * </pre>
  */
 @Repository("BBSUseInfoManageDAO")
-public class BBSUseInfoManageDAO extends EgovAbstractMapper {
+public class BBSUseInfoManageDAO extends EgovAbstractDAO {
 
     /**
      * 게시판 사용 정보를 삭제한다.
@@ -110,7 +110,7 @@ public class BBSUseInfoManageDAO extends EgovAbstractMapper {
      * @throws Exception
      */
     public int selectBBSUseInfsCnt(BoardUseInfVO bdUseVO) throws Exception {
-	return (Integer)selectOne("BBSUseInfoManageDAO.selectBBSUseInfsCnt", bdUseVO);
+	return (Integer)select("BBSUseInfoManageDAO.selectBBSUseInfsCnt", bdUseVO);
     }
 
     /**
@@ -121,7 +121,7 @@ public class BBSUseInfoManageDAO extends EgovAbstractMapper {
      * @throws Exception
      */
     public BoardUseInfVO selectBBSUseInf(BoardUseInfVO bdUseVO) throws Exception {
-	return (BoardUseInfVO)selectOne("BBSUseInfoManageDAO.selectBBSUseInf", bdUseVO);
+	return (BoardUseInfVO)select("BBSUseInfoManageDAO.selectBBSUseInf", bdUseVO);
     }
 
     /**
@@ -164,7 +164,7 @@ public class BBSUseInfoManageDAO extends EgovAbstractMapper {
      * @throws Exception
      */
     public int selectBBSUseInfsCntByTrget(BoardUseInfVO bdUseVO) throws Exception {
-	return (Integer)selectOne("BBSUseInfoManageDAO.selectBBSUseInfsCntByTrget", bdUseVO);
+	return (Integer)select("BBSUseInfoManageDAO.selectBBSUseInfsCntByTrget", bdUseVO);
     }
 
     /**

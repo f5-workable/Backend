@@ -25,8 +25,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.support.lob.LobCreator;
 import org.springframework.jdbc.support.lob.LobHandler;
-
-import org.egovframe.rte.psl.orm.ibatis.support.AbstractLobTypeHandler;
+import egovframework.rte.psl.orm.ibatis.support.AbstractLobTypeHandler;
 
 /**
  * iBATIS TypeHandler implementation for Strings that get mapped to CLOBs.
@@ -65,7 +64,6 @@ public class AltibaseClobStringTypeHandler extends AbstractLobTypeHandler {
 		super(lobHandler);
 	}
 
-	@Override
 	protected void setParameterInternal(
 			PreparedStatement ps, int index, Object value, String jdbcType, LobCreator lobCreator)
 			throws SQLException {
@@ -73,7 +71,6 @@ public class AltibaseClobStringTypeHandler extends AbstractLobTypeHandler {
 	}
 
 
-	@Override
 	protected Object getResultInternal(ResultSet rs, int index, LobHandler lobHandler)
 			throws SQLException {
 
@@ -95,7 +92,7 @@ public class AltibaseClobStringTypeHandler extends AbstractLobTypeHandler {
 		    if (rd != null) {
 			try {
 			    rd.close();
-			} catch (IOException ignore) {
+			} catch (Exception ignore) {
 				LOGGER.debug("IGNORE: {}", ignore.getMessage());
 			}
 		    }
@@ -106,7 +103,6 @@ public class AltibaseClobStringTypeHandler extends AbstractLobTypeHandler {
 		//return lobHandler.getClobAsString(rs, index);
 	}
 
-	@Override
 	public Object valueOf(String s) {
 		return s;
 	}

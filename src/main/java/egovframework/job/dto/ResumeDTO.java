@@ -1,16 +1,12 @@
 package egovframework.job.dto;
 
 import egovframework.job.vo.ResumeVO;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
 public class ResumeDTO {
 
 	private Long r_id;
@@ -29,7 +25,7 @@ public class ResumeDTO {
     private String title;
     
     @Builder
-    public ResumeDTO(ResumeVO entity) {
+    public ResumeDTO(final ResumeVO entity) {
     	this.r_id =entity.getR_id();
     	this.age = entity.getAge();
     	this.place = entity.getPlace();
@@ -42,7 +38,6 @@ public class ResumeDTO {
     	this.pr = entity.getPr();
     	this.title = entity.getTitle();
     }
-    
     
     public ResumeVO toEntity() {
     	return ResumeVO.builder()
