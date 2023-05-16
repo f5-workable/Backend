@@ -20,11 +20,11 @@ public class ResumeService {
 	@Autowired
 	private ResumeDAO dao;
 	
-	public List<ResumeDTO> getResumeList() {
+	public List<ResumeVO> getResumeList() {
         return dao.selectResumeList();
     }
 	
-    public ResumeDTO getResumeById(Long id) {
+    public ResumeVO getResumeById(Long id) {
         return dao.selectResumeById(id);
     }
     

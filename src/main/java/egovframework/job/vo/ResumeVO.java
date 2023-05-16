@@ -4,11 +4,23 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+<<<<<<< .merge_file_HIlsyf
 import lombok.Builder;
 import lombok.Getter;
 
 @Getter
 @Builder
+=======
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+@Getter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+>>>>>>> .merge_file_izN9gJ
 public class ResumeVO {
 
 	/** 지원자 아이디 */

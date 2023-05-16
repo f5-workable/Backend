@@ -18,6 +18,7 @@ public class ResumeDAO {
 	@Autowired
 	private SqlSession sqlSession;
 	
+<<<<<<< .merge_file_H3jdXv
 	public List<ResumeDTO> selectResumeList() {
         List<ResumeDTO> resumeDto = sqlSession.selectList("egovframework.mapper.job.ResumeMapper.selectResumeList");
         return resumeDto;
@@ -25,6 +26,15 @@ public class ResumeDAO {
 
     public ResumeDTO selectResumeById(Long id) {
     	ResumeDTO vo = sqlSession.selectOne("egovframework.mapper.job.ResumeMapper.selectResumeById", id);
+=======
+	public List<ResumeVO> selectResumeList() {
+        List<ResumeVO> resumeDto = sqlSession.selectList("egovframework.mapper.job.ResumeMapper.selectResumeList");
+        return resumeDto;
+    }
+
+    public ResumeVO selectResumeById(Long id) {
+    	ResumeVO vo = sqlSession.selectOne("egovframework.mapper.job.ResumeMapper.selectResumeById", id);
+>>>>>>> .merge_file_jL5Ez0
         return vo;
     }
     

@@ -19,7 +19,11 @@ public class JobinfoService {
    @Autowired
    private JobinfoDAO dao;
    
+<<<<<<< .merge_file_a3w768
    public List<JobinfoDTO> getJobinfoList() {
+=======
+   public List<JobinfoVO> getJobinfoList() {
+>>>>>>> .merge_file_ydSCQt
         return dao.selectJobinfoList();
     }
 
@@ -42,10 +46,13 @@ public class JobinfoService {
     public List<JobinfoResultVO> searchJobinfo(JobinfoSearchVO vo) {
        return dao.searchJobinfo(vo);
     }
+<<<<<<< .merge_file_a3w768
     
     // 기업별 업종(JOB_TYPE) 목록 조회
     public List<String> selectJobTypeByCNum(long c_num){
     	return dao.selectJobTypeByCNum(c_num);
     }
     
+=======
+>>>>>>> .merge_file_ydSCQt
 }
