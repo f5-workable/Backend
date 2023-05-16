@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+
 import egovframework.job.dto.ApplyDTO;
 import egovframework.job.dto.JobinfoDTO;
 import egovframework.job.dto.ResumeDTO;
@@ -93,8 +96,11 @@ public class ApplyController {
 	// 지원내역에서 j_num 조회 + 지원상태 함께 조회 
 	//company/apply/list/{j_num}?state=<대기/최종합격/불합격>
 	@GetMapping("/company/apply/list/{j_num}")
-	public ResponseEntity  selecteCRAndMemberById(@PathVariable(name="j_num") long j_num,
-													@RequestParam(name="state", required = false,  defaultValue = "전체")String state) {
+	public ResponseEntity<List<Object>>  selecteCRAndMemberById(@PathVariable(name="j_num") long j_num,
+													@RequestParam(name="state", required = false,  defaultValue = "전체")String state,
+													@RequestParam(name="pageNum")int pageNum,
+													@RequestParam(name="pageSize")int pageSize) {
+		  PageHelper.startPage(pageNum, pageSize);
 		if(state.equals("대기")) 
 			state = "지원완료";
 		else if(!(state.equals("최종합격") || state.equals("불합격"))) 
