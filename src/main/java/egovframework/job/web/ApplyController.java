@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+
 import egovframework.job.dto.ApplyDTO;
 import egovframework.job.dto.JobinfoDTO;
 import egovframework.job.dto.ResumeDTO;
@@ -55,10 +58,14 @@ public class ApplyController {
 	
 	// 지원내역 상태별 조회
 	@GetMapping("/apply/list/{m_num}")
-	public ResponseEntity<List> selectApplyList(@PathVariable(name="m_num") long m_num,
-												@RequestParam(name="state", required = false, defaultValue = "all") String state) {
+	public ResponseEntity<PageInfo> selectApplyList(@PathVariable(name="m_num") long m_num,
+												@RequestParam(name="state", required = false, defaultValue = "all") String state,
+												@RequestParam(name="pageNum", required = false,  defaultValue = "1")int pageNum,
+												@RequestParam(name="pageSize", required = false,  defaultValue = "20")int pageSize) {
+		PageHelper.startPage(pageNum, pageSize);
+		if(!(state.equals("지원완료")||state.equals("최종합격")||state.equals("불합격"))) state = null;
 		List<Object> res = applyService.getApplyListByMemberAndState(m_num, state);	
-		return ResponseEntity.ok(res);
+		return ResponseEntity.ok(PageInfo.of(res));
 	} 
 	
 	// 지원내역 상태별 갯수의 조회
@@ -88,23 +95,23 @@ public class ApplyController {
 		return ResponseEntity.ok(res);
 	}
 	
-	// 기업 내 업종 조회 
-	// 기업의 jobinfo -> 직종 목록 조회
-	
 	// 업종별 지원 목록 조회
 	// 지원내역에서 j_num 조회 + 지원상태 함께 조회 
 	//company/apply/list/{j_num}?state=<대기/최종합격/불합격>
 	@GetMapping("/company/apply/list/{j_num}")
-	public ResponseEntity  selecteCRAndMemberById(@PathVariable(name="j_num") long j_num,
-													@RequestParam(name="state", required = false,  defaultValue = "전체")String state) {
+	public ResponseEntity<PageInfo<Object>>  selecteCRAndMemberById(@PathVariable(name="j_num") long j_num,
+													@RequestParam(name="state", required = false,  defaultValue = "전체")String state,
+													@RequestParam(name="pageNum", required = false,  defaultValue = "1")int pageNum,
+													@RequestParam(name="pageSize", required = false,  defaultValue = "20")int pageSize
+												) {
+		PageHelper.startPage(pageNum, pageSize);
 		if(state.equals("대기")) 
 			state = "지원완료";
 		else if(!(state.equals("최종합격") || state.equals("불합격"))) 
 			state = null;
 
 		List<Object> res = applyService.selecteCRAndMemberById(j_num, state);
-		return ResponseEntity.ok(res);
+		return ResponseEntity.ok(PageInfo.of(res));
 	}
-	
 	
 }

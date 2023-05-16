@@ -21,6 +21,7 @@ public class JobinfoVO {
 	private int payment;
 	private String career;
 	private String edu;
+
 //	등록일
 	private String r_date;
 	private String detail;

@@ -74,4 +74,12 @@ public class JobinfoController {
 //    	List<JobinfoResultVO> res = service.searchJobinfo(jobinfosearchVO);
 //        return ResponseEntity.ok(PageInfo.of(res));
 //    }
+    
+    // 기업별 업종(JOB_TYPE) 목록 조회
+    @GetMapping("/jobinfo/jobtype/{c_num}")
+    public ResponseEntity selectJobTypeByCNum(@PathVariable long c_num) {
+    	
+     	List<String> res = service.selectJobTypeByCNum(c_num);
+        return ResponseEntity.ok(res);
+    }
 }

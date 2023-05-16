@@ -17,6 +17,7 @@ public class JobinfoDAO {
    @Autowired
    private SqlSession sqlSession;
    
+
    public List<JobinfoVO> selectJobinfoList() {
         List<JobinfoVO> vo = sqlSession.selectList("egovframework.mapper.job.JobinfoMapper.selectJobinfoList");
         return vo;
@@ -46,5 +47,10 @@ public class JobinfoDAO {
 //     controller에서 받아온 vo를 selectList에 매개변수로 넣어준다.
        List<JobinfoResultVO> res = sqlSession.selectList("egovframework.mapper.job.JobinfoMapper.searchJobinfo", vo);
        return res;
+    } 
+    // 기업별 업종(JOB_TYPE) 목록 조회
+    public List<String> selectJobTypeByCNum(long c_num){
+    	 List<String> res = sqlSession.selectList("egovframework.mapper.job.JobinfoMapper.selectJobTypeByCNum",c_num);
+		return res;
     }
 }

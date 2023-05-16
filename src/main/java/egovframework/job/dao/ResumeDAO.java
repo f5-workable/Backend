@@ -18,6 +18,7 @@ public class ResumeDAO {
 	@Autowired
 	private SqlSession sqlSession;
 	
+
 	public List<ResumeVO> selectResumeList() {
         List<ResumeVO> resumeDto = sqlSession.selectList("egovframework.mapper.job.ResumeMapper.selectResumeList");
         return resumeDto;
