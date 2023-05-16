@@ -18,7 +18,7 @@
         SELECT j.j_id, j.j_name, j.job_type, j.payment, j.payment_type, c.address
         FROM APPLY a 
         JOIN JOBINFO j ON (a.j_num = j.j_id)
-        JOIN COMPANY c ON (j.j_name = c.c_name) 
+        JOIN COMPANY c ON (j.c_num = c.c_num) 
         <where>
 			cr_num IN (
         		SELECT cr_num FROM COMPANYRESUME WHERE M_NUM=#{m_num}

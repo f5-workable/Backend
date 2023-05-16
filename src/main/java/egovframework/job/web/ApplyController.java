@@ -88,9 +88,6 @@ public class ApplyController {
 		return ResponseEntity.ok(res);
 	}
 	
-	// 기업 내 업종 조회 
-	// 기업의 jobinfo -> 직종 목록 조회
-	
 	// 업종별 지원 목록 조회
 	// 지원내역에서 j_num 조회 + 지원상태 함께 조회 
 	//company/apply/list/{j_num}?state=<대기/최종합격/불합격>
@@ -105,6 +102,9 @@ public class ApplyController {
 		List<Object> res = applyService.selecteCRAndMemberById(j_num, state);
 		return ResponseEntity.ok(res);
 	}
+	
+	// 기업 내 업종 조회 
+	// 기업의 jobinfo -> 직종 목록 조회
 	
 	
 }
