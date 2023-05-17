@@ -1,6 +1,6 @@
 package egovframework.com.cmm;
 
-import org.egovframe.rte.ptl.mvc.tags.ui.pagination.AbstractPaginationRenderer;
+import egovframework.rte.ptl.mvc.tags.ui.pagination.AbstractPaginationRenderer;
 
 import javax.servlet.ServletContext;
 

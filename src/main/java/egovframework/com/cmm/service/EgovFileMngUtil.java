@@ -15,6 +15,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import egovframework.let.utl.fcc.service.EgovStringUtil;
+
+import egovframework.rte.fdl.idgnr.EgovIdGnrService;
+import egovframework.rte.fdl.property.EgovPropertyService;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -25,11 +30,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.multipart.MultipartFile;
 //import java.util.HashMap;
-
-import egovframework.let.utl.fcc.service.EgovStringUtil;
-
-import org.egovframe.rte.fdl.idgnr.EgovIdGnrService;
-import org.egovframe.rte.fdl.property.EgovPropertyService;
 
 /**
  * @Class Name  : EgovFileMngUtil.java
@@ -181,14 +181,14 @@ public class EgovFileMngUtil {
 	    if (bos != null) {
 		try {
 		    bos.close();
-		} catch (IOException ignore) {
+		} catch (Exception ignore) {
 			LOGGER.debug("IGNORED: {}", ignore.getMessage());
 		}
 	    }
 	    if (stream != null) {
 		try {
 		    stream.close();
-		} catch (IOException ignore) {
+		} catch (Exception ignore) {
 			LOGGER.debug("IGNORED: {}", ignore.getMessage());
 		}
 	    }
@@ -252,14 +252,14 @@ public class EgovFileMngUtil {
 	    if (outs != null) {
 			try {
 			    outs.close();
-			} catch (IOException ignore) {
+			} catch (Exception ignore) {
 				LOGGER.debug("IGNORED: {}", ignore.getMessage());
 			}
 		    }
 		    if (fin != null) {
 			try {
 			    fin.close();
-			} catch (IOException ignore) {
+			} catch (Exception ignore) {
 				LOGGER.debug("IGNORED: {}", ignore.getMessage());
 			}
 		    }
@@ -316,9 +316,8 @@ public class EgovFileMngUtil {
 	    stream = file.getInputStream();
 	    File cFile = new File(stordFilePath);
 
-	    if (!cFile.isDirectory()) {
-			cFile.mkdir();
-		}
+	    if (!cFile.isDirectory())
+		cFile.mkdir();
 
 	    bos = new FileOutputStream(stordFilePath + File.separator + newName);
 
@@ -338,14 +337,14 @@ public class EgovFileMngUtil {
 	    if (bos != null) {
 		try {
 		    bos.close();
-		} catch (IOException ignore) {
+		} catch (Exception ignore) {
 			LOGGER.debug("IGNORED: {}", ignore.getMessage());
 		}
 	    }
 	    if (stream != null) {
 		try {
 		    stream.close();
-		} catch (IOException ignore) {
+		} catch (Exception ignore) {
 			LOGGER.debug("IGNORED: {}", ignore.getMessage());
 		}
 	    }
@@ -401,7 +400,7 @@ public class EgovFileMngUtil {
 		if (in != null) {
 		    try {
 			in.close();
-		    } catch (IOException ignore) {
+		    } catch (Exception ignore) {
 		    	LOGGER.debug("IGNORED: {}", ignore.getMessage());
 		    }
 		}

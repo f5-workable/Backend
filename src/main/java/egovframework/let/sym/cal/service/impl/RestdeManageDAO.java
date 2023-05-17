@@ -5,7 +5,7 @@ import java.util.List;
 import egovframework.let.sym.cal.service.Restde;
 import egovframework.let.sym.cal.service.RestdeVO;
 
-import org.egovframe.rte.psl.dataaccess.EgovAbstractMapper;
+import egovframework.rte.psl.dataaccess.EgovAbstractDAO;
 
 import org.springframework.stereotype.Repository;
 
@@ -27,7 +27,7 @@ import org.springframework.stereotype.Repository;
  * </pre>
  */
 @Repository("RestdeManageDAO")
-public class RestdeManageDAO extends EgovAbstractMapper {
+public class RestdeManageDAO extends EgovAbstractDAO {
 
 	/**
 	 * 일반달력 팝업 정보를 조회한다.
@@ -135,7 +135,7 @@ public class RestdeManageDAO extends EgovAbstractMapper {
 	 * @throws Exception
 	 */
 	public Restde selectRestdeDetail(Restde restde) throws Exception {
-		return (Restde) selectOne("RestdeManageDAO.selectRestdeDetail", restde);
+		return (Restde) select("RestdeManageDAO.selectRestdeDetail", restde);
 	}
 
 
@@ -156,7 +156,7 @@ public class RestdeManageDAO extends EgovAbstractMapper {
      * @throws Exception
      */
     public int selectRestdeListTotCnt(RestdeVO searchVO) throws Exception {
-        return (Integer)selectOne("RestdeManageDAO.selectRestdeListTotCnt", searchVO);
+        return (Integer)select("RestdeManageDAO.selectRestdeListTotCnt", searchVO);
     }
 
 	/**

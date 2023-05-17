@@ -4,7 +4,7 @@ import java.util.List;
 import egovframework.let.cop.bbs.service.BoardMaster;
 import egovframework.let.cop.bbs.service.BoardMasterVO;
 
-import org.egovframe.rte.psl.dataaccess.EgovAbstractMapper;
+import egovframework.rte.psl.dataaccess.EgovAbstractDAO;
 
 import org.springframework.stereotype.Repository;
 
@@ -26,7 +26,7 @@ import org.springframework.stereotype.Repository;
  *  </pre>
  */
 @Repository("BBSLoneMasterDAO")
-public class BBSLoneMasterDAO extends EgovAbstractMapper {
+public class BBSLoneMasterDAO extends EgovAbstractDAO {
 
     /**
      * 등록된 게시판 속성정보를 삭제한다.
@@ -42,8 +42,8 @@ public class BBSLoneMasterDAO extends EgovAbstractMapper {
      *
      * @param BoardMaster
      */
-    public int insertMaster(BoardMaster boardMaster) throws Exception {
-	return (int)insert("BBSLoneMasterDAO.insertMaster", boardMaster);
+    public String insertMaster(BoardMaster boardMaster) throws Exception {
+	return (String)insert("BBSLoneMasterDAO.insertMaster", boardMaster);
     }
 
     /**
@@ -52,7 +52,7 @@ public class BBSLoneMasterDAO extends EgovAbstractMapper {
      * @param BoardMasterVO
      */
     public BoardMasterVO selectMaster(BoardMaster vo) throws Exception {
-	return (BoardMasterVO)selectOne("BBSLoneMasterDAO.selectMaster", vo);
+	return (BoardMasterVO)select("BBSLoneMasterDAO.selectMaster", vo);
     }
 
     /**
@@ -73,7 +73,7 @@ public class BBSLoneMasterDAO extends EgovAbstractMapper {
      * @throws Exception
      */
     public int selectMasterListCnt(BoardMasterVO vo) throws Exception {
-	return (Integer)selectOne("BBSLoneMasterDAO.selectMasterListCnt", vo);
+	return (Integer)select("BBSLoneMasterDAO.selectMasterListCnt", vo);
     }
 
     /**
