@@ -80,11 +80,22 @@ public class ApplyDAO {
 	}
 	
 	// 기업 - 업종별 지원 내역 목록 조회
-	public List<Object> selecteCRAndMemberById(long j_num, String state){
-		HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("j_num", j_num);
-		map.put("state", state);
-		return sqlSession.selectList("egovframework.mapper.job.ApplyMapper.selecteCRAndMemberById", map);
+	public List<Object> selecteCRAndMemberById(ApplyDTO dto){
+		return sqlSession.selectList("egovframework.mapper.job.ApplyMapper.selecteCRAndMemberById", dto);
 	}
+	
+	// 지원자 중증 여부 통계
+	public  List<HashMap<String, Object>> statisticsObType(long j_num){
+		return sqlSession.selectList("egovframework.mapper.job.ApplyMapper.statisticsObType", j_num);
+	}
+	// 지원자 장애유형 여부 통계
+	public List<HashMap<String, Object>> statisticsDisease(long j_num){
+		return sqlSession.selectList("egovframework.mapper.job.ApplyMapper.statisticsDisease", j_num);
+	}
+	// 지원자 성별 통계
+	public List<HashMap<String, Object>> statisticsGender(long j_num){
+		return sqlSession.selectList("egovframework.mapper.job.ApplyMapper.statisticsGender", j_num);
+	}
+	// 지원자 나이 통계
 	
 }
