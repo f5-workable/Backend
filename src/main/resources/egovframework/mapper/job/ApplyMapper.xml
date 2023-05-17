@@ -77,7 +77,7 @@
     </select>
     
     <select id="statisticsObType" parameterType="Long"  resultType="java.util.HashMap">
-    	SELECT COALESCE(cr.ob_type,"total") as ob_type,
+    	SELECT COALESCE(cr.ob_type,"total") as type,
     	COUNT(*) AS cnt
 		FROM companyresume cr 
 		RIGHT JOIN apply a ON (a.CR_NUM = cr.CR_NUM) 
@@ -87,7 +87,7 @@
     </select>
     
     <select id="statisticsDisease" parameterType="Long"  resultType="java.util.HashMap">
-    	SELECT COALESCE(cr.DISEASE,"total") as disease, COUNT(*) AS cnt
+    	SELECT COALESCE(cr.DISEASE,"total") as type, COUNT(*) AS cnt
 		FROM companyresume cr 
 		RIGHT JOIN apply a ON (a.CR_NUM = cr.CR_NUM) 
 		WHERE a.J_NUM = #{j_num}
@@ -96,7 +96,7 @@
     </select>
     
      <select id="statisticsGender" parameterType="Long" resultType="java.util.HashMap">
-    	SELECT  COALESCE(m.GENDER,"total") as gender,  COUNT(*) AS cnt
+    	SELECT  COALESCE(m.GENDER,"total") as type,  COUNT(*) AS cnt
 		FROM companyresume cr 
 		RIGHT JOIN apply a ON (a.CR_NUM = cr.CR_NUM) 
 		LEFT JOIN member m ON (m.M_NUM = cr.m_num)
@@ -108,7 +108,7 @@
     	SELECT 
 		if((ROUND(TRUNCATE((TO_DAYS(NOW()) - TO_DAYS(m.BIRTH)) / 365, 0)/10)*10 +5)  <25, 20,
 		if( ROUND(TRUNCATE((TO_DAYS(NOW()) - TO_DAYS(m.BIRTH)) / 365, 0)/10)*10 +5 > 65, 70,
- 		ROUND(TRUNCATE((TO_DAYS(NOW()) - TO_DAYS(m.BIRTH)) / 365, 0)/10)*10 +5))  AS age, 
+ 		ROUND(TRUNCATE((TO_DAYS(NOW()) - TO_DAYS(m.BIRTH)) / 365, 0)/10)*10 +5))  AS type, 
 		COUNT(*) AS cnt 
 		FROM companyresume cr 
 		RIGHT JOIN apply a ON (a.CR_NUM = cr.CR_NUM) 
