@@ -76,7 +76,7 @@
 		</where>
     </select>
     
-    <select id="statisticsObType" parameterType="Long"  resultType="java.util.HashMap">
+    <select id="statisticsObType" parameterType="Long" resultType="hashmap">
     	SELECT COALESCE(cr.ob_type,"total") as type,
     	COUNT(*) AS cnt
 		FROM companyresume cr 
@@ -86,7 +86,7 @@
 		WITH ROLLUP;
     </select>
     
-    <select id="statisticsDisease" parameterType="Long"  resultType="java.util.HashMap">
+    <select id="statisticsDisease" parameterType="Long"  resultType="hashmap">
     	SELECT COALESCE(cr.DISEASE,"total") as type, COUNT(*) AS cnt
 		FROM companyresume cr 
 		RIGHT JOIN apply a ON (a.CR_NUM = cr.CR_NUM) 
@@ -95,7 +95,7 @@
 		WITH ROLLUP;
     </select>
     
-     <select id="statisticsGender" parameterType="Long" resultType="java.util.HashMap">
+     <select id="statisticsGender" parameterType="Long" resultType="hashmap">
     	SELECT  COALESCE(m.GENDER,"total") as type,  COUNT(*) AS cnt
 		FROM companyresume cr 
 		RIGHT JOIN apply a ON (a.CR_NUM = cr.CR_NUM) 
@@ -103,10 +103,19 @@
 		WHERE a.J_NUM = #{j_num}
 		GROUP BY (m.GENDER) WITH ROLLUP;
     </select>
+    
+    <select id="statisticsEducation" parameterType="Long" resultType="hashmap">
+    	SELECT COALESCE(cr.EDUCATION,"total")  as type , COUNT(*) AS cnt
+		FROM companyresume cr 
+		RIGHT JOIN apply a ON (a.CR_NUM = cr.CR_NUM) 
+		WHERE a.J_NUM = #{j_num}
+		GROUP BY (cr.EDUCATION)
+		WITH ROLLUP;
+    </select>
   
      <select id="statisticsAge" parameterType="Long"  resultType="hashmap">
     	SELECT
-		ROUND(TRUNCATE((TO_DAYS(NOW()) - TO_DAYS(m.BIRTH)) / 365, 0)/10)*10 +5 AS age, COUNT(*) AS cnt ,
+		ROUND(TRUNCATE((TO_DAYS(NOW()) - TO_DAYS(m.BIRTH)) / 365, 0)/10)*10 +5 AS age, COUNT(*) AS cnt 
 		FROM companyresume cr 
 		RIGHT JOIN apply a ON (a.CR_NUM = cr.CR_NUM) 
 		LEFT JOIN member m ON (m.M_NUM = cr.M_NUM)

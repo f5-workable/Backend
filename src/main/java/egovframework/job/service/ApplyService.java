@@ -89,7 +89,9 @@ public class ApplyService {
 		resultMap.put("ob_type",applyDAO.statisticsObType(j_num));
 		resultMap.put("disease",applyDAO.statisticsDisease(j_num));
 		resultMap.put("gender",applyDAO.statisticsGender(j_num));
+		resultMap.put("education",applyDAO.statisticsEducation(j_num));
 		resultMap.put("age",applyDAO.statisticsAge(j_num));
+		
 		return resultMap;
 	}
 	
