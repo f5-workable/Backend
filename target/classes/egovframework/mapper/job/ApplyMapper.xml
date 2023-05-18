@@ -17,7 +17,7 @@
      <select id="selectApplyListByMemberAndState" parameterType="hashmap" resultType="hashmap">
         SELECT j.j_id, c.c_name, j.job_type, j.payment, j.payment_type, c.address
         FROM APPLY a 
-        JOIN TMP_JOBINFO j ON (a.j_num = j.j_id)
+        JOIN JOBINFO j ON (a.j_num = j.j_id)
         JOIN COMPANY c ON (j.c_num = c.c_num) 
         <where>
 			a.cr_num IN (
