@@ -17,7 +17,7 @@
      <select id="selectApplyListByMemberAndState" parameterType="hashmap" resultType="hashmap">
         SELECT j.j_id, c.c_name, j.job_type, j.payment, j.payment_type, c.address
         FROM APPLY a 
-        JOIN TMP_JOBINFO j ON (a.j_num = j.j_id)
+        JOIN JOBINFO j ON (a.j_num = j.j_id)
         JOIN COMPANY c ON (j.c_num = c.c_num) 
         <where>
 			a.cr_num IN (
@@ -76,44 +76,88 @@
 		</where>
     </select>
     
-    <select id="statisticsObType" parameterType="Long"  resultType="java.util.HashMap">
-    	SELECT COALESCE(cr.ob_type,"total") as type,
-    	COUNT(*) AS cnt
+    
+    <sql id="common_select_table">
+	    SELECT COALESCE(${alias},"total") as type, COUNT(*) AS cnt
 		FROM companyresume cr 
-		RIGHT JOIN apply a ON (a.CR_NUM = cr.CR_NUM) 
-		WHERE a.J_NUM = #{j_num}
-		GROUP BY (cr.ob_type)
+	</sql>
+	 <sql id="common_where_group">
+		WHERE a.J_NUM = ${idproperty}
+		GROUP BY (${alias})
 		WITH ROLLUP;
+	</sql>
+	 <sql id="common_join_apply">
+		RIGHT JOIN apply a ON (a.CR_NUM = cr.CR_NUM) 
+	</sql>
+	 <sql id="common_join_member">
+		LEFT JOIN member m ON (m.M_NUM = cr.m_num)
+	</sql>
+	
+    <select id="statisticsObType" parameterType="Long" resultType="hashmap">
+    	<include refid="common_select_table">
+        	<property name="alias" value="cr.ob_type"/>
+    	</include>
+    	<include refid="common_join_apply"> </include>
+    	<include refid="common_where_group">
+        	<property name="alias" value="cr.ob_type"/>
+        	<property name="idproperty" value="#{j_num}"/>
+    	</include>
     </select>
     
-    <select id="statisticsDisease" parameterType="Long"  resultType="java.util.HashMap">
-    	SELECT COALESCE(cr.DISEASE,"total") as type, COUNT(*) AS cnt
-		FROM companyresume cr 
-		RIGHT JOIN apply a ON (a.CR_NUM = cr.CR_NUM) 
-		WHERE a.J_NUM = #{j_num}
-		GROUP BY (cr.DISEASE)
-		WITH ROLLUP;
+    <select id="statisticsDisease" parameterType="Long"  resultType="hashmap">
+    	<include refid="common_select_table">
+        	<property name="alias" value="cr.DISEASE"/>
+    	</include>
+    	<include refid="common_join_apply"> </include>
+    	<include refid="common_where_group">
+        	<property name="alias" value="cr.DISEASE"/>
+        	<property name="idproperty" value="#{j_num}"/>
+    	</include>
     </select>
     
-     <select id="statisticsGender" parameterType="Long" resultType="java.util.HashMap">
-    	SELECT  COALESCE(m.GENDER,"total") as type,  COUNT(*) AS cnt
-		FROM companyresume cr 
-		RIGHT JOIN apply a ON (a.CR_NUM = cr.CR_NUM) 
-		LEFT JOIN member m ON (m.M_NUM = cr.m_num)
-		WHERE a.J_NUM = #{j_num}
-		GROUP BY (m.GENDER) WITH ROLLUP;
+     <select id="statisticsGender" parameterType="Long" resultType="hashmap">
+     	<include refid="common_select_table">
+        	<property name="alias" value="m.GENDER"/>
+    	</include>
+    	<include refid="common_join_apply"> </include>
+    	<include refid="common_join_member"> </include>
+    	<include refid="common_where_group">
+        	<property name="alias" value="m.GENDER"/>
+        	<property name="idproperty" value="#{j_num}"/>
+    	</include>
     </select>
-  <!--  
-     <select id="statisticsAge" parameterType="Long"  resultType="hashmap">
-    	SELECT 
-		if((ROUND(TRUNCATE((TO_DAYS(NOW()) - TO_DAYS(m.BIRTH)) / 365, 0)/10)*10 +5)  <25, 20,
-		if( ROUND(TRUNCATE((TO_DAYS(NOW()) - TO_DAYS(m.BIRTH)) / 365, 0)/10)*10 +5 > 65, 70,
- 		ROUND(TRUNCATE((TO_DAYS(NOW()) - TO_DAYS(m.BIRTH)) / 365, 0)/10)*10 +5))  AS type, 
-		COUNT(*) AS cnt 
-		FROM companyresume cr 
-		RIGHT JOIN apply a ON (a.CR_NUM = cr.CR_NUM) 
-		LEFT JOIN member m ON (m.M_NUM = cr.m_num)
-		WHERE a.J_NUM = 16
-		GROUP BY (ROUND(TRUNCATE((TO_DAYS(NOW()) - TO_DAYS(m.BIRTH)) / 365, 0)/10)*10 +5) ;
-    </select> -->  
+    
+    <select id="statisticsEducation" parameterType="Long" resultType="hashmap">
+        <include refid="common_select_table">
+        	<property name="alias" value="cr.EDUCATION"/>
+    	</include>
+    	<include refid="common_join_apply"> </include>
+    	<include refid="common_where_group">
+        	<property name="alias" value="cr.EDUCATION"/>
+        	<property name="idproperty" value="#{j_num}"/>
+    	</include>
+    </select>
+    
+    <sql id="age">
+		ROUND(TRUNCATE((TO_DAYS(NOW()) - TO_DAYS(m.BIRTH)) / 365, 0) / 10) * 10 + 5
+	</sql>
+  
+	<select id="statisticsAge" parameterType="Long" resultType="hashmap">
+  		SELECT 
+    		IF( <include refid="age"></include> <![CDATA[<]]> 26, 25,
+      			IF(<include refid="age"></include> <![CDATA[>]]>  66, 70,<include refid="age"></include> )) AS age,
+    		COUNT(*) AS cnt
+  		FROM companyresume cr
+    	RIGHT JOIN apply a ON (a.CR_NUM = cr.CR_NUM)
+    	LEFT JOIN member m ON (m.M_NUM = cr.m_num)
+  		WHERE a.J_NUM = #{j_num}
+  		GROUP BY age;
+	</select>
+	
+    <select id="statisticsCount" parameterType="Long" resultType="Integer" >
+    	SELECT COUNT(*) AS cnt 
+		FROM apply a
+		WHERE a.J_NUM = #{j_num};
+    </select>
+	
 </mapper>

@@ -38,6 +38,7 @@ public class ApplyService {
     
     // 지원내역 상태별 조회 (사용자별 -> 지원상태별)
 	public List<Object> getApplyListByMemberAndState(long m_num, String state) {
+		if(!(state.equals("지원완료")||state.equals("최종합격")||state.equals("불합격"))) state = null;
 		return applyDAO.selectApplyListByMemberAndState(m_num, state);
 	}
 
@@ -77,8 +78,13 @@ public class ApplyService {
 	
 	// 기업 - 업종별 지원 내역 목록 조회
 	public List<Object> selecteCRAndMemberById(long j_num, String state){
+		if(state.equals("대기")) 
+			state = "지원완료";
+		else if(!(state.equals("최종합격") || state.equals("불합격"))) 
+			state = null;
+
 		ApplyDTO dto = new ApplyDTO();
-		dto.setJ_num(j_num);
+		dto.setJ_num(j_num);		
 		dto.setState(state);
 		return applyDAO.selecteCRAndMemberById(dto);
 	}
@@ -86,9 +92,13 @@ public class ApplyService {
 	// 지원자 통계
 	public HashMap<String, Object> statisticsApply(long j_num){
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap.put("total_cnt",applyDAO.statisticsCount(j_num));
 		resultMap.put("ob_type",applyDAO.statisticsObType(j_num));
 		resultMap.put("disease",applyDAO.statisticsDisease(j_num));
 		resultMap.put("gender",applyDAO.statisticsGender(j_num));
+		resultMap.put("education",applyDAO.statisticsEducation(j_num));
+		resultMap.put("age",applyDAO.statisticsAge(j_num));
+		
 		return resultMap;
 	}
 	
