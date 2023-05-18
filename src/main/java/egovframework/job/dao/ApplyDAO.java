@@ -105,4 +105,9 @@ public class ApplyDAO {
 	public List<HashMap<String, Object>> statisticsAge(long j_num){
 		return sqlSession.selectList("egovframework.mapper.job.ApplyMapper.statisticsAge", j_num);
 	}
+	
+	// 기업 공고에 대한 지원자 수 
+	public int statisticsCount(long j_num) {
+		return sqlSession.selectOne("egovframework.mapper.job.ApplyMapper.statisticsCount", j_num);
+	}
 }

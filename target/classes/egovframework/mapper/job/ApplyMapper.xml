@@ -123,5 +123,10 @@
 		GROUP BY age; 
     </select> 
     
+    <select id="statisticsCount" parameterType="Long" resultType="Integer" >
+    	SELECT COUNT(*) AS cnt 
+		FROM apply a
+		WHERE a.J_NUM = #{j_num};
+    </select>
 	
 </mapper>
