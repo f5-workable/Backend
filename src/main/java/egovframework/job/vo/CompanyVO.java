@@ -6,12 +6,34 @@ import lombok.Getter;
 @Getter
 @Builder
 public class CompanyVO {
-   private String c_name;   // 기업명(PK)
-   private String c_id;   // 기업 로그인 id
-   private String password;   // 기업 로그인 비밀번호
-   private String rnum; // 사업자 번호
-   private String address;   // 주소
-   private String logo; // 기업 로고 이미지 경로
-   private String company_type;   // 기업 종류(공공기관, 협회 등,,)
-   private String phone;   // 기업 연락처
+	
+	// 기업 테이블 시퀀스 번호 (PK)
+	private	Long c_num;
+	
+	// 기업 아이디
+	private String c_id;
+
+	// 기업 비밀번호
+	private String c_password;
+	
+	// 기업 이름
+	private String c_name;
+	
+	// 기업 사업자 번호
+	private String rnum;
+	
+	// 기업 주소
+	private String address;
+	
+	// 기업 형태
+	private String c_type;
+	
+	//기업 연락처
+	private String phone;
+	
+	// 기업 로고
+	private String logo;
+	
+	// 기업 구분
+	private String role;
 }

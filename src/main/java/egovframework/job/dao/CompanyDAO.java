@@ -1,46 +1,40 @@
 package egovframework.job.dao;
 
-import java.util.List;
-
-import org.apache.ibatis.session.SqlSession;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.egovframe.rte.psl.dataaccess.EgovAbstractMapper;
 import org.springframework.stereotype.Repository;
 
 import egovframework.job.dto.CompanyDTO;
-import egovframework.job.vo.CompanyVO;
 
-@Repository
-public class CompanyDAO {
+@Repository("companyDAO")
+public class CompanyDAO extends EgovAbstractMapper {
 
-	@Autowired
-	private SqlSession sqlSession;
-
-	public List<CompanyVO> selectCompanyList() {
-		List<CompanyVO> companyVO = sqlSession.selectList("egovframework.mapper.job.CompanyMapper.selectCompanyList");
-
-		return companyVO;
+	// 회원가입 처리
+	public void registerCompany(CompanyDTO companyDTO) throws Exception {
+		insert("egovframework.mapper.job.CompanyMapper.registerCompany", companyDTO);
 	}
 
-	public CompanyVO selectCompanyById(String id) {
-		CompanyVO companyVO = sqlSession.selectOne("egovframework.mapper.job.CompanyMapper.selectCompanyById", id);
+	// 로그인 처리
+	public CompanyDTO actionLogin(CompanyDTO companyDTO) throws Exception {
+		return (CompanyDTO) selectOne("egovframework.mapper.job.CompanyMapper.actionLogin", companyDTO);
+	}
 
-		return companyVO;
+	// 아이디 검색
+	public CompanyDTO findById(String id) throws Exception {
+		return (CompanyDTO) selectOne("egovframework.mapper.job.CompanyMapper.findById", id);
 	}
-	
-	public int insertCompany(CompanyDTO companyDTO) {
-        CompanyVO companyVO = companyDTO.toEntity();
-        
-        return sqlSession.insert("egovframework.mapper.job.CompanyMapper.insertCompany", companyVO);
-    }
-	
-	public int updateCompany(CompanyDTO companyDTO) {
-        CompanyVO companyVO = companyDTO.toEntity();
-        
-        return sqlSession.update("egovframework.mapper.job.CompanyMapper.updateCompany", companyVO);
-    }
-	
-	public int deleteCompany(String id) {
-		return sqlSession.delete("egovframework.mapper.job.CompanyMapper.deleteCompany", id);
+
+	// 아이디 상세정보
+	public CompanyDTO getCompanyDetail(String id) throws Exception {
+		return (CompanyDTO) selectOne("egovframework.mapper.job.CompanyMapper.findById", id);
 	}
-	
+
+	// 아이디 상세정보 수정
+	public void updateCompanyDetail(CompanyDTO companyDTO) throws Exception {
+		insert("egovframework.mapper.job.CompanyMapper.updateCompany", companyDTO);
+	}
+
+	// 아이디 탈퇴
+	public void deleteCompany(String id) throws Exception {
+		delete("egovframework.mapper.job.CompanyMapper.deleteCompany", id);
+	}
 }
