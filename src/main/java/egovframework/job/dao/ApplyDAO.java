@@ -97,5 +97,7 @@ public class ApplyDAO {
 		return sqlSession.selectList("egovframework.mapper.job.ApplyMapper.statisticsGender", j_num);
 	}
 	// 지원자 나이 통계
-	
+	public List<HashMap<String, Object>> statisticsAge(long j_num){
+		return sqlSession.selectList("egovframework.mapper.job.ApplyMapper.statisticsAge", j_num);
+	}
 }

@@ -103,17 +103,14 @@
 		WHERE a.J_NUM = #{j_num}
 		GROUP BY (m.GENDER) WITH ROLLUP;
     </select>
-  <!--  
+  
      <select id="statisticsAge" parameterType="Long"  resultType="hashmap">
-    	SELECT 
-		if((ROUND(TRUNCATE((TO_DAYS(NOW()) - TO_DAYS(m.BIRTH)) / 365, 0)/10)*10 +5)  <25, 20,
-		if( ROUND(TRUNCATE((TO_DAYS(NOW()) - TO_DAYS(m.BIRTH)) / 365, 0)/10)*10 +5 > 65, 70,
- 		ROUND(TRUNCATE((TO_DAYS(NOW()) - TO_DAYS(m.BIRTH)) / 365, 0)/10)*10 +5))  AS type, 
-		COUNT(*) AS cnt 
+    	SELECT
+		ROUND(TRUNCATE((TO_DAYS(NOW()) - TO_DAYS(m.BIRTH)) / 365, 0)/10)*10 +5 AS age, COUNT(*) AS cnt ,
 		FROM companyresume cr 
 		RIGHT JOIN apply a ON (a.CR_NUM = cr.CR_NUM) 
-		LEFT JOIN member m ON (m.M_NUM = cr.m_num)
-		WHERE a.J_NUM = 16
-		GROUP BY (ROUND(TRUNCATE((TO_DAYS(NOW()) - TO_DAYS(m.BIRTH)) / 365, 0)/10)*10 +5) ;
-    </select> -->  
+		LEFT JOIN member m ON (m.M_NUM = cr.M_NUM)
+		WHERE a.J_NUM = #{j_num}
+		GROUP BY age; 
+    </select> 
 </mapper>
