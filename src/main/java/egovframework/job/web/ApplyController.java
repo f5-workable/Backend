@@ -114,4 +114,11 @@ public class ApplyController {
 		return ResponseEntity.ok(PageInfo.of(res));
 	}
 	
+	// 지원자 통계 - 나이/성별/중증여부/장애유형/(학력) 현황
+	@GetMapping("/jobinfo/stat/{j_id}")
+	public ResponseEntity applyStatisticsByJId(@PathVariable long j_id) {
+		HashMap<String, Object> res =  applyService.statisticsApply(j_id);
+		return ResponseEntity.ok(res);
+	}
+	
 }

@@ -65,7 +65,7 @@
         WHERE a_id = #{a_id}
     </update>
     
-     <select id="selecteCRAndMemberById" parameterType="hashmap"  resultType="hashmap" >
+     <select id="selecteCRAndMemberById" parameterType="hashmap"  resultType="egovframework.job.dto.ApplyDTO" >
       	SELECT b.cr_num, m.name,  b.ob_type, b.disease, b.payment, b.payment_type
 		FROM APPLY a 
 		JOIN COMPANYRESUME b ON (a.cr_num = b.cr_num)
@@ -75,4 +75,45 @@
 			<if test=" state =='지원완료' || state =='최종합격' || state =='불합격'">AND a.STATE = #{state} </if>
 		</where>
     </select>
+    
+    <select id="statisticsObType" parameterType="Long"  resultType="java.util.HashMap">
+    	SELECT COALESCE(cr.ob_type,"total") as type,
+    	COUNT(*) AS cnt
+		FROM companyresume cr 
+		RIGHT JOIN apply a ON (a.CR_NUM = cr.CR_NUM) 
+		WHERE a.J_NUM = #{j_num}
+		GROUP BY (cr.ob_type)
+		WITH ROLLUP;
+    </select>
+    
+    <select id="statisticsDisease" parameterType="Long"  resultType="java.util.HashMap">
+    	SELECT COALESCE(cr.DISEASE,"total") as type, COUNT(*) AS cnt
+		FROM companyresume cr 
+		RIGHT JOIN apply a ON (a.CR_NUM = cr.CR_NUM) 
+		WHERE a.J_NUM = #{j_num}
+		GROUP BY (cr.DISEASE)
+		WITH ROLLUP;
+    </select>
+    
+     <select id="statisticsGender" parameterType="Long" resultType="java.util.HashMap">
+    	SELECT  COALESCE(m.GENDER,"total") as type,  COUNT(*) AS cnt
+		FROM companyresume cr 
+		RIGHT JOIN apply a ON (a.CR_NUM = cr.CR_NUM) 
+		LEFT JOIN member m ON (m.M_NUM = cr.m_num)
+		WHERE a.J_NUM = #{j_num}
+		GROUP BY (m.GENDER) WITH ROLLUP;
+    </select>
+  <!--  
+     <select id="statisticsAge" parameterType="Long"  resultType="hashmap">
+    	SELECT 
+		if((ROUND(TRUNCATE((TO_DAYS(NOW()) - TO_DAYS(m.BIRTH)) / 365, 0)/10)*10 +5)  <25, 20,
+		if( ROUND(TRUNCATE((TO_DAYS(NOW()) - TO_DAYS(m.BIRTH)) / 365, 0)/10)*10 +5 > 65, 70,
+ 		ROUND(TRUNCATE((TO_DAYS(NOW()) - TO_DAYS(m.BIRTH)) / 365, 0)/10)*10 +5))  AS type, 
+		COUNT(*) AS cnt 
+		FROM companyresume cr 
+		RIGHT JOIN apply a ON (a.CR_NUM = cr.CR_NUM) 
+		LEFT JOIN member m ON (m.M_NUM = cr.m_num)
+		WHERE a.J_NUM = 16
+		GROUP BY (ROUND(TRUNCATE((TO_DAYS(NOW()) - TO_DAYS(m.BIRTH)) / 365, 0)/10)*10 +5) ;
+    </select> -->  
 </mapper>

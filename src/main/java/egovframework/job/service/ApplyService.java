@@ -77,7 +77,19 @@ public class ApplyService {
 	
 	// 기업 - 업종별 지원 내역 목록 조회
 	public List<Object> selecteCRAndMemberById(long j_num, String state){
-		return applyDAO.selecteCRAndMemberById(j_num, state);
+		ApplyDTO dto = new ApplyDTO();
+		dto.setJ_num(j_num);
+		dto.setState(state);
+		return applyDAO.selecteCRAndMemberById(dto);
+	}
+	
+	// 지원자 통계
+	public HashMap<String, Object> statisticsApply(long j_num){
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap.put("ob_type",applyDAO.statisticsObType(j_num));
+		resultMap.put("disease",applyDAO.statisticsDisease(j_num));
+		resultMap.put("gender",applyDAO.statisticsGender(j_num));
+		return resultMap;
 	}
 	
 }
