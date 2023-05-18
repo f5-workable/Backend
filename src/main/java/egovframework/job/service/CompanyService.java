@@ -1,42 +1,24 @@
 package egovframework.job.service;
 
-import java.util.List;
-
-import javax.transaction.Transactional;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import egovframework.job.dao.CompanyDAO;
 import egovframework.job.dto.CompanyDTO;
-import egovframework.job.vo.CompanyVO;
 
-@Service
-public class CompanyService {
+public interface CompanyService {
 
-	@Autowired
-	private CompanyDAO companyDAO;
+	// 회원가입 처리
+	public void registerCompany(CompanyDTO companyDTO) throws Exception;
 
-	public List<CompanyVO> getCompanyList() {
-		return companyDAO.selectCompanyList();
-	}
+	// 로그인 처리
+	public CompanyDTO actionLogin(CompanyDTO companyDTO) throws Exception;
 
-	public CompanyVO getCompanyById(String id) {
-		return companyDAO.selectCompanyById(id);
-	}
-	
-	@Transactional
-	public void addCompany(CompanyDTO companydto) {
-		companyDAO.insertCompany(companydto);
-	}
-	
-	@Transactional
-	public void updateCompany(CompanyDTO companydto) {
-		companyDAO.updateCompany(companydto);
-	}
-	
-	@Transactional
-	public void deleteCompany(String id) {
-		companyDAO.deleteCompany(id);
-	}
+	// 아이디 검색
+	public CompanyDTO findById(String id) throws Exception;
+
+	// 아이디 상세정보
+	public CompanyDTO getCompanyDetail(String id) throws Exception;
+
+	// 아이디 상세정보 수정
+	public void updateCompanyDetail(CompanyDTO companyDTO) throws Exception;
+
+	// 아이디 탈퇴
+	public void deleteCompany(String id) throws Exception;
 }

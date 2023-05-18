@@ -2,26 +2,38 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="egovframework.mapper.job.CompanyMapper">
-	<select id="selectCompanyList" resultType="egovframework.job.vo.CompanyVO">
-        SELECT * FROM company
-    </select>
-    
-     <select id="selectCompanyById" resultType="egovframework.job.vo.CompanyVO">
-        SELECT * FROM company WHERE c_name = #{c_name}
-    </select>
-    
-    <insert id="insertCompany" parameterType="egovframework.job.vo.CompanyVO">
-        INSERT INTO company (c_id, password, c_name, rnum, address, logo, company_type, phone)
-        VALUES (#{c_id}, #{password}, #{c_name}, #{rnum}, #{address}, #{logo}, #{company_type}, #{phone})
+	
+	<!-- 회원가입 처리 -->
+	<insert id="registerCompany" parameterType="egovframework.job.dto.CompanyDTO">
+        INSERT INTO company (c_id, c_password, c_name, rnum, address, c_type, phone, logo) 
+        VALUES (#{c_id}, #{c_password}, #{c_name}, #{rnum}, #{address}, #{c_type}, #{phone}, #{logo})
     </insert>
-    
-    <update id="updateCompany" parameterType="egovframework.job.vo.CompanyVO">
-        UPDATE company SET c_id = #{c_id}, password = #{password}, c_name = #{c_name},
-        rnum = #{rnum}, address = #{address}, logo = #{logo}, company_type = #{company_type}, phone = #{phone}
-        WHERE c_name = #{c_name}
-    </update>
-    
-    <delete id="deleteCompany" parameterType="String">
-    	DELETE FROM company WHERE c_name = #{c_name}
+
+	<!-- 로그인 처리 -->
+	<select id="actionLogin" resultType="egovframework.job.dto.CompanyDTO">
+		SELECT c_id, c_password, c_name, rnum, address, c_type, phone, logo
+		FROM company
+		WHERE c_id = #{c_id} AND c_password = #{c_password}
+	</select>
+	
+	<!-- 아이디 검색 -->
+	<select id="findById" resultType="egovframework.job.dto.CompanyDTO">
+		SELECT *
+        FROM company
+        WHERE c_id = #{c_id}
+	</select>
+	
+	<!-- 아이디 상세정보 수정 -->
+	<update id="updateCompany" parameterType="egovframework.job.dto.CompanyDTO">
+  		UPDATE company
+  		SET address = #{address}, c_type = #{c_type}, phone = #{phone}, logo = #{logo}
+  		WHERE c_id = #{c_id}
+	</update>
+	
+	<!-- 아이디 탈퇴 -->
+	<delete id="deleteCompany">
+        DELETE 
+        FROM company
+        WHERE c_id = #{c_id}
     </delete>
 </mapper>

@@ -1,41 +1,40 @@
 package egovframework.job.dao;
 
-import java.util.List;
-
-import org.apache.ibatis.session.SqlSession;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.egovframe.rte.psl.dataaccess.EgovAbstractMapper;
 import org.springframework.stereotype.Repository;
 
 import egovframework.job.dto.MemberDTO;
-import egovframework.job.vo.MemberVO;
 
-@Repository
-public class MemberDAO {
-
-	@Autowired
-    private SqlSession sqlSession;
-
-	public List<MemberDTO> selectMemberList() {
-        List<MemberVO> memberVOList = sqlSession.selectList("egovframework.mapper.job.MemberMapper.selectMemberList");
-        return MemberDTO.of(memberVOList);
+@Repository("memberDAO")
+public class MemberDAO extends EgovAbstractMapper {
+	
+	// 회원가입 처리
+	public void registerMember(MemberDTO memberDTO) throws Exception {
+        insert("egovframework.mapper.job.MemberMapper.registerMember", memberDTO);
     }
 
-    public MemberDTO selectMemberById(String id) {
-        MemberVO memberVO = sqlSession.selectOne("egovframework.mapper.job.MemberMapper.selectMemberById", id);
-        return MemberDTO.of(memberVO);
-    }
-
-    public int insertMember(MemberDTO memberDTO) {
-        MemberVO memberVO = memberDTO.toEntity();
-        return sqlSession.insert("egovframework.mapper.job.MemberMapper.insertMember", memberVO);
-    }
-
-    public int updateMember(MemberDTO memberDTO) {
-        MemberVO memberVO = memberDTO.toEntity();
-        return sqlSession.update("egovframework.mapper.job.MemberMapper.updateMember", memberVO);
-    }
-
-    public int deleteMember(String id) {
-        return sqlSession.update("egovframework.mapper.job.MemberMapper.deleteMember", id);
+	// 로그인 처리
+	public MemberDTO actionLogin(MemberDTO memberDTO) throws Exception {
+		return (MemberDTO) selectOne("egovframework.mapper.job.MemberMapper.actionLogin", memberDTO);
+	}
+	
+	// 아이디 검색
+	public MemberDTO findById(String id) throws Exception {
+		return (MemberDTO) selectOne("egovframework.mapper.job.MemberMapper.findById", id);
+	}
+	
+	// 아이디 상세정보
+	public MemberDTO getMemberDetail(String id) throws Exception {
+		return (MemberDTO) selectOne("egovframework.mapper.job.MemberMapper.findById", id);
+	}
+	
+	// 아이디 상세정보 수정
+	public void updateMemberDetail(MemberDTO memberDTO) throws Exception {
+		insert("egovframework.mapper.job.MemberMapper.updateMember", memberDTO);
+	}
+	
+	// 아이디 탈퇴
+	public void deleteMember(String id) throws Exception {
+        delete("egovframework.mapper.job.MemberMapper.deleteMember", id);
     }
 }
