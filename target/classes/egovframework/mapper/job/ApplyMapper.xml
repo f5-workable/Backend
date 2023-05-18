@@ -113,4 +113,6 @@
 		WHERE a.J_NUM = #{j_num}
 		GROUP BY age; 
     </select> 
+    
+	
 </mapper>
