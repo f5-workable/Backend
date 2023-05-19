@@ -117,8 +117,7 @@ public class MemberController {
 
 	// 로그인 처리
 	@PostMapping("/login.do")
-	public ResponseEntity<String> actionLogin(@RequestBody MemberDTO memberDTO, HttpServletRequest request)
-			throws Exception {
+	public ResponseEntity<String> actionLogin(@RequestBody MemberDTO memberDTO, HttpServletRequest request) throws Exception {
 		MemberDTO resultDTO = memberService.actionLogin(memberDTO);
 		boolean loginPolicyYn = true;
 
@@ -246,6 +245,7 @@ public class MemberController {
 		}
 	}
 
+	
 	/*
 	 * // 상세정보 수정 처리
 	 * 
@@ -257,8 +257,8 @@ public class MemberController {
 	 * exception or show an error page return "error"; } }
 	 */
 
-	@PutMapping("/update.do/{id}")
-	public ResponseEntity<Map<String, Object>> updateMemberDetail(@PathVariable String id, @ModelAttribute("member") MemberDTO memberDTO) {
+	@PutMapping("/update.do/{id}") 
+	public ResponseEntity<?> updateMemberDetail(@PathVariable String id, @RequestBody MemberDTO memberDTO) {
 	    try {
 	        memberDTO.setId(id);
 	        memberService.updateMemberDetail(memberDTO);
@@ -275,7 +275,7 @@ public class MemberController {
 	        response.put("data", responseData);
 	        response.put("successMessage", successMessage);
 
-	        // ResponseEntity에 response를 담아서 반환
+	        // ResponseEntity에 response를 담아서 반환 
 	        return ResponseEntity.ok().body(response);
 	    } catch (Exception e) {
 	        String errorMessage = "회원 정보 업데이트 중 오류가 발생했습니다.";
