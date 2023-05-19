@@ -11,13 +11,13 @@
     </select>
     
     <insert id="createResume" parameterType="egovframework.job.dto.ResumeDTO">
-        INSERT INTO RESUME (r_id, age, education, place, job, payment_type, payment, ob_type, disease, career, pr, r_open, title)
-        VALUES (#{r_id}, #{age}, #{education}, #{place}, #{job}, #{payment_type}, #{payment}, #{ob_type}, #{disease}, #{career}, #{pr}, #{r_open}, #{title})
+        INSERT INTO RESUME (r_id, place, job, payment_type, payment, ob_type, disease, career, pr, title, education)
+        VALUES (#{r_id}, #{place}, #{job}, #{payment_type}, #{payment}, #{ob_type}, #{disease}, #{career}, #{pr}, #{title}, #{education})
+        
     </insert>
     
     <update id="updateResume" parameterType="egovframework.job.dto.ResumeDTO">
         UPDATE RESUME SET 
-           age = #{age},
            education = #{education},
            place = #{place}, 
            job = #{job}, 
@@ -27,7 +27,6 @@
            disease = #{disease},
            career = #{career},
            pr = #{pr},
-           r_open = #{r_open},
            title = #{title}
         WHERE r_id = #{r_id}
     </update>

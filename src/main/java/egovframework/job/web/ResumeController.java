@@ -74,5 +74,5 @@ public class ResumeController {
     	List<ResumeVO> res = service.searchResume(vo);
     	return ResponseEntity.ok(PageInfo.of(res));
     }
-//  이력서 관리(회원별 모든 이력서 조회)
+//  이력서 관리(회원별 모든 이력서 조회) -> 이력서 시퀀스아이디값 넘겨주기(모두)
 }
