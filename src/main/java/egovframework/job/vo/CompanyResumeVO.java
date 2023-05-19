@@ -11,8 +11,6 @@ import lombok.Getter;
 @Builder
 public class CompanyResumeVO {
 	private Long cr_num;
-	private String place;
-	private String job;
 	private int payment;
 	private String payment_type;
 	private String ob_type;
@@ -20,6 +18,6 @@ public class CompanyResumeVO {
 	private String career;
 	private String pr;
 	private Long m_num;
-	private String title;
 	private String education;
+
 }
