@@ -36,11 +36,13 @@ public class MemberSecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Override
     protected void configure(HttpSecurity http) throws Exception {
+		http.httpBasic();
+		
     	http.csrf().disable()
     	.authenticationProvider(memberAuthenticationProvider())
         .authorizeRequests()
-        	.antMatchers("/member/home.do").authenticated()
-        	.antMatchers("/member/info.do/**").authenticated()
+        	.antMatchers("/member/home.do").hasRole("MEMBER")
+        	.antMatchers("/member/info.do/**").hasRole("MEMBER")
         	.and()
         .formLogin()
         	.loginPage("/member/login.do")

@@ -24,7 +24,7 @@ public class MemberDetails implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         // 사용자의 권한 정보를 반환해야 합니다. 예를 들어, "ROLE_USER" 권한을 가진다고 가정하면:
-        return Collections.singleton(new SimpleGrantedAuthority("ROLE_USER"));
+        return Collections.singleton(new SimpleGrantedAuthority("ROLE_MEMBER"));
     }
     
     @Override
