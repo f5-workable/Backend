@@ -4,7 +4,7 @@
 <mapper namespace="egovframework.mapper.job.MemberMapper">
 
 	<!-- 회원가입 처리 -->
-	<insert id="registerMember" parameterType="egovframework.job.dto.MemberDTO">
+	<insert id="registerMember" parameterType="egovframework.job.dto.MemberDTO" useGeneratedKeys="true" keyProperty="m_num">
         INSERT INTO member (id, password, birth, name, gender, email, phone, profil) 
         VALUES (#{id}, #{password}, #{birth}, #{name}, #{gender}, #{email}, #{phone}, #{profil})
     </insert>
@@ -26,7 +26,7 @@
 	<!-- 아이디 상세정보 수정 -->
 	<update id="updateMember" parameterType="egovframework.job.dto.MemberDTO">
   		UPDATE member
-  		SET email = #{email}, name = #{name}, phone = #{phone}, profil = #{profil}
+  		SET email = #{email}, phone = #{phone}, profil = #{profil}
   		WHERE id = #{id}
 	</update>
 	
