@@ -4,8 +4,8 @@
 
     <insert id="addCompanyResume"  parameterType="egovframework.job.dto.CompanyResumeDTO">
 
-        INSERT INTO COMPANYRESUME (job, payment, payment_type, ob_type, disease, career, pr, m_num)
-        VALUES ( #{job}, #{payment}, #{payment_type}, #{ob_type}, #{disease}, #{career}, #{pr}, #{m_num})
+        INSERT INTO COMPANYRESUME (job, payment, payment_type, ob_type, disease, career, pr, m_num, education)
+        VALUES ( #{job}, #{payment}, #{payment_type}, #{ob_type}, #{disease}, #{career}, #{pr}, #{m_num}, #{education})
 
        	<selectKey resultType="long" keyProperty="cr_num" order="AFTER">
         	SELECT LAST_INSERT_ID()
