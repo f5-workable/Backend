@@ -40,7 +40,7 @@ public class JobinfoService {
     public void deleteJobinfo(Long id) {
        dao.deleteJobinfo(id);
     }
-    public List<JobinfoResultVO> searchJobinfo(JobinfoSearchVO vo) {
+    public List<JobinfoVO> searchJobinfo(JobinfoSearchVO vo) {
        return dao.searchJobinfo(vo);
     }
     

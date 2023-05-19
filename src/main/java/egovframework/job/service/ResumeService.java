@@ -44,7 +44,7 @@ public class ResumeService {
        dao.deleteResume(id);
     }
     
-    public List<ResumeSearchVO> searchResume(ResumeSearchVO vo) {
+    public List<ResumeVO> searchResume(ResumeSearchVO vo) {
        return dao.searchResume(vo);
     }
 }

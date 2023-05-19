@@ -10,14 +10,13 @@
     </select>
     
     <insert id="createJobinfo" parameterType="egovframework.job.dto.JobinfoDTO">
-        INSERT INTO JOBINFO (j_id, d_date, j_name, job_type, employment_type, payment_type, payment, career, edu, r_date, detail)
-        VALUES (#{j_id}, #{d_date}, #{j_name}, #{job_type}, #{employment_type}, #{payment_type}, #{payment}, #{career}, #{edu}, #{r_date}, #{detail})
+        INSERT INTO JOBINFO (j_id, d_date, job_type, employment_type, payment_type, payment, career, edu, r_date, detail)
+        VALUES (#{j_id}, #{d_date}, #{job_type}, #{employment_type}, #{payment_type}, #{payment}, #{career}, #{edu}, #{r_date}, #{detail})
     </insert>
     
     <update id="updateJobinfo" parameterType="egovframework.job.dto.JobinfoDTO">
         UPDATE JOBINFO SET 
-           d_date = #{d_date}, 
-           j_name = #{j_name},
+           d_date = #{d_date},
            job_type = #{job_type}, 
            employment_type = #{employment_type}, 
            payment_type = #{payment_type}, 
@@ -37,7 +36,6 @@
 	  	FROM TEMP T INNER JOIN TEMPCOMPANY C
 		ON T.tempcompany_id = C.tempcompany_key
       <where>
-      <!-- 예를들어 and employment_type in ('정규직', '계약직') 구문을 사용하면 '정규직' 또는 '계약직' 유형의 직무 정보를 검색가능-->
          <if test="employment_type != null">
                and T.employment_type in 
                <foreach item="employmenttype" collection="employment_type" open="(" close=")" separator="," >

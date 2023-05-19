@@ -19,6 +19,8 @@ public class ResumeVO {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long r_id;
 	private int age;
+	/** 학력 */
+	private String education;
     private String place;
     private String job;
     private String payment_type;

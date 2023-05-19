@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.github.pagehelper.PageHelper;
@@ -18,7 +19,6 @@ import com.github.pagehelper.PageInfo;
 
 import egovframework.job.dto.JobinfoDTO;
 import egovframework.job.service.JobinfoService;
-import egovframework.job.vo.JobinfoResultVO;
 import egovframework.job.vo.JobinfoSearchVO;
 import egovframework.job.vo.JobinfoVO;
 
@@ -59,26 +59,25 @@ public class JobinfoController {
        service.deleteJobinfo(id);
        return ResponseEntity.ok(id);
     }
-//  조건 검색
+//  조건검색
     @GetMapping("/jobinfo/search")
-    public ResponseEntity searchJobinfo(@RequestBody JobinfoSearchVO jobinfosearchVO) {
-    	List<JobinfoResultVO> res = service.searchJobinfo(jobinfosearchVO);
-        return ResponseEntity.ok(res);
+    public ResponseEntity searchJobinfO(@RequestParam("employment_type") String[] employment_type, @RequestParam("payment_type") String[] payment_type, @RequestParam("temp_address") String[] temp_address, @RequestParam("tempcompany_type") String[] tempcompany_type, @RequestParam("tempjob_type") String tempjob_type, @RequestParam("keyword") String keyword) {
+    	PageHelper.startPage(1,3);
+    	JobinfoSearchVO vo = JobinfoSearchVO.builder()
+    			.employment_type(employment_type)
+    			.payment_type(payment_type)
+    			.temp_address(temp_address)
+    			.tempcompany_type(tempcompany_type)
+    			.tempjob_type(tempjob_type)
+    			.keyword(keyword)
+    			.build();
+    	List<JobinfoVO> res = service.searchJobinfo(vo);
+    	return ResponseEntity.ok(PageInfo.of(res));
     }
-    
-//  페이징 PageHelper  
-//    @GetMapping("/jobinfo/search")
-//    public ResponseEntity searchJobinfo(@RequestBody JobinfoSearchVO jobinfosearchVO) {
-////    	pageNum:현재 페이지, pageSize:페이지당 수량
-//    	PageHelper.startPage(0, 3);
-//    	List<JobinfoResultVO> res = service.searchJobinfo(jobinfosearchVO);
-//        return ResponseEntity.ok(PageInfo.of(res));
-//    }
     
     // 기업별 업종(JOB_TYPE) 목록 조회
     @GetMapping("/jobinfo/jobtype/{c_num}")
     public ResponseEntity selectJobTypeByCNum(@PathVariable long c_num) {
-    	
      	List<String> res = service.selectJobTypeByCNum(c_num);
         return ResponseEntity.ok(res);
     }
