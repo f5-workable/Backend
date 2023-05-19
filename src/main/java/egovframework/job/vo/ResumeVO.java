@@ -31,4 +31,5 @@ public class ResumeVO {
     private boolean r_open;
     private Long m_num;
     private String title;
+    private ResumeRegionVO region;
 }
