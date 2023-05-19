@@ -12,6 +12,7 @@ public class WishDTO {
 	private Long w_id;
 	private Long m_num;
 	private Long j_num;
+	private boolean state;
 	
 	@Builder
     public WishDTO(final WishVO entity) {
@@ -25,6 +26,7 @@ public class WishDTO {
     			.w_id(w_id)
     			.m_num(m_num)
     			.j_num(j_num)
+    			.state(state)
     			.build();
     }
 }
