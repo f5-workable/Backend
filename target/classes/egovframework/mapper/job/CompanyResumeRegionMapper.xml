@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="egovframework.mapper.job.CompanyResumeRegionMapper">
+
+    <insert id="insertCrRegion"  parameterType="egovframework.job.dto.CompanyResumeRegionDTO">
+        INSERT INTO COMPANYRESUME_REGION (cr_num, region)
+        VALUES (#{cr_num}, #{region})       
+    </insert>
+    
+   <select id="selectCrRegionByCrNum" parameterType="Long" resultType="egovframework.job.vo.CompanyResumeRegionVO">
+        SELECT * FROM COMPANYRESUME_REGION WHERE cr_num = #{cr_num}
+    </select>
+    
+    <delete id="deleteCrRegionByCrNum" parameterType="Long" >
+        delete from COMPANYRESUME_REGION where cr_num = #{cr_num}
+    </delete>
+    
+</mapper>

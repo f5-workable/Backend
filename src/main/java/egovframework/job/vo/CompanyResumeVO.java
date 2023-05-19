@@ -1,8 +1,6 @@
 package egovframework.job.vo;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import java.util.List;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -10,6 +8,7 @@ import lombok.Getter;
 @Getter
 @Builder
 public class CompanyResumeVO {
+	private String job;
 	private Long cr_num;
 	private int payment;
 	private String payment_type;
@@ -19,5 +18,8 @@ public class CompanyResumeVO {
 	private String pr;
 	private Long m_num;
 	private String education;
+	
+	
+	private List<CompanyResumeRegionVO> region;
 
 }
