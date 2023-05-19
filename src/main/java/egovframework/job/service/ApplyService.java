@@ -32,6 +32,10 @@ public class ApplyService {
 		 dto.setJ_num(j_num);	
 		 // 등록된 기업이력서 set
 		 dto.setCr_num(cr_num);
+		 
+		 
+		 
+		 
     	return applyDAO.createApply(dto);
     }
     

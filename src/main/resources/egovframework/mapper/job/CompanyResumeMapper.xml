@@ -4,15 +4,15 @@
 
     <insert id="addCompanyResume"  parameterType="egovframework.job.dto.CompanyResumeDTO">
 
-        INSERT INTO COMPANYRESUME (age, place, job, payment, payment_type, ob_type, disease, career, pr, m_num, title)
-        VALUES (#{age}, #{place}, #{job}, #{payment}, #{payment_type}, #{ob_type}, #{disease}, #{career}, #{pr}, #{m_num}, #{title})
+        INSERT INTO COMPANYRESUME (job, payment, payment_type, ob_type, disease, career, pr, m_num)
+        VALUES ( #{job}, #{payment}, #{payment_type}, #{ob_type}, #{disease}, #{career}, #{pr}, #{m_num})
 
        	<selectKey resultType="long" keyProperty="cr_num" order="AFTER">
         	SELECT LAST_INSERT_ID()
     	</selectKey>        
     </insert>
     
-   <select id="selectCompanyResumeById" parameterType="Long" resultType="egovframework.job.vo.CompanyResumeVO">
+   <select id="selectCompanyResumeById" parameterType="Long" resultType="egovframework.job.dto.CompanyResumeDTO">
         SELECT * FROM COMPANYRESUME WHERE cr_num = #{cr_num}
     </select>
     

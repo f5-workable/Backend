@@ -1,5 +1,6 @@
 package egovframework.job.web;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -21,10 +22,12 @@ import com.github.pagehelper.PageInfo;
 import egovframework.job.dto.ApplyDTO;
 import egovframework.job.dto.JobinfoDTO;
 import egovframework.job.dto.ResumeDTO;
+import egovframework.job.dto.ResumeRegionDTO;
 import egovframework.job.service.ApplyService;
 import egovframework.job.service.CompanyResumeService;
 import egovframework.job.service.ResumeService;
 import egovframework.job.vo.ApplyVO;
+import egovframework.job.vo.ResumeRegionVO;
 import egovframework.job.vo.ResumeVO;
 
 @RestController
@@ -49,9 +52,23 @@ public class ApplyController {
 	public ResponseEntity addApply(@RequestParam(name="jobinfo") long j_id, @RequestParam(name="resume")long r_id) {
 		// 이력서 id로 이력서 조회
 		ResumeVO resumeDto = ResumeService.getResumeById(r_id);
+		// 이력서 id로  ResumeRegion List 조회
+		// ResumeRegion 추가 시 수정 예정
+		// List<ResumeRegionVO> region =  new ArrayList<ResumeRegionVO>();
+		
+		// --- 임시 데이터 
+		ResumeRegionDTO dto = new ResumeRegionDTO();
+		dto.setRegion("대구 서구");
+		ResumeRegionDTO dto2 = new ResumeRegionDTO();
+		dto2.setRegion("경북 구미시");
+		List<ResumeRegionVO> region =  new ArrayList<ResumeRegionVO>();
+		region.add(dto.toEntity());
+		region.add(dto2.toEntity());
+		// --- 임시 데이터 끝
+		
 		// 기업 이력서 등록
-		long cr_num = CompanyResumeService.addCompanyResume(resumeDto);
-		// 등록된 기업 이력서의 cr_num 과 j_num으로 apply 등록
+		long cr_num = CompanyResumeService.addCompanyResume(resumeDto, region);
+//		// 등록된 기업 이력서의 cr_num 과 j_num으로 apply 등록
 		int res = applyService.addApply(j_id, cr_num);
 		return ResponseEntity.ok(res);
 	}
@@ -59,9 +76,9 @@ public class ApplyController {
 	// 지원내역 상태별 조회
 	@GetMapping("/apply/list/{m_num}")
 	public ResponseEntity<PageInfo> selectApplyList(@PathVariable(name="m_num") long m_num,
-												@RequestParam(name="state", required = false, defaultValue = "all") String state,
-												@RequestParam(name="pageNum", required = false,  defaultValue = "1")int pageNum,
-												@RequestParam(name="pageSize", required = false,  defaultValue = "20")int pageSize) {
+											@RequestParam(name="state", required = false, defaultValue = "all") String state,
+											@RequestParam(name="pageNum", required = false,  defaultValue = "1")int pageNum,
+											@RequestParam(name="pageSize", required = false,  defaultValue = "20")int pageSize) {
 		PageHelper.startPage(pageNum, pageSize);
 		List<Object> res = applyService.getApplyListByMemberAndState(m_num, state);	
 		return ResponseEntity.ok(PageInfo.of(res));
@@ -80,9 +97,9 @@ public class ApplyController {
 	public ResponseEntity deleteApply(@PathVariable long a_id) {
 		// apply id로 해당 cr_num 조회
 		long cr_num = applyService.selecteCrNumById(a_id);
-		// apply 삭제
+		// 지원내역 삭제
 		applyService.deleteApply(a_id);
-		// cr_num 삭제
+		// 기업이력서 삭제
 		int res = CompanyResumeService.deleteById(cr_num);
 		return ResponseEntity.ok(res);
 	}
@@ -99,10 +116,9 @@ public class ApplyController {
 	//company/apply/list/{j_num}?state=<대기/최종합격/불합격>
 	@GetMapping("/company/apply/list/{j_num}")
 	public ResponseEntity<PageInfo<Object>>  selecteCRAndMemberById(@PathVariable(name="j_num") long j_num,
-													@RequestParam(name="state", required = false,  defaultValue = "전체")String state,
-													@RequestParam(name="pageNum", required = false,  defaultValue = "1")int pageNum,
-													@RequestParam(name="pageSize", required = false,  defaultValue = "20")int pageSize
-												) {
+										@RequestParam(name="state", required = false,  defaultValue = "전체")String state,
+										@RequestParam(name="pageNum", required = false,  defaultValue = "1")int pageNum,
+										@RequestParam(name="pageSize", required = false,  defaultValue = "20")int pageSize) {
 		PageHelper.startPage(pageNum, pageSize);
 		List<Object> res = applyService.selecteCRAndMemberById(j_num, state);
 		return ResponseEntity.ok(PageInfo.of(res));

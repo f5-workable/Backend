@@ -1,5 +1,9 @@
 package egovframework.job.dto;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import egovframework.job.vo.CompanyResumeRegionVO;
 import egovframework.job.vo.CompanyResumeVO;
 import egovframework.job.vo.ResumeVO;
 import lombok.Builder;
@@ -11,17 +15,21 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class CompanyResumeDTO {
-   private Long cr_num;
-   private String payment_type;
-   private int payment;
-   private String ob_type;
-   private String disease;
-   private String career;
-   private String pr;
-   private Long m_num;
-   private String education;
+	private String job;
+	private Long cr_num;
+	private String payment_type;
+	private int payment;
+	private String ob_type;
+	private String disease;
+	private String career;
+	private String pr;
+	private Long m_num;
+	private String education;
+
    
-   @Builder
+	private List<CompanyResumeRegionVO> region;
+   	
+	@Builder
     public CompanyResumeDTO(final CompanyResumeVO entity) {
        this.cr_num = entity.getCr_num();
        this.payment_type = entity.getPayment_type();
@@ -31,6 +39,7 @@ public class CompanyResumeDTO {
        this.career = entity.getCareer();
        this.pr = entity.getPr();
        this.education = entity.getEducation();
+       this.job = entity.getJob();
     }
     
     public CompanyResumeVO toEntity() {
@@ -44,6 +53,7 @@ public class CompanyResumeDTO {
              .pr(pr)
              .m_num(m_num)
              .education(education)
+             .job(job)
              .build();
     }
     
@@ -55,5 +65,6 @@ public class CompanyResumeDTO {
        this.disease = entity.getDisease();
        this.career = entity.getCareer();
        this.pr = entity.getPr();
+       this.job = entity.getJob();
     }
 }
