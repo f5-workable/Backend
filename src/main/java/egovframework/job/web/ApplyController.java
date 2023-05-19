@@ -63,7 +63,6 @@ public class ApplyController {
 												@RequestParam(name="pageNum", required = false,  defaultValue = "1")int pageNum,
 												@RequestParam(name="pageSize", required = false,  defaultValue = "20")int pageSize) {
 		PageHelper.startPage(pageNum, pageSize);
-		if(!(state.equals("지원완료")||state.equals("최종합격")||state.equals("불합격"))) state = null;
 		List<Object> res = applyService.getApplyListByMemberAndState(m_num, state);	
 		return ResponseEntity.ok(PageInfo.of(res));
 	} 
@@ -105,16 +104,11 @@ public class ApplyController {
 													@RequestParam(name="pageSize", required = false,  defaultValue = "20")int pageSize
 												) {
 		PageHelper.startPage(pageNum, pageSize);
-		if(state.equals("대기")) 
-			state = "지원완료";
-		else if(!(state.equals("최종합격") || state.equals("불합격"))) 
-			state = null;
-
 		List<Object> res = applyService.selecteCRAndMemberById(j_num, state);
 		return ResponseEntity.ok(PageInfo.of(res));
 	}
 	
-	// 지원자 통계 - 나이/성별/중증여부/장애유형/(학력) 현황
+	// 지원자 통계 - 나이/성별/중증여부/장애유형/학력 현황
 	@GetMapping("/jobinfo/stat/{j_id}")
 	public ResponseEntity applyStatisticsByJId(@PathVariable long j_id) {
 		HashMap<String, Object> res =  applyService.statisticsApply(j_id);
