@@ -43,11 +43,10 @@ public class JobinfoDAO {
        sqlSession.delete("egovframework.mapper.job.JobinfoMapper.deleteJobinfo", id);
     }
     
-    public List<JobinfoResultVO> searchJobinfo(JobinfoSearchVO vo) {
-//     controller에서 받아온 vo를 selectList에 매개변수로 넣어준다.
-       List<JobinfoResultVO> res = sqlSession.selectList("egovframework.mapper.job.JobinfoMapper.searchJobinfo", vo);
-       return res;
-    } 
+    public List<JobinfoVO> searchJobinfo(JobinfoSearchVO vo) {
+        List<JobinfoVO> res = sqlSession.selectList("egovframework.mapper.job.JobinfoMapper.searchJobinfo");
+        return res;
+    }
     // 기업별 업종(JOB_TYPE) 목록 조회
     public List<String> selectJobTypeByCNum(long c_num){
     	 List<String> res = sqlSession.selectList("egovframework.mapper.job.JobinfoMapper.selectJobTypeByCNum",c_num);
