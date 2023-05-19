@@ -10,12 +10,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 
 import egovframework.job.dto.ResumeDTO;
 import egovframework.job.service.ResumeService;
-import egovframework.job.vo.JobinfoResultVO;
-import egovframework.job.vo.JobinfoSearchVO;
 import egovframework.job.vo.ResumeSearchVO;
 import egovframework.job.vo.ResumeVO;
 
@@ -57,12 +59,20 @@ public class ResumeController {
        service.deleteResume(id);
        return ResponseEntity.ok(id);
     }
-//  조건 검색
+//  조건검색
     @GetMapping("/resume/search")
-    public ResponseEntity searchJobinfo(@RequestBody ResumeSearchVO resumeDto) {
-    	List<ResumeSearchVO> res = service.searchResume(resumeDto);
-        return ResponseEntity.ok(res);
+    public ResponseEntity searchResume(@RequestParam("payment_type") String[] payment_type, @RequestParam("disease") String[] disease, @RequestParam("ob_type") String[] ob_type, @RequestParam("place") String[] place, @RequestParam("education") String[] education, @RequestParam("keyword") String keyword) {
+    	PageHelper.startPage(1,3);
+    	ResumeSearchVO vo = ResumeSearchVO.builder()
+    			.payment_type(payment_type)
+    			.disease(disease)
+    			.ob_type(ob_type)
+    			.place(place)
+    			.education(education)
+    			.keyword(keyword)
+    			.build();
+    	List<ResumeVO> res = service.searchResume(vo);
+    	return ResponseEntity.ok(PageInfo.of(res));
     }
 //  이력서 관리(회원별 모든 이력서 조회)
-    
 }

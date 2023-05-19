@@ -44,9 +44,9 @@ public class ResumeDAO {
        sqlSession.delete("egovframework.mapper.job.ResumeMapper.deleteResume", id);
     }
     
-    public List<ResumeSearchVO> searchResume(ResumeSearchVO vo) {
+    public List<ResumeVO> searchResume(ResumeSearchVO vo) {
 //      controller에서 받아온 vo를 selectList에 매개변수로 넣어준다.
-       List<ResumeSearchVO> res = sqlSession.selectList("egovframework.mapper.job.ResumeMapper.searchResume", vo);
+       List<ResumeVO> res = sqlSession.selectList("egovframework.mapper.job.ResumeMapper.searchResume", vo);
        return res;
     }
 }
