@@ -8,7 +8,9 @@
      <select id="selectApplyById" parameterType="Long" resultType="egovframework.job.vo.ApplyVO">
         SELECT * FROM APPLY WHERE a_id = #{j_id}
     </select>
-    
+    <select id="selecteCrNumById" parameterType="Long" resultType="Long">
+        SELECT cr_num FROM APPLY WHERE a_id = #{a_id}
+    </select>
     <insert id="createApply" parameterType="egovframework.job.dto.ApplyDTO">
         INSERT INTO APPLY (j_num, cr_num)
         VALUES (#{j_num}, #{cr_num})
