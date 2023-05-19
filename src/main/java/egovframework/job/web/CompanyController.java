@@ -47,6 +47,7 @@ public class CompanyController {
 	}
 
 	// 회원가입 처리
+	
 	@RequestMapping(value = "/signup.do", method = RequestMethod.POST)
 	public String actionSignUp(@ModelAttribute("CompanyDTO") CompanyDTO companyDTO, ModelMap model) {
 

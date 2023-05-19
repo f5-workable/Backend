@@ -14,7 +14,7 @@
 			<li><a href="/member/info.do/${id}">상세 정보</a></li>
 			<%-- 사용자가 로그인한 경우에만 로그아웃 링크를 보여줍니다. --%>
 			<%
-			if (request.isUserInRole("ROLE_USER")) {
+			if (request.isUserInRole("ROLE_MEMBER")) {
 			%>
 			<li><a href="/logout">로그아웃</a></li>
 			<%
