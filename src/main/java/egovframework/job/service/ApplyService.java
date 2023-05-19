@@ -29,9 +29,12 @@ public class ApplyService {
     // 지원 등록
     public int addApply(long j_num, long cr_num) {
     	 ApplyDTO dto = new ApplyDTO();
-		 dto.setJ_num(j_num);
+		 dto.setJ_num(j_num);	
 		 // 등록된 기업이력서 set
 		 dto.setCr_num(cr_num);
+		 
+		 
+		 
 		 
     	return applyDAO.createApply(dto);
     }

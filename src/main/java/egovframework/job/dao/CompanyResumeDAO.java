@@ -21,7 +21,7 @@ public class CompanyResumeDAO {
 	}
 	
 	// id에 따른 select
-	public CompanyResumeVO selectById(long cr_num) {
+	public CompanyResumeDTO selectById(long cr_num) {
 		return sqlSession.selectOne("egovframework.mapper.job.CompanyResumeMapper.selectCompanyResumeById",cr_num);
 	}
 	

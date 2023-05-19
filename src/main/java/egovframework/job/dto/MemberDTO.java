@@ -45,7 +45,8 @@ public class MemberDTO {
 	private String profil;
 
 	// 멤버 구분
-	private String role;
+	@Builder.Default
+	private String role = "ROLE_MEMBER";
 
 	// 멤버 탈퇴 여부
 	private boolean deleted;
