@@ -49,7 +49,7 @@ public class MemberController {
 	}
 
 	// 회원가입 화면
-	@RequestMapping(value = "/signup.do", method = RequestMethod.GET)
+	@RequestMapping(value = "/signup", method = RequestMethod.GET)
 	public String signUpView(@ModelAttribute("MemberDTO") MemberDTO memberDTO, HttpServletRequest request,
 			HttpServletResponse response, ModelMap model) throws Exception {
 		return "/member/signup";
@@ -74,7 +74,7 @@ public class MemberController {
 	 */
 
 	// 회원가입 처리
-	@PostMapping("/signup.do")
+	@PostMapping("/signup")
 	public ResponseEntity<?> actionSignUp(@RequestBody MemberDTO memberDTO) {
 		// 입력받은 비밀번호를 암호화하여 저장
 		String encodedPassword = memberPasswordEncoder.encode(memberDTO.getPassword());
@@ -116,7 +116,7 @@ public class MemberController {
 	 */
 
 	// 로그인 처리
-	@PostMapping("/login.do")
+	@PostMapping("/login")
 	public ResponseEntity<String> actionLogin(@RequestBody MemberDTO memberDTO, HttpServletRequest request) throws Exception {
 		MemberDTO resultDTO = memberService.actionLogin(memberDTO);
 		boolean loginPolicyYn = true;
@@ -131,7 +131,7 @@ public class MemberController {
 	}
 
 	// 로그아웃 처리
-	@GetMapping("/logout.do")
+	@GetMapping("/logout")
 	public ResponseEntity<String> logout(HttpServletRequest request, HttpServletResponse response) {
 		try {
 			// 세션 무효화
@@ -157,7 +157,7 @@ public class MemberController {
 	 */
 
 	// 로그인 후 홈 화면
-	@GetMapping("/home.do")
+	@GetMapping("/home")
 	public ResponseEntity<String> homeView(Authentication authentication) {
 		String username = authentication.getName();
 		return ResponseEntity.ok("Welcome to the home page, " + username + "!");
@@ -181,7 +181,7 @@ public class MemberController {
 	 */
 
 	// 상세정보 화면
-	@GetMapping("/info.do/{id}")
+	@GetMapping("/info/{id}")
 	public ResponseEntity<?> memberInfo(@PathVariable String id, Authentication authentication) {
 		try {
 			UserDetails userDetails = (UserDetails) authentication.getPrincipal();
@@ -222,7 +222,7 @@ public class MemberController {
 	 */
 
 	// 상세정보 수정 화면
-	@GetMapping("/update.do/{id}")
+	@GetMapping("/update/{id}")
 	public ResponseEntity<?> memberUpdate(@PathVariable String id, Authentication authentication) {
 		try {
 			UserDetails userDetails = (UserDetails) authentication.getPrincipal();
@@ -257,7 +257,7 @@ public class MemberController {
 	 * exception or show an error page return "error"; } }
 	 */
 
-	@PutMapping("/update.do/{id}") 
+	@PutMapping("/update/{id}") 
 	public ResponseEntity<?> updateMemberDetail(@PathVariable String id, @RequestBody MemberDTO memberDTO) {
 	    try {
 	        memberDTO.setId(id);
@@ -300,7 +300,7 @@ public class MemberController {
 	 */
 
 	// 회원 탈퇴
-	@PostMapping("/delete.do/{id}")
+	@PostMapping("/delete/{id}")
 	public ResponseEntity<String> deleteMember(@PathVariable String id) {
 		try {
 
