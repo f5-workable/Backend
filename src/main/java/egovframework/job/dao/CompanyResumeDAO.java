@@ -14,10 +14,10 @@ public class CompanyResumeDAO {
 	@Autowired
 	private SqlSession sqlSession;
 	
-	// 등록 ->  기업이력서 dto의 cr_num 반환
-	public long addCompanyResume(CompanyResumeDTO companyResumeDTO) {
+	// 등록 
+	public CompanyResumeDTO addCompanyResume(CompanyResumeDTO companyResumeDTO) {
 		sqlSession.insert("egovframework.mapper.job.CompanyResumeMapper.addCompanyResume", companyResumeDTO);
-		return companyResumeDTO.getCr_num();
+		return companyResumeDTO;
 	}
 	
 	// id에 따른 select

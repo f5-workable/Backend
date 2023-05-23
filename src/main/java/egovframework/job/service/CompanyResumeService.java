@@ -25,14 +25,21 @@ public class CompanyResumeService {
 	private CompanyResumeRegionDAO companyResumeRegionDAO;
 	
 	// 등록 (이력서 -> 기업이력서)
-	public long addCompanyResume(ResumeVO resumeVO, List<ResumeRegionVO> regions) {
+	public long addCompanyResume(ResumeDTO resumeDto, List<ResumeRegionVO> regions) {
 		CompanyResumeDTO insertDto = new CompanyResumeDTO();
-		insertDto.toCompanyResume(resumeVO);	//이력서 -> 기업이력서
+		insertDto.toCompanyResume(resumeDto.toEntity());	//이력서 -> 기업이력서
 		// 기업이력서 등록 후 아이디 반환
-		long insertCrId =companyResumeDAO.addCompanyResume(insertDto);
+		companyResumeDAO.addCompanyResume(insertDto);
 		// 기업 이력서 희망 지역 설정
-		addCrRegion(insertCrId,regions);
-		return insertCrId;
+		//addCrRegion(insertCrId,regions);
+		for(ResumeRegionVO region: regions) {
+			CompanyResumeRegionDTO crRegion = new CompanyResumeRegionDTO();
+			crRegion.setCr_num(insertDto.getCr_num());// 기업 이력서 등록
+			crRegion.setRegion(region.getRegion());	// 지역명 등록
+			// insert
+			companyResumeRegionDAO.insertCrRegion(crRegion);
+		}
+		return insertDto.getCr_num();
 	}
 	
 	// 기업 이력서 희망 지역 설정
