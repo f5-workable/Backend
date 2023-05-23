@@ -19,6 +19,7 @@ import com.github.pagehelper.PageInfo;
 
 import egovframework.job.dto.JobinfoDTO;
 import egovframework.job.service.JobinfoService;
+import egovframework.job.vo.JobinfoResultVO;
 import egovframework.job.vo.JobinfoSearchVO;
 import egovframework.job.vo.JobinfoVO;
 
@@ -29,13 +30,14 @@ public class JobinfoController {
 //   
    @GetMapping("/jobinfo")
    public ResponseEntity<List> selectJobinfo() {
+//	  JobinfoResultVO
       List<JobinfoVO> res =  service.getJobinfoList();
       return ResponseEntity.ok(res);
    }
 //   id별(기본키) 조회 
    @GetMapping("/jobinfo/{id}")
    public ResponseEntity selectOne(@PathVariable Long id) {
-      JobinfoVO res =  service.getJobinfoById(id);
+	   JobinfoResultVO res =  service.getJobinfoById(id);
       return ResponseEntity.ok(res);
    }
 //   Create
@@ -49,8 +51,9 @@ public class JobinfoController {
     public ResponseEntity updateJobinfo(@PathVariable Long id, @RequestBody JobinfoDTO jobinfoDto) {
 //       dto의 j_id : null, 쿼리스트링으로 받아온 id값을 set
        jobinfoDto.setJ_id(id);
-       service.updateJobinfo(jobinfoDto);       
-       JobinfoVO res = service.getJobinfoById(id);
+       service.updateJobinfo(jobinfoDto);    
+//     수정필요
+       JobinfoVO res = service.getJById(id);
        return ResponseEntity.ok(res);
     }
 //  Delete
@@ -61,17 +64,19 @@ public class JobinfoController {
     }
 //  조건검색
     @GetMapping("/jobinfo/search")
-    public ResponseEntity searchJobinfO(@RequestParam("employment_type") String[] employment_type, @RequestParam("payment_type") String[] payment_type, @RequestParam("temp_address") String[] temp_address, @RequestParam("tempcompany_type") String[] tempcompany_type, @RequestParam("tempjob_type") String tempjob_type, @RequestParam("keyword") String keyword) {
+    public ResponseEntity searchJobinfO(@RequestParam("employment_type") String[] employment_type, @RequestParam("payment_type") String[] payment_type, @RequestParam("address") String[] address, @RequestParam("c_type") String[] c_type, @RequestParam("job_type") String job_type, @RequestParam("keyword") String keyword) {
     	PageHelper.startPage(1,3);
     	JobinfoSearchVO vo = JobinfoSearchVO.builder()
     			.employment_type(employment_type)
     			.payment_type(payment_type)
-    			.temp_address(temp_address)
-    			.tempcompany_type(tempcompany_type)
-    			.tempjob_type(tempjob_type)
+    			.address(address)
+    			.c_type(c_type)
+    			.job_type(job_type)
     			.keyword(keyword)
     			.build();
-    	List<JobinfoVO> res = service.searchJobinfo(vo);
+//    	임의의 로그인id
+//    	vo.setUser_id(2L);
+    	List<JobinfoResultVO> res = service.searchJobinfo(vo);
     	return ResponseEntity.ok(PageInfo.of(res));
     }
     
