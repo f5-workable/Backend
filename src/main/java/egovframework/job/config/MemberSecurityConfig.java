@@ -46,11 +46,12 @@ public class MemberSecurityConfig extends WebSecurityConfigurerAdapter {
         	.and()
         .formLogin()
         	.loginPage("/member/login")
-        	.defaultSuccessUrl("/member/home")
         	.permitAll()
         	.usernameParameter("id")
         	.and()
         .logout()
         	.permitAll();
     }
+	
+	
 }
