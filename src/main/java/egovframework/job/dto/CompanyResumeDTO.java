@@ -59,7 +59,6 @@ public class CompanyResumeDTO {
     
     public void toCompanyResume(ResumeVO entity) {
     //   this.education = entity.getEducation();  // 이력서 vo 수정 시 주석 해제
-       this.place = entity.getPlace();
        this.job = entity.getJob();
        this.payment_type = entity.getPayment_type();
        this.payment = entity.getPayment();

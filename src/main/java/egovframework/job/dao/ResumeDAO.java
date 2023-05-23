@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import egovframework.job.dto.ResumeDTO;
 import egovframework.job.vo.JobinfoResultVO;
 import egovframework.job.vo.JobinfoSearchVO;
+import egovframework.job.vo.ResumeResultVO;
 import egovframework.job.vo.ResumeSearchVO;
 import egovframework.job.vo.ResumeVO;
 
@@ -24,15 +25,16 @@ public class ResumeDAO {
         return resumeDto;
     }
 
-    public ResumeVO selectResumeById(Long id) {
-    	ResumeVO vo = sqlSession.selectOne("egovframework.mapper.job.ResumeMapper.selectResumeById", id);
-        return vo;
+    public ResumeDTO selectResumeById(Long id) {
+    	ResumeDTO dto = sqlSession.selectOne("egovframework.mapper.job.ResumeMapper.selectResumeById", id);
+        return dto;
     }
     
-    public ResumeVO addResume(ResumeDTO dto) {
+    public Long addResume(ResumeDTO dto) {
     	ResumeVO vo = dto.toEntity();
        	sqlSession.insert("egovframework.mapper.job.ResumeMapper.createResume", vo);
-       	return vo;
+//      vo.getR_id()도 가능한지 확인
+       	return vo.getR_id();
     }
     
     public void updateResume(ResumeDTO dto) {
@@ -44,9 +46,9 @@ public class ResumeDAO {
        sqlSession.delete("egovframework.mapper.job.ResumeMapper.deleteResume", id);
     }
     
-    public List<ResumeVO> searchResume(ResumeSearchVO vo) {
+    public List<ResumeResultVO> searchResume(ResumeSearchVO vo) {
 //      controller에서 받아온 vo를 selectList에 매개변수로 넣어준다.
-       List<ResumeVO> res = sqlSession.selectList("egovframework.mapper.job.ResumeMapper.searchResume", vo);
+       List<ResumeResultVO> res = sqlSession.selectList("egovframework.mapper.job.ResumeMapper.searchResume", vo);
        return res;
     }
 }

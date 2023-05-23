@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="egovframework.mapper.job.ResumeRegionMapper">
+	
+	<insert id="insertResumeRegion"  parameterType="egovframework.job.dto.ResumeRegionDTO">
+        INSERT INTO RESUME_REGION (r_id, region)
+        VALUES (#{r_id}, #{region})       
+    </insert>
+    
+   <select id="selectResumeRegionByrId" parameterType="Long" resultType="egovframework.job.vo.ResumeRegionVO">
+        SELECT * FROM RESUME_REGION WHERE r_id = #{r_id}
+    </select>
+    
+    <delete id="deleteResumeRegionByrId" parameterType="Long" >
+        delete from RESUME_REGION where region_id = #{region_id}
+    </delete>
+</mapper>

@@ -1,5 +1,8 @@
 package egovframework.job.dto;
 
+import java.util.List;
+
+import egovframework.job.vo.ResumeRegionVO;
 import egovframework.job.vo.ResumeVO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,7 +18,7 @@ public class ResumeDTO {
 
 	private Long r_id;
 	private String education;
-    private String place;
+	private String[] place;
     private String job;
     private String payment_type;
     private int payment;
@@ -27,11 +30,12 @@ public class ResumeDTO {
     private Long m_num;
     private String title;
     
+    private List<ResumeRegionVO> region;
+    
     @Builder
     public ResumeDTO(ResumeVO entity) {
     	this.r_id =entity.getR_id();
     	this.education = entity.getEducation();
-    	this.place = entity.getPlace();
     	this.job = entity.getJob();
     	this.payment_type = entity.getPayment_type();
     	this.payment = entity.getPayment();
@@ -47,7 +51,6 @@ public class ResumeDTO {
     	return ResumeVO.builder()
     			.r_id(r_id)
     			.education(education)
-    			.place(place)
     			.job(job)
     			.payment(payment)
     			.payment_type(payment_type)

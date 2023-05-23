@@ -45,16 +45,16 @@ public class ApplyController {
 	}
 	
 	// 지원서 등록 (지원 이력서 선택 -> 기업이력서 등록 -> 어플라이 등록(기업이력서+채용공고+상태) )
-	@PostMapping("/apply")
-	public ResponseEntity addApply(@RequestParam(name="jobinfo") long j_id, @RequestParam(name="resume")long r_id) {
-		// 이력서 id로 이력서 조회
-		ResumeVO resumeDto = ResumeService.getResumeById(r_id);
-		// 기업 이력서 등록
-		long cr_num = CompanyResumeService.addCompanyResume(resumeDto);
-		// 등록된 기업 이력서의 cr_num 과 j_num으로 apply 등록
-		int res = applyService.addApply(j_id, cr_num);
-		return ResponseEntity.ok(res);
-	}
+//	@PostMapping("/apply")
+//	public ResponseEntity addApply(@RequestParam(name="jobinfo") long j_id, @RequestParam(name="resume")long r_id) {
+//		// 이력서 id로 이력서 조회
+//		ResumeVO resumeDto = ResumeService.getResumeById(r_id);
+//		// 기업 이력서 등록
+//		long cr_num = CompanyResumeService.addCompanyResume(resumeDto);
+//		// 등록된 기업 이력서의 cr_num 과 j_num으로 apply 등록
+//		int res = applyService.addApply(j_id, cr_num);
+//		return ResponseEntity.ok(res);
+//	}
 	
 	// 지원내역 상태별 조회
 	@GetMapping("/apply/list/{m_num}")
