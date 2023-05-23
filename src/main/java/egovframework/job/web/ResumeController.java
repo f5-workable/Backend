@@ -18,6 +18,7 @@ import com.github.pagehelper.PageInfo;
 
 import egovframework.job.dto.ResumeDTO;
 import egovframework.job.service.ResumeService;
+import egovframework.job.vo.ResumeResultVO;
 import egovframework.job.vo.ResumeSearchVO;
 import egovframework.job.vo.ResumeVO;
 
@@ -35,13 +36,13 @@ public class ResumeController {
 //  id별(기본키) 조회 
 	@GetMapping("/resume/{id}")
 	public ResponseEntity selectOne(@PathVariable Long id) {
-		ResumeVO res =  service.getResumeById(id);
+		ResumeDTO res =  service.getResumeById(id);
 		return ResponseEntity.ok(res);
 	}
 //  Create
 	@PostMapping("/resume")
 	public ResponseEntity createResume(@RequestBody ResumeDTO resumeDto) {
-		ResumeVO res = service.addResume(resumeDto);
+		Long res = service.addResume(resumeDto);
 		return ResponseEntity.ok(res);
 	}
 //  Update
@@ -50,7 +51,7 @@ public class ResumeController {
 //      dto의 r_id : null, 쿼리스트링으로 받아온 id값을 set
 		resumeDto.setR_id(id);
 		service.updateResume(resumeDto);
-		ResumeVO res = service.getResumeById(id);
+		ResumeDTO res = service.getResumeById(id);
 		return ResponseEntity.ok(res);
 	}
 //  Delete
@@ -71,7 +72,7 @@ public class ResumeController {
     			.education(education)
     			.keyword(keyword)
     			.build();
-    	List<ResumeVO> res = service.searchResume(vo);
+    	List<ResumeResultVO> res = service.searchResume(vo);
     	return ResponseEntity.ok(PageInfo.of(res));
     }
 //  이력서 관리(회원별 모든 이력서 조회) -> 이력서 시퀀스아이디값 넘겨주기(모두)

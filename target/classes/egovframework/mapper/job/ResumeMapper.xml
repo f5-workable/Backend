@@ -6,20 +6,22 @@
         SELECT * FROM RESUME LIMIT 10
     </select>
 
-    <select id="selectResumeById" resultType="egovframework.job.vo.ResumeVO">
+    <select id="selectResumeById" resultType="egovframework.job.dto.ResumeDTO">
         SELECT * FROM RESUME WHERE r_id = #{r_id}
     </select>
     
     <insert id="createResume" parameterType="egovframework.job.dto.ResumeDTO">
-        INSERT INTO RESUME (r_id, place, job, payment_type, payment, ob_type, disease, career, pr, title, education)
-        VALUES (#{r_id}, #{place}, #{job}, #{payment_type}, #{payment}, #{ob_type}, #{disease}, #{career}, #{pr}, #{title}, #{education})
+        INSERT INTO RESUME (job, payment_type, payment, ob_type, disease, career, pr, title, education)
+        VALUES (#{job}, #{payment_type}, #{payment}, #{ob_type}, #{disease}, #{career}, #{pr}, #{title}, #{education})
         
+        <selectKey resultType="long" keyProperty="r_id" order="AFTER">
+        	SELECT LAST_INSERT_ID()
+    	</selectKey>
     </insert>
     
     <update id="updateResume" parameterType="egovframework.job.dto.ResumeDTO">
         UPDATE RESUME SET 
            education = #{education},
-           place = #{place}, 
            job = #{job}, 
            payment_type = #{payment_type}, 
            payment = #{payment}, 
@@ -35,41 +37,43 @@
         delete from RESUME where r_id=#{r_id}
     </delete>
     
-    <select id="searchResume" resultType="egovframework.job.vo.ResumeVO" parameterType="egovframework.job.vo.ResumeSearchVO">
-      SELECT * FROM RESUME
+    <select id="searchResume" resultType="egovframework.job.vo.ResumeResultVO" parameterType="egovframework.job.vo.ResumeSearchVO">
+      SELECT R.r_id, R.education, R_R.region, R.job, R.payment_type, R.payment, R.ob_type, R.disease, R.career, R.pr, R.r_default, R.m_num, R.title
+      FROM RESUME R INNER JOIN RESUME_REGION R_R
+      ON R.r_id = R_R.r_id
       <where>
          <if test="payment_type != null">
-               and payment_type in 
+               and R.payment_type in 
                <foreach item="ptype" collection="payment_type" open="(" close=")" separator="," >
                   #{ptype}
                </foreach>
          </if>
          <if test="disease != null">
-               and disease in 
+               and R.disease in 
                <foreach item="d" collection="disease" open="(" close=")" separator="," >
                   #{d}
                </foreach>
          </if>
          <if test="ob_type != null">
-               and ob_type in 
+               and R.ob_type in 
                <foreach item="ob" collection="ob_type" open="(" close=")" separator="," >
                   #{ob}
                </foreach>
          </if>
          <if test="place != null">
-               and place in 
+               and R_R.region in 
                <foreach item="p" collection="place" open="(" close=")" separator="," >
                   #{p}
                </foreach>
          </if>
          <if test="education != null">
-               and education in 
+               and R.education in 
                <foreach item="e" collection="education" open="(" close=")" separator="," >
                   #{e}
                </foreach>
          </if>
          <if test="keyword != null">
-         	and job LIKE CONCAT('%', #{keyword}, '%')
+         	and R.job LIKE CONCAT('%', #{keyword}, '%')
          </if>
       </where>
    	</select>

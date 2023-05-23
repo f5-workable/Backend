@@ -47,31 +47,30 @@ public class ApplyController {
 		return ResponseEntity.ok(res);
 	}
 	
-	// 지원서 등록 (지원 이력서 선택 -> 기업이력서 등록 -> 어플라이 등록(기업이력서+채용공고+상태) )
-	@PostMapping("/apply")
-	public ResponseEntity addApply(@RequestParam(name="jobinfo") long j_id, @RequestParam(name="resume")long r_id) {
-		// 이력서 id로 이력서 조회
-		ResumeVO resumeDto = ResumeService.getResumeById(r_id);
-		// 이력서 id로  ResumeRegion List 조회
-		// ResumeRegion 추가 시 수정 예정
-		// List<ResumeRegionVO> region =  new ArrayList<ResumeRegionVO>();
-		
-		// --- 임시 데이터 
-		ResumeRegionDTO dto = new ResumeRegionDTO();
-		dto.setRegion("대구 서구");
-		ResumeRegionDTO dto2 = new ResumeRegionDTO();
-		dto2.setRegion("경북 구미시");
-		List<ResumeRegionVO> region =  new ArrayList<ResumeRegionVO>();
-		region.add(dto.toEntity());
-		region.add(dto2.toEntity());
-		// --- 임시 데이터 끝
-		
-		// 기업 이력서 등록
-		long cr_num = CompanyResumeService.addCompanyResume(resumeDto, region);
-//		// 등록된 기업 이력서의 cr_num 과 j_num으로 apply 등록
-		int res = applyService.addApply(j_id, cr_num);
-		return ResponseEntity.ok(res);
-	}
+//	@PostMapping("/apply")
+//	public ResponseEntity addApply(@RequestParam(name="jobinfo") long j_id, @RequestParam(name="resume")long r_id) {
+//		// 이력서 id로 이력서 조회
+//		ResumeVO resumeDto = ResumeService.getResumeById(r_id);
+//		// 이력서 id로  ResumeRegion List 조회
+//		// ResumeRegion 추가 시 수정 예정
+//		// List<ResumeRegionVO> region =  new ArrayList<ResumeRegionVO>();
+//		
+//		// --- 임시 데이터 
+//		ResumeRegionDTO dto = new ResumeRegionDTO();
+//		dto.setRegion("대구 서구");
+//		ResumeRegionDTO dto2 = new ResumeRegionDTO();
+//		dto2.setRegion("경북 구미시");
+//		List<ResumeRegionVO> region =  new ArrayList<ResumeRegionVO>();
+//		region.add(dto.toEntity());
+//		region.add(dto2.toEntity());
+//		// --- 임시 데이터 끝
+//		
+//		// 기업 이력서 등록
+//		long cr_num = CompanyResumeService.addCompanyResume(resumeDto, region);
+////		// 등록된 기업 이력서의 cr_num 과 j_num으로 apply 등록
+//		int res = applyService.addApply(j_id, cr_num);
+//		return ResponseEntity.ok(res);
+//	}
 	
 	// 지원내역 상태별 조회
 	@GetMapping("/apply/list/{m_num}")

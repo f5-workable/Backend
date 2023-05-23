@@ -23,9 +23,14 @@ public class JobinfoDAO {
         return vo;
     }
 
-    public JobinfoVO selectJobinfoById(Long id) {
-       JobinfoVO vo = sqlSession.selectOne("egovframework.mapper.job.JobinfoMapper.selectJobinfoById", id);
+    public JobinfoResultVO selectJobinfoById(Long id) {
+    	JobinfoResultVO vo = sqlSession.selectOne("egovframework.mapper.job.JobinfoMapper.selectJobinfoById", id);
         return vo;
+    }
+    
+    public JobinfoVO selectJById(Long id) {
+    	JobinfoVO vo = sqlSession.selectOne("egovframework.mapper.job.JobinfoMapper.selectJById", id);
+    	return vo;
     }
     
     public JobinfoVO addJobinfo(JobinfoDTO dto) {
@@ -43,8 +48,9 @@ public class JobinfoDAO {
        sqlSession.delete("egovframework.mapper.job.JobinfoMapper.deleteJobinfo", id);
     }
     
-    public List<JobinfoVO> searchJobinfo(JobinfoSearchVO vo) {
-        List<JobinfoVO> res = sqlSession.selectList("egovframework.mapper.job.JobinfoMapper.searchJobinfo");
+    public List<JobinfoResultVO> searchJobinfo(JobinfoSearchVO vo) {
+//        List<JobinfoResultVO> res = sqlSession.selectList("egovframework.mapper.job.JobinfoMapper.searchJobinfo");
+    	List<JobinfoResultVO> res = sqlSession.selectList("egovframework.mapper.job.JobinfoMapper.searchJobinfo", vo);
         return res;
     }
     // 기업별 업종(JOB_TYPE) 목록 조회
