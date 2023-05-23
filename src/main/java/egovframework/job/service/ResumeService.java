@@ -91,4 +91,9 @@ public class ResumeService {
     public List<ResumeResultVO> searchResume(ResumeSearchVO vo) {
        return dao.searchResume(vo);
     }
+    
+    // 이력서 id로 지역 목록 조회
+    public List<ResumeRegionVO> selectResumeRegionList(long resumeId){
+    	return resumeRegionDAO.selectResumeRegionList(resumeId);
+    }
 }

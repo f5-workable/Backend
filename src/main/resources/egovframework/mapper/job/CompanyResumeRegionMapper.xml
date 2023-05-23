@@ -4,7 +4,7 @@
 
     <insert id="insertCrRegion"  parameterType="egovframework.job.dto.CompanyResumeRegionDTO">
         INSERT INTO COMPANYRESUME_REGION (cr_num, region)
-        VALUES (#{cr_num}, #{region})       
+        VALUES (#{cr_num}, #{region})
     </insert>
     
    <select id="selectCrRegionByCrNum" parameterType="Long" resultType="egovframework.job.vo.CompanyResumeRegionVO">
