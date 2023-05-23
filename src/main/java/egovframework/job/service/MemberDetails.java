@@ -9,7 +9,9 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import egovframework.job.dto.MemberDTO;
+import lombok.Data;
 
+@Data
 public class MemberDetails implements UserDetails {
 
 	private static final long serialVersionUID = 1L;
