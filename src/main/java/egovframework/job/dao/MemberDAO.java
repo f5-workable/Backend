@@ -13,11 +13,6 @@ public class MemberDAO extends EgovAbstractMapper {
         insert("egovframework.mapper.job.MemberMapper.registerMember", memberDTO);
     }
 
-	// 로그인 처리
-	public MemberDTO actionLogin(MemberDTO memberDTO) throws Exception {
-		return (MemberDTO) selectOne("egovframework.mapper.job.MemberMapper.actionLogin", memberDTO);
-	}
-	
 	// 아이디 검색
 	public MemberDTO findById(String id) throws Exception {
 		return (MemberDTO) selectOne("egovframework.mapper.job.MemberMapper.findById", id);
