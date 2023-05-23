@@ -45,7 +45,6 @@ public class MemberSecurityConfig extends WebSecurityConfigurerAdapter {
         	.antMatchers("/member/info/**").hasRole("MEMBER")
         	.and()
         .formLogin()
-        	.loginPage("/member/login")
         	.permitAll()
         	.usernameParameter("id")
         	.and()
