@@ -24,9 +24,13 @@ public class JobinfoService {
         return dao.selectJobinfoList();
     }
 
-    public JobinfoVO getJobinfoById(Long id) {
+    public JobinfoResultVO getJobinfoById(Long id) {
         return dao.selectJobinfoById(id);
     }
+    public JobinfoVO getJById(Long id) {
+    	return dao.selectJById(id);
+    }
+    
     @Transactional
     public JobinfoVO addJobinfo(JobinfoDTO dto) {
        JobinfoVO vo = dao.addJobinfo(dto);
@@ -40,7 +44,7 @@ public class JobinfoService {
     public void deleteJobinfo(Long id) {
        dao.deleteJobinfo(id);
     }
-    public List<JobinfoVO> searchJobinfo(JobinfoSearchVO vo) {
+    public List<JobinfoResultVO> searchJobinfo(JobinfoSearchVO vo) {
        return dao.searchJobinfo(vo);
     }
     
