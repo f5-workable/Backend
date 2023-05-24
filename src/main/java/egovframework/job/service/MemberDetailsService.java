@@ -24,7 +24,10 @@ public class MemberDetailsService implements UserDetailsService{
 				throw new UsernameNotFoundException("User not found with username: " + id);
 			}
 			
-			return new MemberDetails(memberDTO);
+			MemberDetails memberDetails = new MemberDetails(memberDTO);
+            memberDetails.setM_num(memberDTO.getM_num()); // m_num 값을 설정
+            
+            return memberDetails;
 					
 		} catch(Exception e) {
 			throw new RuntimeException("Error occurred while loading user by username", e);
