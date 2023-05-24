@@ -11,7 +11,10 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import egovframework.job.service.MemberDetailsService;
 
@@ -41,9 +44,29 @@ public class MemberSecurityConfig extends WebSecurityConfigurerAdapter {
 	    return new CustomAuthenticationSuccessHandler();
 	}
 	
+	@Bean
+	public AuthenticationFailureHandler customAuthenticationFailureHandler() {
+	    return new CustomAuthenticationFailureHandler();
+	}
+	
+	@Bean
+    public UrlBasedCorsConfigurationSource corsConfigurationSource() {
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+
+        CorsConfiguration corsConfiguration = new CorsConfiguration();
+        corsConfiguration.addAllowedOrigin("http://localhost:3000");
+        corsConfiguration.addAllowedHeader("*");
+        corsConfiguration.addAllowedMethod("*");
+        source.registerCorsConfiguration("/**", corsConfiguration);
+
+        return source;
+    }
+	
 	@Override
     protected void configure(HttpSecurity http) throws Exception {
 		http.httpBasic();
+		
+		http.cors();
 		
     	http.csrf().disable()
     	.authenticationProvider(memberAuthenticationProvider())
@@ -54,6 +77,7 @@ public class MemberSecurityConfig extends WebSecurityConfigurerAdapter {
         .formLogin()
         	.loginPage("/member/login")
         	.successHandler(customAuthenticationSuccessHandler())
+        	.failureHandler(customAuthenticationFailureHandler())
             .permitAll()
             .usernameParameter("id")
             .and()
