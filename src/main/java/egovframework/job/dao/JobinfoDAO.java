@@ -49,7 +49,6 @@ public class JobinfoDAO {
     }
     
     public List<JobinfoResultVO> searchJobinfo(JobinfoSearchVO vo) {
-//        List<JobinfoResultVO> res = sqlSession.selectList("egovframework.mapper.job.JobinfoMapper.searchJobinfo");
     	List<JobinfoResultVO> res = sqlSession.selectList("egovframework.mapper.job.JobinfoMapper.searchJobinfo", vo);
         return res;
     }

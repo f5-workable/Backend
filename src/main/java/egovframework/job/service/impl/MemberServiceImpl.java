@@ -70,4 +70,10 @@ public class MemberServiceImpl extends EgovAbstractServiceImpl implements Member
 	public void deleteMember(String id) throws Exception {
 		memberDAO.deleteMember(id);
 	}
+	
+	// 대표이력서 등록
+	@Override
+	public void rdefaultMember(MemberDTO dto) {
+		memberDAO.rdefaultMember(dto);
+	}
 }

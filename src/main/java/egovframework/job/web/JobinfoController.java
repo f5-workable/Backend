@@ -75,7 +75,7 @@ public class JobinfoController {
     			.keyword(keyword)
     			.build();
 //    	임의의 로그인id
-    	vo.setUser_id(2L);
+//    	vo.setUser_id(2L);
     	List<JobinfoResultVO> res = service.searchJobinfo(vo);
     	return ResponseEntity.ok(PageInfo.of(res));
     }
