@@ -8,17 +8,14 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-// 이후에 삭제(WishVO로 그대로 받으면 됨) 
 public class WishCreateVO {
 	
-	private Long user_id;
-	private Long guzzik_id;
-	private boolean state;
+	private Long m_num;
+	private Long j_num;
 	
 	@Builder
-	public WishCreateVO(Long memberId, Long g_id, boolean state) {
-		this.user_id = memberId;
-		this.guzzik_id = g_id;
-		this.state = state;
+	public WishCreateVO(Long m_num, Long j_num) {
+		this.m_num = m_num;
+		this.j_num = j_num;
 	}
 }

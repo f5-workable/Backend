@@ -51,4 +51,9 @@ public class ResumeDAO {
        List<ResumeResultVO> res = sqlSession.selectList("egovframework.mapper.job.ResumeMapper.searchResume", vo);
        return res;
     }
+    
+    public List<ResumeResultVO> memberResume(Long memberId) {
+    	List<ResumeResultVO> res = sqlSession.selectList("egovframework.mapper.job.ResumeMapper.memberResume", memberId);
+    	return res;
+    }
 }

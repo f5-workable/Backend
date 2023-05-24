@@ -6,8 +6,11 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import egovframework.job.dto.WishDTO;
+import egovframework.job.vo.JobinfoResultVO;
 import egovframework.job.vo.JobinfoVO;
 import egovframework.job.vo.WishCreateVO;
+import egovframework.job.vo.WishVO;
 
 @Repository
 public class WishDAO {
@@ -15,8 +18,8 @@ public class WishDAO {
 	@Autowired
 	private SqlSession sqlSession;
 //	로그인한 회원의 찜목록을 가져올때
-	public List<JobinfoVO> selectWishList(Long memberId) {
-		List<JobinfoVO> res = sqlSession.selectList("egovframework.mapper.job.WishMapper.selectWishList", memberId);
+	public List<JobinfoResultVO> selectWishList(Long memberId) {
+		List<JobinfoResultVO> res = sqlSession.selectList("egovframework.mapper.job.WishMapper.selectWishList", memberId);
 		return res;
 	}
 //	찜클릭시 생성
