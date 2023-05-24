@@ -91,4 +91,8 @@ public class ResumeService {
     public List<ResumeResultVO> searchResume(ResumeSearchVO vo) {
        return dao.searchResume(vo);
     }
+//  멤버별 이력서조회
+    public List<ResumeResultVO> memberResume(Long memberId) {
+    	return dao.memberResume(memberId);
+    }
 }
