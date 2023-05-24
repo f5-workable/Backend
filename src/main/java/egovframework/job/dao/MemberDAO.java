@@ -7,29 +7,34 @@ import egovframework.job.dto.MemberDTO;
 
 @Repository("memberDAO")
 public class MemberDAO extends EgovAbstractMapper {
-	
+
 	// 회원가입 처리
 	public void registerMember(MemberDTO memberDTO) throws Exception {
-        insert("egovframework.mapper.job.MemberMapper.registerMember", memberDTO);
-    }
+		insert("egovframework.mapper.job.MemberMapper.registerMember", memberDTO);
+	}
+
+	// 로그인 처리
+	public MemberDTO actionLogin(MemberDTO memberDTO) throws Exception {
+		return (MemberDTO) selectOne("egovframework.mapper.job.MemberMapper.actionLogin", memberDTO);
+	}
 
 	// 아이디 검색
 	public MemberDTO findById(String id) throws Exception {
 		return (MemberDTO) selectOne("egovframework.mapper.job.MemberMapper.findById", id);
 	}
-	
+
 	// 아이디 상세정보
 	public MemberDTO getMemberDetail(String id) throws Exception {
 		return (MemberDTO) selectOne("egovframework.mapper.job.MemberMapper.findById", id);
 	}
-	
+
 	// 아이디 상세정보 수정
 	public void updateMemberDetail(MemberDTO memberDTO) throws Exception {
 		insert("egovframework.mapper.job.MemberMapper.updateMember", memberDTO);
 	}
-	
+
 	// 아이디 탈퇴
 	public void deleteMember(String id) throws Exception {
-        delete("egovframework.mapper.job.MemberMapper.deleteMember", id);
-    }
+		delete("egovframework.mapper.job.MemberMapper.deleteMember", id);
+	}
 }
