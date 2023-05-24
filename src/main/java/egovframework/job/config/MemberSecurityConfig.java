@@ -1,16 +1,6 @@
 package egovframework.job.config;
 
-import javax.servlet.Filter;
-
 import org.springframework.beans.factory.annotation.Autowired;
-
-import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
-import org.springframework.security.web.csrf.CsrfFilter;
-import org.springframework.security.web.csrf.CsrfTokenRepository;
-import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import org.springframework.security.web.util.matcher.RequestMatcher;
-import org.springframework.web.filter.CharacterEncodingFilter;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,6 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 import egovframework.job.service.MemberDetailsService;
 
@@ -45,6 +36,11 @@ public class MemberSecurityConfig extends WebSecurityConfigurerAdapter {
         return provider;
     }
 	
+	@Bean
+	public AuthenticationSuccessHandler customAuthenticationSuccessHandler() {
+	    return new CustomAuthenticationSuccessHandler();
+	}
+	
 	@Override
     protected void configure(HttpSecurity http) throws Exception {
 		http.httpBasic();
@@ -56,12 +52,10 @@ public class MemberSecurityConfig extends WebSecurityConfigurerAdapter {
         	.antMatchers("/member/info/**").hasRole("MEMBER")
         	.and()
         .formLogin()
+        	.loginPage("/member/login")
+        	.successHandler(customAuthenticationSuccessHandler())
             .permitAll()
             .usernameParameter("id")
-            .successHandler((request, response, authentication) -> {
-                response.setContentType("application/json");
-                response.getWriter().write("{\"message\":\"로그인이 성공하였습니다.\"}");
-            })
             .and()
         .logout()
         	.permitAll();
