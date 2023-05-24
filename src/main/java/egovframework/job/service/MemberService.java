@@ -6,9 +6,6 @@ public interface MemberService {
 	
 	// 회원가입 처리
 	public void registerMember(MemberDTO memberDTO) throws Exception;
-
-	// 로그인 처리
-	public MemberDTO actionLogin(MemberDTO memberDTO) throws Exception;
 	
 	// 아이디 검색
 	public MemberDTO findById(String id) throws Exception;

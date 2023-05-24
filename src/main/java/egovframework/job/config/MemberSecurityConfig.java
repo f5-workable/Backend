@@ -41,16 +41,18 @@ public class MemberSecurityConfig extends WebSecurityConfigurerAdapter {
     	http.csrf().disable()
     	.authenticationProvider(memberAuthenticationProvider())
         .authorizeRequests()
-        	.antMatchers("/member/home.do").hasRole("MEMBER")
-        	.antMatchers("/member/info.do/**").hasRole("MEMBER")
+        	.antMatchers("/member/home").hasRole("MEMBER")
+        	.antMatchers("/member/info/**").hasRole("MEMBER")
         	.and()
         .formLogin()
-        	.loginPage("/member/login.do")
-        	.defaultSuccessUrl("/member/home.do")
+        	.loginPage("/member/login")
+        	.defaultSuccessUrl("/")
         	.permitAll()
         	.usernameParameter("id")
         	.and()
         .logout()
         	.permitAll();
     }
+	
+	
 }

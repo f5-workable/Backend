@@ -84,7 +84,7 @@ public class EgovWebApplicationInitializer implements WebApplicationInitializer 
 			new DispatcherServlet(webApplicationContext));
 		dispatcher.setLoadOnStartup(1);
 
-		dispatcher.addMapping("*.do");
+		dispatcher.addMapping("**");
 	}
 
 	/**
