@@ -36,4 +36,11 @@
         FROM member
         WHERE id = #{id}
     </delete>
+    
+    <!-- 대표이력서 설정 -->
+    <update id="rdefaultMember" parameterType="egovframework.job.dto.MemberDTO">
+    	UPDATE member
+    	SET R_DEFAULT = #{r_default}
+    	WHERE m_num = #{m_num}
+    </update>
 </mapper>
