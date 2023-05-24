@@ -76,10 +76,10 @@ public class MemberSecurityConfig extends WebSecurityConfigurerAdapter {
         	.and()
         .formLogin()
         	.loginPage("/member/login")
+        	.permitAll()
+            .usernameParameter("id")
         	.successHandler(customAuthenticationSuccessHandler())
         	.failureHandler(customAuthenticationFailureHandler())
-            .permitAll()
-            .usernameParameter("id")
             .and()
         .logout()
         	.permitAll();
