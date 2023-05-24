@@ -71,6 +71,8 @@ public class MemberSecurityConfig extends WebSecurityConfigurerAdapter {
     	http.csrf().disable()
     	.authenticationProvider(memberAuthenticationProvider())
         .authorizeRequests()
+        	.antMatchers("/member/login").permitAll() // 로그인 URL에 대해 권한 필요 없음
+        	.antMatchers("/member/signup").permitAll() // 회원가입 URL에 대해 권한 필요 없음
         	.antMatchers("/member/**").hasRole("MEMBER")
         	.antMatchers("/member/info/**").hasRole("MEMBER")
         	.and()
@@ -84,6 +86,4 @@ public class MemberSecurityConfig extends WebSecurityConfigurerAdapter {
         .logout()
         	.permitAll();
     }
-	
-	
 }
