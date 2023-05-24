@@ -54,38 +54,51 @@
       ON R.r_id = R_R.r_id
       <where>
          <if test="payment_type != null">
+         	<if test="payment_type.length > 0">
                and R.payment_type in 
                <foreach item="ptype" collection="payment_type" open="(" close=")" separator="," >
                   #{ptype}
                </foreach>
+            </if>
          </if>
          <if test="disease != null">
+         	<if test="disease.length > 0">
                and R.disease in 
                <foreach item="d" collection="disease" open="(" close=")" separator="," >
                   #{d}
                </foreach>
+            </if>
          </if>
          <if test="ob_type != null">
+         	<if test="ob_type.length > 0">
                and R.ob_type in 
                <foreach item="ob" collection="ob_type" open="(" close=")" separator="," >
                   #{ob}
                </foreach>
+            </if>
          </if>
          <if test="place != null">
+         	<if test="place.length > 0">
                and R_R.region in 
                <foreach item="p" collection="place" open="(" close=")" separator="," >
                   #{p}
                </foreach>
+            </if>
          </if>
          <if test="education != null">
+         	<if test="education.length > 0">
                and R.education in 
                <foreach item="e" collection="education" open="(" close=")" separator="," >
                   #{e}
                </foreach>
+            </if>
          </if>
          <if test="keyword != null">
-         	and R.job LIKE CONCAT('%', #{keyword}, '%')
+         	<if test="keyword.length > 0">
+         		and R.job LIKE CONCAT('%', #{keyword}, '%')
+         	</if>
          </if>
       </where>
+      GROUP BY R.r_id
    	</select>
 </mapper>

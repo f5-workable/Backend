@@ -16,7 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
+import egovframework.job.dto.MemberDTO;
 import egovframework.job.dto.ResumeDTO;
+import egovframework.job.service.MemberService;
 import egovframework.job.service.ResumeService;
 import egovframework.job.vo.JobinfoResultVO;
 import egovframework.job.vo.ResumeResultVO;
@@ -28,6 +30,9 @@ public class ResumeController {
 	
 	@Autowired
 	private ResumeService service;
+	
+	@Autowired
+	private MemberService memberService;
 //	전체 조회
 	@GetMapping("/resume")
 	public ResponseEntity selectResumeList() {
@@ -64,7 +69,7 @@ public class ResumeController {
 //  조건검색
     @GetMapping("/resume/search")
     public ResponseEntity searchResume(@RequestParam("payment_type") String[] payment_type, @RequestParam("disease") String[] disease, @RequestParam("ob_type") String[] ob_type, @RequestParam("place") String[] place, @RequestParam("education") String[] education, @RequestParam("keyword") String keyword) {
-    	PageHelper.startPage(1,3);
+    	PageHelper.startPage(1,6);
     	ResumeSearchVO vo = ResumeSearchVO.builder()
     			.payment_type(payment_type)
     			.disease(disease)
@@ -79,10 +84,17 @@ public class ResumeController {
 //  이력서 관리(회원별 모든 이력서 조회) -> 이력서 시퀀스아이디값 넘겨주기(모두)
 //	memberId : 로그인한 회원시퀀스아이디
 	@GetMapping("/resume/member")
-	public ResponseEntity selectWishList(@RequestParam Long memberId) {
+	public ResponseEntity selectWishList(@RequestParam Long memberId, @RequestParam Long j_id) throws Exception {
 		PageHelper.startPage(1,3);
 		List<ResumeResultVO> res = service.memberResume(memberId);
+		// 로그인한 회원만이 해당 API를 실행가능(따로 memberId여부를 따지지 않음)
+		// 대표이력서 설정
+		if (j_id != null) {
+			MemberDTO member = memberService.findById("job");
+			member.setR_default(j_id);
+			memberService.rdefaultMember(member);
+		}
+		
 		return ResponseEntity.ok(PageInfo.of(res));
 	}
-    
 }
