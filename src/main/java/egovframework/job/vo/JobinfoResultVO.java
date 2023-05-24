@@ -10,6 +10,10 @@ public class JobinfoResultVO {
 //	마감일
 	private String d_date;
 	private String c_name;
+//	주소
+	private String address;
+//	기업형태
+	private String c_type;
 	private String job_type;
 	private String employment_type;
 	private String payment_type;
@@ -20,4 +24,6 @@ public class JobinfoResultVO {
 //	등록일
 	private String r_date;
 	private String detail;
+//	state
+	private boolean state;
 }

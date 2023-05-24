@@ -6,7 +6,7 @@
     </select>
 
     <select id="selectJobinfoById" resultType="egovframework.job.vo.JobinfoResultVO">
-    SELECT J.j_id , J.d_date, C.c_name, J.job_type, J.employment_type, J.payment_type, J.payment, J.career, J.edu, J.r_date, J.detail
+    SELECT J.j_id , J.d_date, C.c_name, C.address, C.c_type, J.job_type, J.employment_type, J.payment_type, J.payment, J.career, J.edu, J.r_date, J.detail
       FROM JOBINFO J INNER JOIN COMPANY C
       ON J.c_num = C.c_num
       WHERE j_id = #{j_id}
@@ -38,65 +38,19 @@
     <delete id="deleteJobinfo" parameterType="Long">
         delete from JOBINFO where j_id=#{j_id}
     </delete>
-    <!-- member별 본인이 찜한 데이터 -->
+    <!-- member별 본인이 찜한 데이터(True, False로 판단) -->
     <select id="searchJobinfo" resultType="egovframework.job.vo.JobinfoResultVO" parameterType="egovframework.job.vo.JobinfoSearchVO">
-      SELECT J.j_id , J.d_date, C.c_name, J.job_type, J.employment_type, J.payment_type, J.payment, J.career, J.edu, J.r_date, J.detail
+      SELECT J.j_id , J.d_date, C.c_name, J.job_type, J.employment_type, J.payment_type, J.payment, J.career, J.edu, J.r_date, J.detail, C.address, C.c_type
+      , (CASE
+	      WHEN J.j_id IN (
+	        SELECT W.j_num
+	        FROM WISH W
+	        WHERE W.m_num = #{user_id}
+	      ) THEN 'True'
+      	  ELSE 'False'
+    	END) AS state
       FROM (JOBINFO J INNER JOIN COMPANY C
-      ON J.c_num = C.c_num) INNER JOIN ZZIM Z
-      ON J.j_id = z.guzzik_id
-      <where>
-         <if test="employment_type != null">
-         	<if test="employment_type.length > 0">
-               and J.employment_type in 
-               <foreach item="employmenttype" collection="employment_type" open="(" close=")" separator="," >
-                  #{employmenttype}
-               </foreach>
-            </if>
-         </if>
-         <if test="payment_type != null">
-         	<if test="payment_type.length > 0">
-               and J.payment_type in 
-               <foreach item="paymenttype" collection="payment_type" open="(" close=")" separator="," >
-                  #{paymenttype}
-               </foreach>
-            </if>
-         </if>
-         <if test="address != null">
-         	<if test="address.length > 0">
-			  	and (
-			    <foreach item="i" collection="address" separator="OR">
-		            C.address LIKE CONCAT(#{i}, '%')
-		        </foreach>
-			    )
-		    </if>
-		 </if>
-         <if test="c_type != null">
-         	<if test="c_type.length > 0">
-               and C.c_type in 
-               <foreach item="type" collection="c_type" open="(" close=")" separator="," >
-                  #{type}
-               </foreach>
-            </if>
-         </if>
-         <if test="user_id != null">
-         		and Z.user_id = #{user_id}
-         </if>
-         <choose>
-            <when test="job_type == '업종'">
-               and J.job_type LIKE CONCAT('%', #{keyword}, '%')
-            </when>
-            <when test="job_type == '기업명'">
-               and C.c_name LIKE CONCAT('%', #{keyword}, '%')
-            </when>
-         </choose>
-         
-      </where>
-   </select>
-   <!-- 본인이 찜한 것을 제외한 데이터(수정필요) -->
-   <select id="searchNotJobinfo" resultType="egovframework.job.vo.JobinfoResultVO" parameterType="egovframework.job.vo.JobinfoSearchVO">
-      SELECT J.j_id , J.d_date, C.c_name, J.job_type, J.employment_type, J.payment_type, J.payment, J.career, J.edu, J.r_date, J.detail
-      FROM JOBINFO J INNER JOIN COMPANY C
-      ON J.c_num = C.c_num
+      ON J.c_num = C.c_num)
       <where>
          <if test="employment_type != null">
          	<if test="employment_type.length > 0">
@@ -138,8 +92,7 @@
             <when test="job_type == '기업명'">
                and C.c_name LIKE CONCAT('%', #{keyword}, '%')
             </when>
-         </choose>
-         
+         </choose>   
       </where>
    </select>
    
