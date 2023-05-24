@@ -8,8 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import egovframework.job.dao.WishDAO;
+import egovframework.job.dto.WishDTO;
+import egovframework.job.vo.JobinfoResultVO;
 import egovframework.job.vo.JobinfoVO;
 import egovframework.job.vo.WishCreateVO;
+import egovframework.job.vo.WishVO;
 
 @Service
 public class WishService {
@@ -17,7 +20,7 @@ public class WishService {
 	@Autowired
 	private WishDAO dao;
 	
-	public List<JobinfoVO> getWishList(Long memberId) {
+	public List<JobinfoResultVO> getWishList(Long memberId) {
 		return dao.selectWishList(memberId);
 	}
 	@Transactional

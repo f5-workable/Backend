@@ -18,6 +18,7 @@ import com.github.pagehelper.PageInfo;
 
 import egovframework.job.dto.ResumeDTO;
 import egovframework.job.service.ResumeService;
+import egovframework.job.vo.JobinfoResultVO;
 import egovframework.job.vo.ResumeResultVO;
 import egovframework.job.vo.ResumeSearchVO;
 import egovframework.job.vo.ResumeVO;
@@ -76,4 +77,12 @@ public class ResumeController {
     	return ResponseEntity.ok(PageInfo.of(res));
     }
 //  이력서 관리(회원별 모든 이력서 조회) -> 이력서 시퀀스아이디값 넘겨주기(모두)
+//	memberId : 로그인한 회원시퀀스아이디
+	@GetMapping("/resume/member")
+	public ResponseEntity selectWishList(@RequestParam Long memberId) {
+		PageHelper.startPage(1,3);
+		List<ResumeResultVO> res = service.memberResume(memberId);
+		return ResponseEntity.ok(PageInfo.of(res));
+	}
+    
 }

@@ -6,6 +6,17 @@
         SELECT * FROM RESUME LIMIT 10
     </select>
 
+	<select id="memberResume" parameterType="Long" resultType="egovframework.job.vo.ResumeResultVO">
+		SELECT R.r_id, R.education, R_R.region, R.job, R.payment_type, R.payment, R.ob_type, R.disease, R.career, R.pr, R.r_default, R.m_num, R.title
+	    FROM RESUME R INNER JOIN RESUME_REGION R_R
+	    ON R.r_id = R_R.r_id
+	    <where>
+	        <if test="memberId != null">
+	            AND R.m_num = #{memberId}
+	        </if>
+    	</where>
+	</select>
+
     <select id="selectResumeById" resultType="egovframework.job.dto.ResumeDTO">
         SELECT * FROM RESUME WHERE r_id = #{r_id}
     </select>

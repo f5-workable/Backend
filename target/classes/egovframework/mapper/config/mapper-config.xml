@@ -29,4 +29,4 @@
     	<mapper resource="egovframework/mapper/job/ResumeRegionMapper.xml" />
     	<mapper resource="egovframework/mapper/job/CompanyResumeRegionMapper.xml" />
     </mappers>
-</configuration> 
+</configuration>
