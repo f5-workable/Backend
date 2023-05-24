@@ -39,4 +39,7 @@ public class MemberVO {
 	
 	// 멤버 탈퇴 여부
 	private boolean deleted;
+	
+	// 대표이력서 여부
+	private Long r_default;
 }

@@ -18,4 +18,7 @@ public interface MemberService {
 	
 	// 아이디 탈퇴
 	public void deleteMember(String id) throws Exception;
+	
+	// 대표이력서 등록
+	public void rdefaultMember(MemberDTO dto);
 }
