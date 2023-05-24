@@ -72,6 +72,22 @@ public class MemberController {
 		}
 	}
 
+	// 로그인 처리
+	@PostMapping("/login")
+	public ResponseEntity<String> actionLogin(@RequestBody MemberDTO memberDTO, HttpServletRequest request)
+			throws Exception {
+		MemberDTO resultDTO = memberService.actionLogin(memberDTO);
+		boolean loginPolicyYn = true;
+
+		if (resultDTO != null && resultDTO.getId() != null && !resultDTO.getId().equals("") && loginPolicyYn) {
+			request.getSession().setAttribute("MemberDTO", resultDTO);
+			return ResponseEntity.ok("로그인이 완료되었습니다.");
+		} else {
+			String errorMessage = "아이디나 패스워드가 틀립니다.";
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorMessage);
+		}
+	}
+
 	// 로그아웃 처리
 	@GetMapping("/logout")
 	public ResponseEntity<String> logout(HttpServletRequest request, HttpServletResponse response) {
@@ -144,32 +160,33 @@ public class MemberController {
 		}
 	}
 
-	@PutMapping("/update/{id}") 
+	@PutMapping("/update/{id}")
 	public ResponseEntity<?> updateMemberDetail(@PathVariable String id, @RequestBody MemberDTO memberDTO) {
-	    try {
-	        memberDTO.setId(id);
-	        memberService.updateMemberDetail(memberDTO);
-	        String successMessage = "회원 정보가 성공적으로 업데이트되었습니다.";
+		try {
+			memberDTO.setId(id);
+			memberService.updateMemberDetail(memberDTO);
+			String successMessage = "회원 정보가 성공적으로 업데이트되었습니다.";
 
-	        // Extract the desired fields from memberDTO
-	        Map<String, String> responseData = new HashMap<>();
-	        responseData.put("email", memberDTO.getEmail());
-	        responseData.put("phone", memberDTO.getPhone());
-	        responseData.put("profil", memberDTO.getProfil());
+			// Extract the desired fields from memberDTO
+			Map<String, String> responseData = new HashMap<>();
+			responseData.put("email", memberDTO.getEmail());
+			responseData.put("phone", memberDTO.getPhone());
+			responseData.put("profil", memberDTO.getProfil());
 
-	        // Create the response object with the responseData and successMessage
-	        Map<String, Object> response = new HashMap<>();
-	        response.put("data", responseData);
-	        response.put("successMessage", successMessage);
+			// Create the response object with the responseData and successMessage
+			Map<String, Object> response = new HashMap<>();
+			response.put("data", responseData);
+			response.put("successMessage", successMessage);
 
-	        // ResponseEntity에 response를 담아서 반환 
-	        return ResponseEntity.ok().body(response);
-	    } catch (Exception e) {
-	        String errorMessage = "회원 정보 업데이트 중 오류가 발생했습니다.";
+			// ResponseEntity에 response를 담아서 반환
+			return ResponseEntity.ok().body(response);
+		} catch (Exception e) {
+			String errorMessage = "회원 정보 업데이트 중 오류가 발생했습니다.";
 
-	        // ResponseEntity에 errorMessage를 담아서 반환
-	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Collections.singletonMap("errorMessage", errorMessage));
-	    }
+			// ResponseEntity에 errorMessage를 담아서 반환
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body(Collections.singletonMap("errorMessage", errorMessage));
+		}
 	}
 
 	// 회원 탈퇴
