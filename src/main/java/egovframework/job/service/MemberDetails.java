@@ -18,6 +18,8 @@ public class MemberDetails implements UserDetails {
 	
 	@Autowired
 	private MemberDTO memberDTO;
+	
+	private Long m_num;
 
     public MemberDetails(MemberDTO memberDTO) {
         this.memberDTO = memberDTO;
