@@ -17,5 +17,4 @@ public class WishVO {
 	
 	private Long m_num;
 	private Long j_num;
-	private boolean state;
 }
