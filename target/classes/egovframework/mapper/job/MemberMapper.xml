@@ -4,43 +4,63 @@
 <mapper namespace="egovframework.mapper.job.MemberMapper">
 
 	<!-- 회원가입 처리 -->
-	<insert id="registerMember" parameterType="egovframework.job.dto.MemberDTO" useGeneratedKeys="true" keyProperty="m_num">
-        INSERT INTO member (id, password, birth, name, gender, email, phone, profil) 
-        VALUES (#{id}, #{password}, #{birth}, #{name}, #{gender}, #{email}, #{phone}, #{profil})
-    </insert>
+	<insert id="registerMember"
+		parameterType="egovframework.job.dto.MemberDTO"
+		useGeneratedKeys="true" keyProperty="m_num">
+		INSERT INTO member (id, password,
+		birth, name, gender, email, phone, profil)
+		VALUES (#{id}, #{password},
+		#{birth}, #{name}, #{gender}, #{email},
+		#{phone}, #{profil})
+	</insert>
 
-	<!-- 로그인 처리 -->
-	<select id="actionLogin" resultType="egovframework.job.dto.MemberDTO">
-		SELECT id, password, birth, email, name, gender, phone, profil
-		FROM member
-		WHERE id = #{id} AND password = #{password}
-	</select>
-	
 	<!-- 아이디 검색 -->
-	<select id="findById" resultType="egovframework.job.dto.MemberDTO">
+	<select id="findById"
+		resultType="egovframework.job.dto.MemberDTO">
 		SELECT *
-        FROM member
-        WHERE id = #{id}
+		FROM member
+		WHERE id = #{id}
 	</select>
-	
+
 	<!-- 아이디 상세정보 수정 -->
-	<update id="updateMember" parameterType="egovframework.job.dto.MemberDTO">
-  		UPDATE member
-  		SET email = #{email}, phone = #{phone}, profil = #{profil}
-  		WHERE id = #{id}
+	<update id="updateMember"
+		parameterType="egovframework.job.dto.MemberDTO">
+		UPDATE member
+		SET email = #{email}, phone = #{phone},
+		profil = #{profil}
+		WHERE id = #{id}
 	</update>
-	
+
+	<!-- 비밀번호 찾기 -->
+	<select id="findPassword" resultType="java.lang.String">
+		SELECT password
+		FROM member
+		WHERE id = #{id}
+		AND name = #{name}
+		AND phone = #{phone}
+	</select>
+
+	<!-- 비밀번호 변경 처리 -->
+	<update id="updatePassword"
+		parameterType="egovframework.job.dto.MemberDTO">
+		UPDATE member
+		SET password = #{password}
+		WHERE id = #{id} AND name = #{name} AND phone = #{phone}
+	</update>
+
 	<!-- 아이디 탈퇴 -->
 	<delete id="deleteMember">
-        DELETE 
-        FROM member
-        WHERE id = #{id}
-    </delete>
-    
-    <!-- 대표이력서 설정 -->
-    <update id="rdefaultMember" parameterType="egovframework.job.dto.MemberDTO">
-    	UPDATE member
-    	SET R_DEFAULT = #{r_default}
-    	WHERE m_num = #{m_num}
-    </update>
+		DELETE
+		FROM member
+		WHERE id = #{id}
+	</delete>
+
+	<!-- 대표이력서 설정 -->
+	<update id="rdefaultMember"
+		parameterType="egovframework.job.dto.MemberDTO">
+		UPDATE member
+		SET R_DEFAULT = #{r_default}
+		WHERE m_num =
+		#{m_num}
+	</update>
 </mapper>
