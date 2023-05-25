@@ -80,7 +80,7 @@ public class ApplyController {
 		// apply id로 해당 cr_num 조회
 		long cr_num = applyService.selecteCrNumById(a_id);
 		// 지원내역 삭제
-		applyService.deleteApply(a_id);
+	//	applyService.deleteApply(a_id);
 		// 기업이력서 삭제
 		int res = CompanyResumeService.deleteById(cr_num);
 		return ResponseEntity.ok(res);
