@@ -199,7 +199,7 @@ public class MemberController {
                 return ResponseEntity.ok(memberDTO.toString());
             } else {
                 // 회원 정보가 없는 경우
-                return ResponseEntity.notFound().build();
+            	return ResponseEntity.status(HttpStatus.NOT_FOUND).body("회원 정보가 존재하지 않습니다.");
             }
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();

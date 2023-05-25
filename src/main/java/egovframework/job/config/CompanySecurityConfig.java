@@ -53,20 +53,21 @@ public class CompanySecurityConfig extends WebSecurityConfigurerAdapter {
 		
 		http.cors();
 		
-    	http.csrf().disable()
-    	.authenticationProvider(companyAuthenticationProvider())
+		http.csrf().disable()
+        .authenticationProvider(companyAuthenticationProvider())
         .authorizeRequests()
-        	.antMatchers("/company/login").permitAll() // 로그인 URL에 대해 권한 필요 없음
-        	.antMatchers("/company/signup").permitAll() // 회원가입 URL에 대해 권한 필요 없음
-        	.and()
+        .antMatchers("/company/login").permitAll() // 로그인 URL에 대해 권한 필요 없음
+        .antMatchers("/company/signup").permitAll() // 회원가입 URL에 대해 권한 필요 없음
+        .anyRequest().hasRole("COMPANY")
+        .and()
         .formLogin()
-        	.loginPage("/company/login")
-        	.permitAll()
+            .loginPage("/company/login")
+            .permitAll()
             .usernameParameter("id")
-        	.successHandler(companyAuthenticationSuccessHandler())
-        	.failureHandler(companyAuthenticationFailureHandler())
-            .and()
+            .successHandler(companyAuthenticationSuccessHandler())
+            .failureHandler(companyAuthenticationFailureHandler())
+        .and()
         .logout()
-        	.permitAll();
+            .permitAll();
     }
 }
