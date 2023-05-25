@@ -40,6 +40,7 @@ public class CompanyResumeDTO {
        this.pr = entity.getPr();
        this.education = entity.getEducation();
        this.job = entity.getJob();
+       this.m_num =entity .getM_num();
     }
     
     public CompanyResumeVO toEntity() {
@@ -54,11 +55,11 @@ public class CompanyResumeDTO {
              .m_num(m_num)
              .education(education)
              .job(job)
+             .m_num(m_num)
              .build();
     }
     
     public void toCompanyResume(ResumeVO entity) {
-    //   this.education = entity.getEducation();  // 이력서 vo 수정 시 주석 해제
        this.job = entity.getJob();
        this.education = entity.getEducation();  
        this.payment_type = entity.getPayment_type();
@@ -68,5 +69,6 @@ public class CompanyResumeDTO {
        this.career = entity.getCareer();
        this.pr = entity.getPr();
        this.job = entity.getJob();
+       this.m_num = entity.getM_num();
     }
 }
