@@ -60,27 +60,26 @@ public class MemberController {
 	// 회원가입 처리
 	@PostMapping("/signup")
 	public ResponseEntity<?> actionSignUp(@RequestBody MemberDTO memberDTO) {
-		
-		try {
-	        // 아이디 중복 체크
-	        String id = memberDTO.getId();
-	        if (memberService.isIdDuplicate(id)) {
-	            return ResponseEntity.badRequest().body("아이디가 이미 사용 중입니다.");
-	        }
-	        
-	        // 입력받은 비밀번호를 암호화하여 저장
-	        String encodedPassword = memberPasswordEncoder.encode(memberDTO.getPassword());
-	        memberDTO.setPassword(encodedPassword);
 
-	        // 회원 정보 저장
-	        memberService.registerMember(memberDTO);
-	        
-	        return ResponseEntity.ok(memberDTO); // 회원가입이 성공하면 회원 정보를 응답으로 반환
-	    } catch (Exception e) {
-	    	
-	        String errorMessage = "회원가입 중 오류가 발생했습니다.";
-	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorMessage);
-	    }
+		try {
+			// 아이디 중복 체크
+			String id = memberDTO.getId();
+			if (memberService.isIdDuplicate(id)) {
+				return ResponseEntity.badRequest().body("아이디를 이미 사용 중입니다.");
+			}
+
+			// 입력받은 비밀번호를 암호화하여 저장
+			String encodedPassword = memberPasswordEncoder.encode(memberDTO.getPassword());
+			memberDTO.setPassword(encodedPassword);
+
+			// 회원 정보 저장
+			memberService.registerMember(memberDTO);
+			return ResponseEntity.ok(memberDTO); // 회원가입이 성공하면 회원 정보를 응답으로 반환
+		} catch (Exception e) {
+
+			String errorMessage = "회원가입 중 오류가 발생했습니다.";
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorMessage);
+		}
 	}
 
 	// 로그아웃 처리
@@ -98,13 +97,6 @@ public class MemberController {
 			String errorMessage = "로그아웃 중 오류가 발생했습니다.";
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorMessage);
 		}
-	}
-
-	// 로그인 후 홈 화면
-	@GetMapping("/home")
-	public ResponseEntity<String> homeView(Authentication authentication) {
-		String username = authentication.getName();
-		return ResponseEntity.ok("Welcome to the home page, " + username + "!");
 	}
 
 	// 상세정보 화면
@@ -184,67 +176,55 @@ public class MemberController {
 					.body(Collections.singletonMap("errorMessage", errorMessage));
 		}
 	}
-	
-	// 비밀번호 찾기 페이지로 이동
-    @GetMapping("/{id}/password")
-    public ResponseEntity<String> getPasswordRecoveryPage(@PathVariable("id") String id) {
-        try {
-            // 회원 정보를 가져와서 페이지에 전달하거나 필요한 로직을 수행
-            // ...
 
-            // 예시: 회원 정보를 담은 객체를 JSON 형태로 반환
-            MemberDTO memberDTO = memberService.getMemberDetail(id);
-            if (memberDTO != null) {
-                // 회원 정보가 존재하는 경우
-                return ResponseEntity.ok(memberDTO.toString());
-            } else {
-                // 회원 정보가 없는 경우
-            	return ResponseEntity.status(HttpStatus.NOT_FOUND).body("회원 정보가 존재하지 않습니다.");
-            }
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
-    }
-	
+	// 비밀번호 찾기 페이지로 이동
+	@GetMapping("/{id}/password")
+	public ResponseEntity<String> getPasswordRecoveryPage(@PathVariable("id") String id) {
+		try {
+			// 회원 정보를 가져와서 페이지에 전달하거나 필요한 로직을 수행
+			// ...
+
+			// 예시: 회원 정보를 담은 객체를 JSON 형태로 반환
+			MemberDTO memberDTO = memberService.getMemberDetail(id);
+			if (memberDTO != null) {
+				// 회원 정보가 존재하는 경우
+				return ResponseEntity.ok(memberDTO.toString());
+			} else {
+				// 회원 정보가 없는 경우
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).body("회원 정보가 존재하지 않습니다.");
+			}
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+		}
+	}
+
 	// 비밀번호 찾기
 	@PostMapping("/{id}/password")
-    public ResponseEntity<String> findPassword(@PathVariable("id") String id,
-                                               @RequestParam("name") String name,
-                                               @RequestParam("phone") String phone) {
+	public ResponseEntity<String> findPassword(@PathVariable("id") String id, @RequestParam("name") String name,
+			@RequestParam("phone") String phone) {
 		try {
-            String password = memberService.findPassword(id, name, phone);
-            if (password != null) {
-                return ResponseEntity.ok("회원 정보가 확인되었습니다. 새로운 비밀번호를 입력해주세요.");
-            } else {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("잘못된 정보입니다. 다시 시도해주세요.");
-            }
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("오류가 발생했습니다. 다시 시도해주세요.");
-        }
-    }
-	
+			String password = memberService.findPassword(id, name, phone);
+			if (password != null) {
+				return ResponseEntity.ok("회원 정보가 확인되었습니다. 새로운 비밀번호를 입력해주세요.");
+			} else {
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).body("잘못된 정보입니다. 다시 시도해주세요.");
+			}
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("오류가 발생했습니다. 다시 시도해주세요.");
+		}
+	}
+
 	// 비밀번호 변경
 	@PutMapping("/{id}/password")
-    public ResponseEntity<String> changePassword(@PathVariable("id") String id,
-                                                 @RequestParam("name") String name,
-                                                 @RequestParam("phone") String phone,
-                                                 @RequestBody String newPassword) {
+	public ResponseEntity<String> changePassword(@PathVariable("id") String id, @RequestBody String newPassword) {
 		try {
-            // 비밀번호 변경을 위한 인증 로직 추가
-            String password = memberService.findPassword(id, name, phone);
-            if (password != null) {
-                // 인증 성공 시 비밀번호 변경
-                // 암호화된 새로운 비밀번호로 업데이트
-                String hashedPassword = BCrypt.hashpw(newPassword, BCrypt.gensalt());
-                memberService.changePassword(id, name, phone, hashedPassword);
-                return ResponseEntity.ok("비밀번호가 성공적으로 변경되었습니다");
-            } else {
-                return ResponseEntity.notFound().build();
-            }
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
-    }
+	        String hashedPassword = BCrypt.hashpw(newPassword, BCrypt.gensalt());
+	        memberService.changePassword(id, hashedPassword);
+	        return ResponseEntity.ok("비밀번호가 성공적으로 변경되었습니다");
+	    } catch (Exception e) {
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+	    }
+	}
 
 	// 회원 탈퇴
 	@PostMapping("/delete/{id}")
