@@ -94,6 +94,17 @@
             </when>
          </choose>   
       </where>
+      <choose>
+         <when test="sort == '최신순'">
+         	ORDER BY STR_TO_DATE(J.r_date, '%Y-%m-%d') DESC
+         </when>
+         <when test="sort == '임금순'">
+            ORDER BY J.payment DESC
+         </when>
+         <when test="sort == '마감순'">
+            ORDER BY STR_TO_DATE(J.d_date, '%Y-%m-%d') ASC
+         </when>
+      </choose>
    </select>
    
     <select id="selectJobTypeByCNum"  parameterType="Long" resultType="hashmap" >

@@ -67,7 +67,7 @@ public class CompanyResumeService {
 	// id에 따른 기업이력서 삭제
 	public int deleteById(long cr_num) {
 		// 기업이력서 희망지역 삭제
-		companyResumeRegionDAO.deleteCrResume(cr_num);
+		// companyResumeRegionDAO.deleteCrResume(cr_num);
 		// 기업이력서 삭제
 		return companyResumeDAO.deleteById(cr_num);
 	}

@@ -30,4 +30,7 @@ public interface MemberService {
 	
 	// 대표이력서 등록
 	public void rdefaultMember(MemberDTO dto);
+	
+	// 시퀀스아이디로 검색
+	public MemberDTO findByLongId(Long id) throws Exception;
 }

@@ -50,6 +50,7 @@
 
 	<!-- 아이디 탈퇴 -->
 	<delete id="deleteMember">
+<<<<<<< HEAD
 		DELETE
 		FROM member
 		WHERE id = #{id}
@@ -63,4 +64,22 @@
 		WHERE m_num =
 		#{m_num}
 	</update>
+=======
+        DELETE 
+        FROM member
+        WHERE id = #{id}
+    </delete>
+    
+    <!-- 대표이력서 설정 -->
+    <update id="rdefaultMember" parameterType="egovframework.job.dto.MemberDTO">
+    	UPDATE member
+    	SET R_DEFAULT = #{r_default}
+    	WHERE m_num = #{m_num}
+    </update>
+    
+    <!-- 시퀀스넘버로 아이디 조회 -->
+    <select id="findByLongId" parameterType="Long" resultType="egovframework.job.dto.MemberDTO">
+    	SELECT * FROM MEMBER WHERE m_num = #{id}
+    </select>
+>>>>>>> 72ec48758e7c10ff61850f69647de4d46c0fe871
 </mapper>
