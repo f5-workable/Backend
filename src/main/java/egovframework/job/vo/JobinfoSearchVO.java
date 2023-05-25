@@ -20,15 +20,19 @@ public class JobinfoSearchVO {
 	private String keyword;
 //	memberId
 	private Long user_id;
+//	정렬기준
+	private String sort;
+	
 	@Builder
 	public JobinfoSearchVO(String[] employment_type, String[] payment_type, String[] address,
-			String[] c_type, String job_type, String keyword) {
+			String[] c_type, String job_type, String keyword, String sort) {
 		this.employment_type = employment_type;
 		this.payment_type = payment_type;
 		this.address = address;
 		this.c_type = c_type;
 		this.job_type = job_type;
 		this.keyword = keyword;
+		this.sort = sort;
 	}
 	
 }

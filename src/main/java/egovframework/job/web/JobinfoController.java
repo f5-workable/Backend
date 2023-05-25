@@ -40,7 +40,7 @@ public class JobinfoController {
 	   JobinfoResultVO res =  service.getJobinfoById(id);
       return ResponseEntity.ok(res);
    }
-//   Create(c_num추가하기)
+//   Create
    @PostMapping("/jobinfo")
    public ResponseEntity createJobinfo(@RequestBody JobinfoDTO jobinfoDto) {
       JobinfoVO res = service.addJobinfo(jobinfoDto);
@@ -64,7 +64,7 @@ public class JobinfoController {
     }
 //  조건검색
     @GetMapping("/jobinfo/search")
-    public ResponseEntity searchJobinfO(@RequestParam("employment_type") String[] employment_type, @RequestParam("payment_type") String[] payment_type, @RequestParam("address") String[] address, @RequestParam("c_type") String[] c_type, @RequestParam("job_type") String job_type, @RequestParam("keyword") String keyword) {
+    public ResponseEntity searchJobinfO(@RequestParam("employment_type") String[] employment_type, @RequestParam("payment_type") String[] payment_type, @RequestParam("address") String[] address, @RequestParam("c_type") String[] c_type, @RequestParam("job_type") String job_type, @RequestParam("keyword") String keyword, @RequestParam("sort") String sort) {
     	PageHelper.startPage(1,10);
     	JobinfoSearchVO vo = JobinfoSearchVO.builder()
     			.employment_type(employment_type)
@@ -73,6 +73,7 @@ public class JobinfoController {
     			.c_type(c_type)
     			.job_type(job_type)
     			.keyword(keyword)
+    			.sort(sort)
     			.build();
 //    	임의의 로그인id
 //    	vo.setUser_id(2L);
