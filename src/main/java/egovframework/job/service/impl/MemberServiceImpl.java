@@ -76,4 +76,11 @@ public class MemberServiceImpl extends EgovAbstractServiceImpl implements Member
 	public void rdefaultMember(MemberDTO dto) {
 		memberDAO.rdefaultMember(dto);
 	}
+	
+	// 시퀀스아이디로 검색
+	@Override
+	public MemberDTO findByLongId(Long id) {
+		MemberDTO res = memberDAO.findByLongId(id);
+		return res;
+	}
 }

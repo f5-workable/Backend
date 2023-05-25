@@ -42,4 +42,10 @@ public class MemberDAO extends EgovAbstractMapper {
 	public void rdefaultMember(MemberDTO dto) {
 		update("egovframework.mapper.job.MemberMapper.rdefaultMember", dto);
 	}
+	
+	// 아이디 조회(Long)
+	public MemberDTO findByLongId(Long id) {
+		MemberDTO res = selectOne("egovframework.mapper.job.MemberMapper.findByLongId", id);
+		return res;
+	}
 }

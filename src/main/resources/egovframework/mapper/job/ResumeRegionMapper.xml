@@ -12,6 +12,6 @@
     </select>
     
     <delete id="deleteResumeRegionByrId" parameterType="Long" >
-        delete from RESUME_REGION where region_id = #{region_id}
+        delete from RESUME_REGION where r_id = #{region_id}
     </delete>
 </mapper>

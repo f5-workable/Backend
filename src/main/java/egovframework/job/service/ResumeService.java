@@ -60,11 +60,7 @@ public class ResumeService {
        dao.updateResume(dto);
 //     이력서지역 update
 //     기존에 있던걸 모두 삭제후
-       List<ResumeRegionVO> res = resumeRegionDAO.selectResumeRegionList(rId);
-   	   for (ResumeRegionVO resumeRegionVO : res) {
-   		   Long id = resumeRegionVO.getRegion_id();
-   		   resumeRegionDAO.deleteResumeRegion(id);
-	   }
+   	   resumeRegionDAO.deleteResumeRegion(rId);
 //     다시 등록
 	   String[] places = dto.getPlace();
 	   for (String place : places) {
@@ -81,11 +77,7 @@ public class ResumeService {
 //      이력서 삭제
     	dao.deleteResume(id);
 //      이력서지역 삭제
-    	List<ResumeRegionVO> res = resumeRegionDAO.selectResumeRegionList(id);
-    	for (ResumeRegionVO resumeRegionVO : res) {
-			id = resumeRegionVO.getRegion_id();
-			resumeRegionDAO.deleteResumeRegion(id);
-		}
+    	resumeRegionDAO.deleteResumeRegion(id);
     }
 //  조건검색
     public List<ResumeResultVO> searchResume(ResumeSearchVO vo) {

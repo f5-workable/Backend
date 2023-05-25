@@ -7,7 +7,7 @@
     </select>
 
 	<select id="memberResume" parameterType="Long" resultType="egovframework.job.vo.ResumeResultVO">
-		SELECT R.r_id, R.education, R_R.region, R.job, R.payment_type, R.payment, R.ob_type, R.disease, R.career, R.pr, R.r_default, R.m_num, R.title
+		SELECT R.r_id, R.education, R_R.region, R.job, R.payment_type, R.payment, R.ob_type, R.disease, R.career, R.pr, R.m_num, R.title
 	    FROM RESUME R INNER JOIN RESUME_REGION R_R
 	    ON R.r_id = R_R.r_id
 	    <where>
@@ -22,8 +22,8 @@
     </select>
     
     <insert id="createResume" parameterType="egovframework.job.dto.ResumeDTO">
-        INSERT INTO RESUME (job, payment_type, payment, ob_type, disease, career, pr, title, education)
-        VALUES (#{job}, #{payment_type}, #{payment}, #{ob_type}, #{disease}, #{career}, #{pr}, #{title}, #{education})
+        INSERT INTO RESUME (job, payment_type, payment, ob_type, disease, career, pr, m_num, title, education)
+        VALUES (#{job}, #{payment_type}, #{payment}, #{ob_type}, #{disease}, #{career}, #{pr}, #{m_num} ,#{title}, #{education})
         
         <selectKey resultType="long" keyProperty="r_id" order="AFTER">
         	SELECT LAST_INSERT_ID()
@@ -49,7 +49,7 @@
     </delete>
     
     <select id="searchResume" resultType="egovframework.job.vo.ResumeResultVO" parameterType="egovframework.job.vo.ResumeSearchVO">
-      SELECT R.r_id, R.education, R_R.region, R.job, R.payment_type, R.payment, R.ob_type, R.disease, R.career, R.pr, R.r_default, R.m_num, R.title
+      SELECT R.r_id, R.education, R_R.region, R.job, R.payment_type, R.payment, R.ob_type, R.disease, R.career, R.pr, R.m_num, R.title
       FROM RESUME R INNER JOIN RESUME_REGION R_R
       ON R.r_id = R_R.r_id
       <where>
@@ -100,5 +100,13 @@
          </if>
       </where>
       GROUP BY R.r_id
+      <choose>
+         <when test="sort == '최신순'">
+         	ORDER BY R.r_id DESC
+         </when>
+         <when test="sort == '희망임금순'">
+            ORDER BY R.payment ASC
+         </when>
+      </choose>
    	</select>
 </mapper>
