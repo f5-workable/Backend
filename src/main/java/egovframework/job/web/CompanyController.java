@@ -1,5 +1,8 @@
 package egovframework.job.web;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -10,20 +13,22 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import egovframework.com.cmm.EgovMessageSource;
 import egovframework.job.dto.CompanyDTO;
 import egovframework.job.service.CompanyService;
 
-@Controller
+@RestController
 @RequestMapping("/company")
 public class CompanyController {
 
@@ -43,16 +48,15 @@ public class CompanyController {
 	}
 
 	// 회원가입 화면
-	@RequestMapping(value = "signup.do", method = RequestMethod.GET)
+	@RequestMapping(value = "signup", method = RequestMethod.GET)
 	public String sugnUpView(@ModelAttribute("CompanyDTO") CompanyDTO companyDTO, HttpServletRequest request,
 			HttpServletResponse response, ModelMap model) throws Exception {
 		return "/company/signup";
 	}
 
 	// 회원가입 처리
-
-	@RequestMapping(value = "/signup.do", method = RequestMethod.POST)
-	public String actionSignUp(@ModelAttribute("CompanyDTO") CompanyDTO companyDTO, ModelMap model) {
+	@PostMapping("/signup")
+	public ResponseEntity<?> actionSignUp(@RequestBody CompanyDTO companyDTO) {
 
 		// 입력받은 비밀번호를 암호화하여 저장
 		String encodedPassword = companyPasswordEncoder.encode(companyDTO.getC_password());
@@ -61,44 +65,11 @@ public class CompanyController {
 		try {
 			// 회원 정보 저장
 			companyService.registerCompany(companyDTO);
-			model.addAttribute("successMessage", "회원가입이 완료되었습니다.");
+			return ResponseEntity.ok(companyDTO);
 		} catch (Exception e) {
-			model.addAttribute("errorMessage", "회원가입 중 오류가 발생했습니다.");
+			String errorMessage = "회원가입 중 오류가 발생했습니다.";
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorMessage);
 		}
-
-		return "/company/login";
-	}
-
-	// 로그인 화면
-	@RequestMapping(value = "/login.do", method = RequestMethod.GET)
-	public String loginView(@ModelAttribute("CompanyDTO") CompanyDTO companyDTO, HttpServletRequest request,
-			HttpServletResponse response, ModelMap model) throws Exception {
-		return "/company/login";
-	}
-
-	// 로그인 처리
-	@RequestMapping(value = "/login.do", method = RequestMethod.POST)
-	public String actionLogin(@ModelAttribute("CompanyDTO") CompanyDTO companyDTO, HttpServletRequest request,
-			ModelMap model) throws Exception {
-		CompanyDTO resultDTO = companyService.actionLogin(companyDTO);
-		boolean loginPolicyYn = true;
-
-		if (resultDTO != null && resultDTO.getC_id() != null && !resultDTO.getC_id().equals("") && loginPolicyYn) {
-			request.getSession().setAttribute("CompanyDTO", resultDTO);
-			return "foward:/company/home";
-		} else {
-			model.addAttribute("message", egovMessageSource.getMessage("fail.common.login"));
-			return "/company/login";
-		}
-	}
-
-	// 로그인 후 홈 화면
-	@RequestMapping(value = "/home.do", method = RequestMethod.GET)
-	public String homeView(@ModelAttribute("CompanyDTO") CompanyDTO companyDTO, Model model,
-			Authentication authentication) {
-		String username = authentication.getName();
-		model.addAttribute("id", username);
-		return "/company/home";
 	}
 
 	// 로그아웃 처리
@@ -119,25 +90,31 @@ public class CompanyController {
 	}
 
 	// 상세정보 화면
-	@RequestMapping(value = "/info.do/{id}", method = RequestMethod.GET)
-	public String companyInfo(@PathVariable String id, Authentication authentication, Model model) {
-
-		// 현재 로그인한 사용자의 정보를 얻어온다.
+	@GetMapping("/info/{id}")
+	public ResponseEntity<?> companyInfo(@PathVariable String id, Authentication authentication) {
 		try {
 			UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 			CompanyDTO companyDetail = companyService.getCompanyDetail(id);
 
-			model.addAttribute("id", userDetails.getUsername());
-			model.addAttribute("company", companyDetail);
-			return "/company/info";
+			if (companyDetail != null) {
+				// Create a map to hold the member information
+				Map<String, Object> response = new HashMap<>();
+				response.put("id", userDetails.getUsername());
+				response.put("company", companyDetail);
+
+				return ResponseEntity.ok(response);
+			} else {
+				String errorMessage = "회원 정보를 찾을 수 없습니다.";
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMessage);
+			}
 		} catch (Exception e) {
-			// Handle the exception or show an error page
-			return "error";
+			String errorMessage = "서버에서 오류가 발생했습니다.";
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorMessage);
 		}
 	}
 
 	// 상세정보 수정 화면
-	@RequestMapping(value = "/update.do/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
 	public String companyUpdate(@PathVariable String id, Authentication authentication, Model model) {
 
 		// 현재 로그인한 사용자의 정보를 얻어온다.
@@ -155,7 +132,7 @@ public class CompanyController {
 	}
 
 	// 상세정보 수정 처리
-	@RequestMapping(value = "/update.do/{id}", method = RequestMethod.POST)
+	@RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
 	public String updateCompanyDetail(@PathVariable String id, @ModelAttribute("company") CompanyDTO companyDTO) {
 		try {
 			companyDTO.setC_id(id);
@@ -168,7 +145,7 @@ public class CompanyController {
 	}
 
 	// 기업 탈퇴
-	@RequestMapping(value = "/delete.do", method = RequestMethod.GET)
+	@RequestMapping(value = "/delete", method = RequestMethod.GET)
 	public String deleteCompany(Authentication authentication) {
 		try {
 			UserDetails userDetails = (UserDetails) authentication.getPrincipal();

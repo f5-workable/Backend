@@ -41,11 +41,10 @@
 	</select>
 
 	<!-- 비밀번호 변경 처리 -->
-	<update id="updatePassword"
-		parameterType="egovframework.job.dto.MemberDTO">
+	<update id="updatePassword" parameterType="java.lang.String">
 		UPDATE member
 		SET password = #{password}
-		WHERE id = #{id} AND name = #{name} AND phone = #{phone}
+		WHERE id = #{id}
 	</update>
 
 	<!-- 아이디 탈퇴 -->
