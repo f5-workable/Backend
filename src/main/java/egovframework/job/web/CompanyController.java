@@ -5,12 +5,15 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -47,7 +50,7 @@ public class CompanyController {
 	}
 
 	// 회원가입 처리
-	
+
 	@RequestMapping(value = "/signup.do", method = RequestMethod.POST)
 	public String actionSignUp(@ModelAttribute("CompanyDTO") CompanyDTO companyDTO, ModelMap model) {
 
@@ -96,6 +99,23 @@ public class CompanyController {
 		String username = authentication.getName();
 		model.addAttribute("id", username);
 		return "/company/home";
+	}
+
+	// 로그아웃 처리
+	@GetMapping("/logout")
+	public ResponseEntity<String> logout(HttpServletRequest request, HttpServletResponse response) {
+		try {
+			// 세션 무효화
+			request.getSession().invalidate();
+
+			// 로그아웃 성공 메시지 반환
+			String successMessage = "로그아웃이 성공적으로 처리되었습니다.";
+			return ResponseEntity.ok(successMessage);
+		} catch (Exception e) {
+			// 로그아웃 실패 메시지 반환
+			String errorMessage = "로그아웃 중 오류가 발생했습니다.";
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorMessage);
+		}
 	}
 
 	// 상세정보 화면
