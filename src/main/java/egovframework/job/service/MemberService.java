@@ -23,7 +23,7 @@ public interface MemberService {
 	public String findPassword(String id, String name, String phone) throws Exception;
 	
 	// 비밀번호 변경
-	void changePassword(String id, String newPassword) throws Exception;
+	void updatePassword(String id, String password) throws Exception;
 
 	// 아이디 탈퇴
 	public void deleteMember(String id) throws Exception;

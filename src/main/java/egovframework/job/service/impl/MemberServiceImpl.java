@@ -57,11 +57,8 @@ public class MemberServiceImpl extends EgovAbstractServiceImpl implements Member
 	
 	// 비밀번호 변경
 	@Override
-    public void changePassword(String id, String newPassword) throws Exception {
-        MemberDTO memberDTO = new MemberDTO();
-        memberDTO.setId(id);
-        memberDTO.setPassword(newPassword);
-        memberDAO.updatePassword(memberDTO);
+    public void updatePassword(String id, String password) throws Exception {
+        memberDAO.updatePassword(id, password);
     }
 
 	// 아이디 탈퇴
