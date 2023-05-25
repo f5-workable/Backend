@@ -1,6 +1,7 @@
 package egovframework.job.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -10,6 +11,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 import egovframework.job.service.CompanyDetailsService;
 
@@ -34,22 +37,36 @@ public class CompanySecurityConfig extends WebSecurityConfigurerAdapter {
         return provider;
     }
 	
+	@Bean
+	public AuthenticationSuccessHandler companyAuthenticationSuccessHandler() {
+	    return new CompanyAuthenticationSuccessHandler();
+	}
+	
+	@Bean
+	public AuthenticationFailureHandler companyAuthenticationFailureHandler() {
+	    return new CompanyAuthenticationFailureHandler();
+	}
+	
 	@Override
     protected void configure(HttpSecurity http) throws Exception {
+		http.httpBasic();
+		
+		http.cors();
+		
     	http.csrf().disable()
     	.authenticationProvider(companyAuthenticationProvider())
         .authorizeRequests()
-        	.antMatchers("/company/home.do").hasRole("COMPANY")
-        	.antMatchers("/company/info.do/**").hasRole("COMPANY")
+        	.antMatchers("/company/login").permitAll() // 로그인 URL에 대해 권한 필요 없음
+        	.antMatchers("/company/signup").permitAll() // 회원가입 URL에 대해 권한 필요 없음
         	.and()
         .formLogin()
-        	.loginPage("/company/login.do")
-        	.defaultSuccessUrl("/company/home.do")
+        	.loginPage("/company/login")
         	.permitAll()
-        	.usernameParameter("id")
-        	.and()
+            .usernameParameter("id")
+        	.successHandler(companyAuthenticationSuccessHandler())
+        	.failureHandler(companyAuthenticationFailureHandler())
+            .and()
         .logout()
         	.permitAll();
     }
-	
 }

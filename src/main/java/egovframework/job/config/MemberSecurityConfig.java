@@ -40,13 +40,13 @@ public class MemberSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 	
 	@Bean
-	public AuthenticationSuccessHandler customAuthenticationSuccessHandler() {
-	    return new CustomAuthenticationSuccessHandler();
+	public AuthenticationSuccessHandler memberAuthenticationSuccessHandler() {
+	    return new MemberAuthenticationSuccessHandler();
 	}
 	
 	@Bean
-	public AuthenticationFailureHandler customAuthenticationFailureHandler() {
-	    return new CustomAuthenticationFailureHandler();
+	public AuthenticationFailureHandler memberAuthenticationFailureHandler() {
+	    return new MemberAuthenticationFailureHandler();
 	}
 	
 	@Bean
@@ -78,8 +78,8 @@ public class MemberSecurityConfig extends WebSecurityConfigurerAdapter {
         	.loginPage("/member/login")
         	.permitAll()
             .usernameParameter("id")
-        	.successHandler(customAuthenticationSuccessHandler())
-        	.failureHandler(customAuthenticationFailureHandler())
+        	.successHandler(memberAuthenticationSuccessHandler())
+        	.failureHandler(memberAuthenticationFailureHandler())
             .and()
         .logout()
         	.permitAll();

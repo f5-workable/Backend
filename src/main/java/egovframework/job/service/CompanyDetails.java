@@ -9,13 +9,17 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import egovframework.job.dto.CompanyDTO;
+import lombok.Data;
 
+@Data
 public class CompanyDetails implements UserDetails {
 
 	private static final long serialVersionUID = 1L;
 	
 	@Autowired
 	private CompanyDTO companyDTO;
+	
+	private Long c_num;
 	
 	public CompanyDetails(CompanyDTO companyDTO) {
 		this.companyDTO = companyDTO;

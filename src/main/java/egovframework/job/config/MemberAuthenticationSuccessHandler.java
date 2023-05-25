@@ -12,7 +12,7 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 
 import egovframework.job.service.MemberDetails;
 
-public class CustomAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
+public class MemberAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
