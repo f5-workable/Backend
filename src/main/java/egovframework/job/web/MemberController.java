@@ -217,9 +217,10 @@ public class MemberController {
 	// 비밀번호 변경
 	@PutMapping("/{id}/password")
 	public ResponseEntity<String> changePassword(@PathVariable("id") String id, @RequestBody String newPassword) {
-		try {
+	    try {
+	        // 암호화된 새로운 비밀번호로 업데이트
 	        String hashedPassword = BCrypt.hashpw(newPassword, BCrypt.gensalt());
-	        memberService.changePassword(id, hashedPassword);
+	        memberService.updatePassword(id, hashedPassword);
 	        return ResponseEntity.ok("비밀번호가 성공적으로 변경되었습니다");
 	    } catch (Exception e) {
 	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
