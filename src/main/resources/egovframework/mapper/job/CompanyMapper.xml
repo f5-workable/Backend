@@ -30,6 +30,23 @@
   		WHERE c_id = #{c_id}
 	</update>
 	
+		<!-- 비밀번호 찾기 -->
+	<select id="findPassword" resultType="java.lang.String">
+		SELECT c_password
+		FROM company
+		WHERE c_id = #{c_id}
+		AND c_name = #{c_name}
+		AND phone = #{phone}
+	</select>
+
+	<!-- 비밀번호 변경 처리 -->
+	<update id="updatePassword" parameterType="java.lang.String">
+		UPDATE company
+		SET
+		c_password = #{c_password}
+		WHERE c_id = #{c_id}
+	</update>
+	
 	<!-- 아이디 탈퇴 -->
 	<delete id="deleteCompany">
         DELETE 

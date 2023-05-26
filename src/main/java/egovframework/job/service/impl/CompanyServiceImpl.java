@@ -2,12 +2,12 @@ package egovframework.job.service.impl;
 
 import org.egovframe.rte.fdl.cmmn.EgovAbstractServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import egovframework.job.dao.CompanyDAO;
 import egovframework.job.dto.CompanyDTO;
 import egovframework.job.service.CompanyService;
-import egovframework.let.utl.sim.service.EgovFileScrty;
 
 @Service("companyService")
 public class CompanyServiceImpl extends EgovAbstractServiceImpl implements CompanyService {
@@ -26,27 +26,6 @@ public class CompanyServiceImpl extends EgovAbstractServiceImpl implements Compa
 		companyDAO.registerCompany(companyDTO);
 	}
 
-	// 로그인 처리
-	@Override
-	public CompanyDTO actionLogin(CompanyDTO companyDTO) throws Exception {
-		
-		// 1. 입력한 비밀번호를 암호화
-		String enpassword = EgovFileScrty.encryptPassword(companyDTO.getC_password(), companyDTO.getC_id());
-		companyDTO.setC_password(enpassword);
-		
-		// 2. 아이디와 암호화된 비밀번호가 DB와 일치하는지 확인
-		CompanyDTO companyDTO2 = companyDAO.actionLogin(companyDTO);
-		
-		// 3. 결과를 리턴
-		if(companyDTO2 != null && !companyDTO2.getC_id().equals("") && !companyDTO2.getC_password().equals("")) {
-			return companyDTO2;
-		} else {
-			companyDTO2 = new CompanyDTO();
-		}
-		
-		return companyDTO2;
-	}
-
 	// 아이디 검색
 	@Override
 	public CompanyDTO findById(String id) throws Exception {
@@ -56,13 +35,33 @@ public class CompanyServiceImpl extends EgovAbstractServiceImpl implements Compa
 	// 아이디 상세정보
 	@Override
 	public CompanyDTO getCompanyDetail(String id) throws Exception {
-		return companyDAO.getCompanyDetail(id); 
+		return companyDAO.getCompanyDetail(id);
 	}
 
 	// 아이디 상세정보 수정
 	@Override
 	public void updateCompanyDetail(CompanyDTO companyDTO) throws Exception {
 		companyDAO.updateCompanyDetail(companyDTO);
+	}
+
+	// 비밀번호 찾기
+	@Override
+	public String findPassword(String c_id, String c_name, String phone) throws Exception {
+		return companyDAO.findPassword(c_id, c_name, phone);
+	}
+
+	// 비밀번호 변경
+	@Override
+	public void updatePassword(CompanyDTO companyDTO) throws Exception {
+		String encryptedPassword = encryptPassword(companyDTO.getC_password());
+		companyDTO.setC_password(encryptedPassword);
+		companyDAO.updatePassword(companyDTO);
+	}
+
+	// 암호화된 비밀번호 반환
+	private String encryptPassword(String password) {
+		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+		return passwordEncoder.encode(password);
 	}
 
 	// 아이디 탈퇴
