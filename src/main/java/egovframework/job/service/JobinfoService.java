@@ -30,11 +30,11 @@ public class JobinfoService {
    public List<JobinfoVO> getJobinfoList() {
         return dao.selectJobinfoList();
     }
-//  
+//  구직정보 JobinfoResultVO로 단일조회
     public JobinfoResultVO getJobinfoById(Long id) {
         return dao.selectJobinfoById(id);
     }
-    
+//  구직정보 JobinfoVO로 단일조회
     public JobinfoVO getJById(Long id) {
     	return dao.selectJById(id);
     }

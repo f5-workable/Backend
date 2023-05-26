@@ -23,12 +23,12 @@ public class JobinfoDAO {
         List<JobinfoVO> vo = sqlSession.selectList("egovframework.mapper.job.JobinfoMapper.selectJobinfoList");
         return vo;
     }
-// 
+//  구직정보 JobinfoResultVO로 단일 조회
     public JobinfoResultVO selectJobinfoById(Long id) {
     	JobinfoResultVO vo = sqlSession.selectOne("egovframework.mapper.job.JobinfoMapper.selectJobinfoById", id);
         return vo;
     }
-    
+//  구직정보 JobinfoVO로 단일 조회
     public JobinfoVO selectJById(Long id) {
     	JobinfoVO vo = sqlSession.selectOne("egovframework.mapper.job.JobinfoMapper.selectJById", id);
     	return vo;
