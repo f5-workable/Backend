@@ -21,11 +21,12 @@
 		FROM member
 		WHERE id = #{id}
 	</select>
+	
 	<!-- 시퀀스넘버로 멤버검색 -->
 	<select id="findByLongId" resultType="egovframework.job.dto.MemberDTO">
 		SELECT *
 		FROM member
-		WHERE m_num = #{id}
+		WHERE m_num = #{m_num}
 	</select>
 
 	<!-- 시퀀스 번호로 회원 조회 -->
@@ -43,6 +44,15 @@
 		SET email = #{email}, phone = #{phone},
 		profil = #{profil}
 		WHERE id = #{id}
+	</update>
+	
+	<!-- 아이디 상세정보 수정 -->
+	<update id="updateMemberSequence"
+		parameterType="egovframework.job.dto.MemberDTO">
+		UPDATE member
+		SET email = #{email}, phone = #{phone},
+		profil = #{profil}
+		WHERE m_num = #{m_num}
 	</update>
 
 	<!-- 비밀번호 찾기 -->
