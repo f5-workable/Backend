@@ -21,6 +21,12 @@
 		FROM member
 		WHERE id = #{id}
 	</select>
+	<!-- 시퀀스넘버로 멤버검색 -->
+	<select id="findByLongId" resultType="egovframework.job.dto.MemberDTO">
+		SELECT *
+		FROM member
+		WHERE m_num = #{id}
+	</select>
 
 	<!-- 아이디 상세정보 수정 -->
 	<update id="updateMember"
