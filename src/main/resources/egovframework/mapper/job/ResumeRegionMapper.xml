@@ -4,7 +4,7 @@
 	
 	<insert id="insertResumeRegion"  parameterType="egovframework.job.dto.ResumeRegionDTO">
         INSERT INTO RESUME_REGION (r_id, region)
-        VALUES (#{r_id}, #{region})       
+        VALUES (#{r_id}, #{region, jdbcType = VARCHAR})       
     </insert>
     
    <select id="selectResumeRegionByrId" parameterType="Long" resultType="egovframework.job.vo.ResumeRegionVO">

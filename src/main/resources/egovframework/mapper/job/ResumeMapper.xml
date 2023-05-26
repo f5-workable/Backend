@@ -8,6 +8,14 @@
 
 	<select id="memberResume" parameterType="Long" resultType="egovframework.job.vo.ResumeResultVO">
 		SELECT R.r_id, R.education, R_R.region, R.job, R.payment_type, R.payment, R.ob_type, R.disease, R.career, R.pr, R.m_num, R.title
+	    , (CASE
+	      	WHEN R.r_id IN (
+		        SELECT M.r_default
+		        FROM MEMBER M
+		        WHERE M.m_num = R.m_num
+	      	) THEN 'True'
+      	  	ELSE 'False'
+    	  END) AS r_default
 	    FROM RESUME R INNER JOIN RESUME_REGION R_R
 	    ON R.r_id = R_R.r_id
 	    <where>
@@ -15,6 +23,7 @@
 	            AND R.m_num = #{memberId}
 	        </if>
     	</where>
+    	GROUP BY R.r_id
 	</select>
 
     <select id="selectResumeById" resultType="egovframework.job.dto.ResumeDTO">
@@ -23,7 +32,17 @@
     
     <insert id="createResume" parameterType="egovframework.job.dto.ResumeDTO">
         INSERT INTO RESUME (job, payment_type, payment, ob_type, disease, career, pr, m_num, title, education)
-        VALUES (#{job}, #{payment_type}, #{payment}, #{ob_type}, #{disease}, #{career}, #{pr}, #{m_num} ,#{title}, #{education})
+        VALUES (
+        #{job, jdbcType = VARCHAR}, 
+        #{payment_type, jdbcType = VARCHAR}, 
+        #{payment, jdbcType = INTEGER}, 
+        #{ob_type, jdbcType = VARCHAR},
+        #{disease, jdbcType = VARCHAR}, 
+        #{career, jdbcType = VARCHAR}, 
+        #{pr, jdbcType = VARCHAR}, 
+        #{m_num, jdbcType = VARCHAR}, 
+        #{title, jdbcType = VARCHAR}, 
+        #{education, jdbcType = VARCHAR})
         
         <selectKey resultType="long" keyProperty="r_id" order="AFTER">
         	SELECT LAST_INSERT_ID()
@@ -49,7 +68,8 @@
     </delete>
     
     <select id="searchResume" resultType="egovframework.job.vo.ResumeResultVO" parameterType="egovframework.job.vo.ResumeSearchVO">
-      SELECT R.r_id, R.education, R_R.region, R.job, R.payment_type, R.payment, R.ob_type, R.disease, R.career, R.pr, R.m_num, R.title
+      SELECT R.r_id, R.education, R_R.region, R.job, R.payment_type, R.payment, R.ob_type, R.disease, R.career, R.pr, R.m_num, R.title, 
+      (SELECT M.name FROM MEMBER M WHERE M.m_num = R.m_num) AS name
       FROM RESUME R INNER JOIN RESUME_REGION R_R
       ON R.r_id = R_R.r_id
       <where>
