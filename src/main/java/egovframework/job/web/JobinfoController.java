@@ -64,8 +64,11 @@ public class JobinfoController {
     }
 //  조건검색
     @GetMapping("/jobinfo/search")
-    public ResponseEntity searchJobinfO(@RequestParam("employment_type") String[] employment_type, @RequestParam("payment_type") String[] payment_type, @RequestParam("address") String[] address, @RequestParam("c_type") String[] c_type, @RequestParam("job_type") String job_type, @RequestParam("keyword") String keyword, @RequestParam("sort") String sort) {
-    	PageHelper.startPage(1,10);
+    public ResponseEntity searchJobinfO(@RequestParam("employment_type") String[] employment_type, @RequestParam("payment_type") String[] payment_type, @RequestParam("address") String[] address, @RequestParam("c_type") String[] c_type, @RequestParam("job_type") String job_type, @RequestParam("keyword") String keyword, @RequestParam("sort") String sort
+    		, @RequestParam(name="pageNum", required = false,  defaultValue = "1")int pageNum
+    		, @RequestParam(name="pageSize", required = false,  defaultValue = "12")int pageSize
+    		, @RequestParam(required=false) Long memberId) {
+    	PageHelper.startPage(pageNum, pageSize);
     	JobinfoSearchVO vo = JobinfoSearchVO.builder()
     			.employment_type(employment_type)
     			.payment_type(payment_type)
@@ -74,9 +77,8 @@ public class JobinfoController {
     			.job_type(job_type)
     			.keyword(keyword)
     			.sort(sort)
+    			.memberId(memberId)
     			.build();
-//    	임의의 로그인id
-//    	vo.setUser_id(2L);
     	List<JobinfoResultVO> res = service.searchJobinfo(vo);
     	return ResponseEntity.ok(PageInfo.of(res));
     }

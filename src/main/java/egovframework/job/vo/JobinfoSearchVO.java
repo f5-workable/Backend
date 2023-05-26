@@ -19,13 +19,13 @@ public class JobinfoSearchVO {
 //	검색키워드
 	private String keyword;
 //	memberId
-	private Long user_id;
+	private Long memberId;
 //	정렬기준
 	private String sort;
 	
 	@Builder
 	public JobinfoSearchVO(String[] employment_type, String[] payment_type, String[] address,
-			String[] c_type, String job_type, String keyword, String sort) {
+			String[] c_type, String job_type, String keyword, String sort, Long memberId) {
 		this.employment_type = employment_type;
 		this.payment_type = payment_type;
 		this.address = address;
@@ -33,6 +33,7 @@ public class JobinfoSearchVO {
 		this.job_type = job_type;
 		this.keyword = keyword;
 		this.sort = sort;
+		this.memberId = memberId;
 	}
 	
 }

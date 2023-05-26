@@ -7,8 +7,10 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import egovframework.job.dao.MemberDAO;
 import egovframework.job.dao.ResumeDAO;
 import egovframework.job.dao.ResumeRegionDAO;
+import egovframework.job.dto.MemberDTO;
 import egovframework.job.dto.ResumeDTO;
 import egovframework.job.dto.ResumeRegionDTO;
 import egovframework.job.vo.ResumeRegionVO;
@@ -24,6 +26,9 @@ public class ResumeService {
 	
 	@Autowired
 	private ResumeRegionDAO resumeRegionDAO;
+	
+	@Autowired
+	private MemberDAO memberDAO;
 //	조회
 	public List<ResumeVO> getResumeList() {
         return dao.selectResumeList();
@@ -34,7 +39,12 @@ public class ResumeService {
     	List<ResumeRegionVO> list = resumeRegionDAO.selectResumeRegionList(id);
     	ResumeDTO dto = dao.selectResumeById(id);
     	dto.setRegion(list);
-    	
+//    	해당 member찾기
+    	Long mId = dto.getM_num();
+    	if (mId != null) {
+        	MemberDTO member = memberDAO.findByLongId(mId);
+        	dto.setMemberDTO(member);
+    	}
         return dto;
     }
 //  등록(이력서, 이력서지역)
@@ -43,10 +53,18 @@ public class ResumeService {
 //     등록한 이력서 id반환
        Long insertId = dao.addResume(dto);
        String[] places = dto.getPlace();
-       for (String place : places) {
-    	   ResumeRegionDTO resumeRegionDTO = new ResumeRegionDTO();
+	   ResumeRegionDTO resumeRegionDTO = new ResumeRegionDTO();
+       if (places != null) {
+    	   for (String place : places) {
+        	   resumeRegionDTO.setR_id(insertId);
+        	   resumeRegionDTO.setRegion(place);
+//        	   이력서 지역등록
+        	   resumeRegionDAO.insertResumeRegion(resumeRegionDTO);
+           }
+       }
+       else {
     	   resumeRegionDTO.setR_id(insertId);
-    	   resumeRegionDTO.setRegion(place);
+    	   resumeRegionDTO.setRegion(null);
 //    	   이력서 지역등록
     	   resumeRegionDAO.insertResumeRegion(resumeRegionDTO);
        }
@@ -63,12 +81,20 @@ public class ResumeService {
    	   resumeRegionDAO.deleteResumeRegion(rId);
 //     다시 등록
 	   String[] places = dto.getPlace();
-	   for (String place : places) {
-	 	  ResumeRegionDTO resumeRegionDTO = new ResumeRegionDTO();
-	 	  resumeRegionDTO.setR_id(rId);
-	 	  resumeRegionDTO.setRegion(place);
-	// 	  이력서 지역등록
-	 	  resumeRegionDAO.insertResumeRegion(resumeRegionDTO);
+	   ResumeRegionDTO resumeRegionDTO = new ResumeRegionDTO();
+	   if (places != null) {
+		   for (String place : places) {
+		 	  resumeRegionDTO.setR_id(rId);
+		 	  resumeRegionDTO.setRegion(place);
+		// 	  이력서 지역등록
+		 	  resumeRegionDAO.insertResumeRegion(resumeRegionDTO);
+		   }
+	   }
+	   else {
+		   resumeRegionDTO.setR_id(rId);
+		   resumeRegionDTO.setRegion(null);
+		// 	  이력서 지역등록
+		   resumeRegionDAO.insertResumeRegion(resumeRegionDTO);
 	   }
     }
 //  삭제
@@ -81,7 +107,8 @@ public class ResumeService {
     }
 //  조건검색
     public List<ResumeResultVO> searchResume(ResumeSearchVO vo) {
-       return dao.searchResume(vo);
+       List<ResumeResultVO> res = dao.searchResume(vo);
+       return res;
     }
 //  멤버별 이력서조회
     public List<ResumeResultVO> memberResume(Long memberId) {

@@ -1,5 +1,6 @@
 package egovframework.job.vo;
 
+import egovframework.job.dto.MemberDTO;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -19,7 +20,10 @@ public class ResumeResultVO {
     private String disease;
     private String career;
     private String pr;
+//  대표이력서 여부
     private boolean r_default;
     private Long m_num;
     private String title;
+//  이력서를 작성한 회원의 이름
+    private String name;
 }
