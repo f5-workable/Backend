@@ -37,12 +37,12 @@ public class MemberServiceImpl extends EgovAbstractServiceImpl implements Member
 	public MemberDTO findById(String id) throws Exception {
 		return memberDAO.findById(id);
 	}
-	
+
 	// 시퀀스 넘버 검색
 	@Override
-    public MemberDTO findByMNum(Long m_num) {
-        return memberDAO.findByMNum(m_num);
-    }
+	public MemberDTO findByMNum(Long m_num) {
+		return memberDAO.findByMNum(m_num);
+	}
 
 	// 아이디 상세정보
 	@Override
@@ -54,6 +54,12 @@ public class MemberServiceImpl extends EgovAbstractServiceImpl implements Member
 	@Override
 	public void updateMemberDetail(MemberDTO memberDTO) throws Exception {
 		memberDAO.updateMemberDetail(memberDTO);
+	}
+
+	// 아이디 상세정보 수정
+	@Override
+	public void updateSequenceMemberDetail(MemberDTO memberDTO) throws Exception {
+		memberDAO.updateSequenceMemberDetail(memberDTO);
 	}
 
 	// 비밀번호 찾기

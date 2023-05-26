@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.ui.ModelMap;
@@ -48,7 +49,7 @@ public class MemberController {
 	public MemberController(MemberService memberService) {
 		this.memberService = memberService;
 	}
-	
+
 	// 회원가입 화면
 	@RequestMapping(value = "/signup", method = RequestMethod.GET)
 	public String signUpView(@ModelAttribute("MemberDTO") MemberDTO memberDTO, HttpServletRequest request,
@@ -97,70 +98,32 @@ public class MemberController {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorMessage);
 		}
 	}
-	
+
+	// 상세정보 화면
 	@GetMapping("/info/{m_num}")
-    public ResponseEntity<?> memberInfo(@PathVariable Long m_num) {
-        try {
-        	// 멤버 정보 조회 로직
-    		MemberDTO memberDTO = memberService.findByMNum(m_num);
-            return ResponseEntity.ok(memberDTO);
-        } catch(Exception e) {
-        	String errorMessage = "서버에서 오류가 발생했습니다.";
-	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorMessage);
-        }
-		
-    }
-
-	// 상세정보 수정 화면
-	@GetMapping("/update/{id}")
-	public ResponseEntity<?> memberUpdate(@PathVariable String id, Authentication authentication) {
+	public ResponseEntity<?> memberInfo(@PathVariable Long m_num) {
 		try {
-			UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-			MemberDTO memberDetail = memberService.getMemberDetail(id);
-
-			if (memberDetail != null) {
-				// Create a map to hold the member information
-				Map<String, Object> response = new HashMap<>();
-				response.put("id", userDetails.getUsername());
-				response.put("member", memberDetail);
-				return ResponseEntity.ok(response);
-			} else {
-				String errorMessage = "회원 정보를 찾을 수 없습니다.";
-				return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMessage);
-			}
+			// 멤버 정보 조회 로직
+			MemberDTO memberDTO = memberService.findByMNum(m_num);
+			return ResponseEntity.ok(memberDTO);
 		} catch (Exception e) {
 			String errorMessage = "서버에서 오류가 발생했습니다.";
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorMessage);
 		}
+
 	}
 
-	// 상세정보 수정 처리
-	@PutMapping("/update/{id}")
-	public ResponseEntity<?> updateMemberDetail(@PathVariable String id, @RequestBody MemberDTO memberDTO) {
+	// 상세정보 처리
+	@PutMapping("/update/{m_num}")
+	public ResponseEntity<?> updateMemberInfo(@PathVariable Long m_num, @RequestBody MemberDTO memberDTO) {
 		try {
-			memberDTO.setId(id);
-			memberService.updateMemberDetail(memberDTO);
-			String successMessage = "회원 정보가 성공적으로 업데이트되었습니다.";
-
-			// Extract the desired fields from memberDTO
-			Map<String, String> responseData = new HashMap<>();
-			responseData.put("email", memberDTO.getEmail());
-			responseData.put("phone", memberDTO.getPhone());
-			responseData.put("profil", memberDTO.getProfil());
-
-			// Create the response object with the responseData and successMessage
-			Map<String, Object> response = new HashMap<>();
-			response.put("data", responseData);
-			response.put("successMessage", successMessage);
-
-			// ResponseEntity에 response를 담아서 반환
-			return ResponseEntity.ok().body(response);
+			// 멤버 정보 업데이트 로직
+			memberDTO.setM_num(m_num);
+			memberService.updateSequenceMemberDetail(memberDTO);
+			return ResponseEntity.ok("멤버 정보가 업데이트되었습니다.");
 		} catch (Exception e) {
 			String errorMessage = "회원 정보 업데이트 중 오류가 발생했습니다.";
-
-			// ResponseEntity에 errorMessage를 담아서 반환
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-					.body(Collections.singletonMap("errorMessage", errorMessage));
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Collections.singletonMap("errorMessage", errorMessage));
 		}
 	}
 
@@ -200,19 +163,20 @@ public class MemberController {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("오류가 발생했습니다. 다시 시도해주세요.");
 		}
 	}
-	
+
 	// 비밀번호 변경
 	@PutMapping("/{id}/password")
-	public ResponseEntity<String> changePassword(@PathVariable("id") String id, @RequestBody Map<String, String> request) {
-	    try {
-	        String password = request.get("password");
-	        MemberDTO memberDTO = memberService.findById(id);
-	        memberDTO.setPassword(password);
-	        memberService.updatePassword(memberDTO);
-	        return ResponseEntity.ok("비밀번호가 성공적으로 변경되었습니다.");
-	    } catch (Exception e) {
-	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("비밀번호 변경에 실패하였습니다.");
-	    }
+	public ResponseEntity<String> changePassword(@PathVariable("id") String id,
+			@RequestBody Map<String, String> request) {
+		try {
+			String password = request.get("password");
+			MemberDTO memberDTO = memberService.findById(id);
+			memberDTO.setPassword(password);
+			memberService.updatePassword(memberDTO);
+			return ResponseEntity.ok("비밀번호가 성공적으로 변경되었습니다.");
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("비밀번호 변경에 실패하였습니다.");
+		}
 	}
 
 	// 회원 탈퇴
