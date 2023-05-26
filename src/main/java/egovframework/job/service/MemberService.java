@@ -12,15 +12,18 @@ public interface MemberService {
 
 	// 아이디 검색
 	public MemberDTO findById(String id) throws Exception;
-	
-	// 시퀀스 번호로 회원 조회
-    public MemberDTO findByMNum(Long m_num) throws Exception;
+
+	// 시퀀스 번호로 멤버 조회
+	public MemberDTO findByMNum(Long m_num) throws Exception;
 
 	// 아이디 상세정보
 	public MemberDTO getMemberDetail(String id) throws Exception;
 
 	// 아이디 상세정보 수정
 	public void updateMemberDetail(MemberDTO memberDTO) throws Exception;
+
+	// 아이디 상세정보 수정
+	public void updateSequenceMemberDetail(MemberDTO memberDTO) throws Exception;
 
 	// 비밀번호 찾기
 	public String findPassword(String id, String name, String phone) throws Exception;
