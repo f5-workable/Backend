@@ -62,7 +62,7 @@ public class JobinfoController {
        service.deleteJobinfo(id);
        return ResponseEntity.ok(id);
     }
-//  조건검색
+//  구직정보 조건검색
     @GetMapping("/jobinfo/search")
     public ResponseEntity searchJobinfO(@RequestParam("employment_type") String[] employment_type, @RequestParam("payment_type") String[] payment_type, @RequestParam("address") String[] address, @RequestParam("c_type") String[] c_type, @RequestParam("job_type") String job_type, @RequestParam("keyword") String keyword, @RequestParam("sort") String sort
     		, @RequestParam(name="pageNum", required = false,  defaultValue = "1")int pageNum
