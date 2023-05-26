@@ -27,7 +27,7 @@ public class WishController {
 	@Autowired
 	private WishService service;
 	
-//	memberId : 로그인한 회원시퀀스아이디
+//	한 회원의 찜목록
 	@GetMapping("/wish")
 	public ResponseEntity selectWishList(@RequestParam Long memberId
 			, @RequestParam(name="pageNum", required = false,  defaultValue = "1")int pageNum
@@ -36,7 +36,7 @@ public class WishController {
 		List<JobinfoResultVO> res = service.getWishList(memberId);
 		return ResponseEntity.ok(PageInfo.of(res));
 	}
-//	찜누를시 create(멤버아이디, 구직정보 시퀀스아이디)
+//	찜등록 create
 	@PostMapping("/wish")
 	public ResponseEntity createWish(@RequestParam Long memberId, @RequestParam Long g_id) {
 		WishCreateVO vo = WishCreateVO.builder()
@@ -46,7 +46,7 @@ public class WishController {
 		service.createWish(vo);
 		return ResponseEntity.ok(g_id);
 	}
-//	찜해제 delete(구직 id)
+//	찜해제 delete
 	@DeleteMapping("/wish")
 	public ResponseEntity deleteWish(@RequestParam Long memberId, @RequestParam Long g_id) {
 		WishCreateVO vo = WishCreateVO.builder()
