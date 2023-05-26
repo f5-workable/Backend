@@ -21,6 +21,7 @@ import egovframework.job.dto.JobinfoDTO;
 import egovframework.job.service.JobinfoService;
 import egovframework.job.vo.JobinfoResultVO;
 import egovframework.job.vo.JobinfoSearchVO;
+import egovframework.job.vo.JobinfoSelectVO;
 import egovframework.job.vo.JobinfoVO;
 
 @RestController
@@ -35,9 +36,13 @@ public class JobinfoController {
       return ResponseEntity.ok(res);
    }
 //   id별(기본키) 조회 
-   @GetMapping("/jobinfo/{id}")
-   public ResponseEntity selectOne(@PathVariable Long id) {
-	   JobinfoResultVO res =  service.getJobinfoById(id);
+   @GetMapping("/jobinfo/select")
+   public ResponseEntity selectOne(@RequestParam Long j_id, @RequestParam(required = false) Long memberId) {
+	   JobinfoSelectVO vo = JobinfoSelectVO.builder()
+		   .j_id(j_id)
+		   .memberId(memberId)
+		   .build();
+	  JobinfoResultVO res = service.getJobinfoBySelect(vo);
       return ResponseEntity.ok(res);
    }
 //   Create
