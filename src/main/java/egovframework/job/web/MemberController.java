@@ -213,17 +213,18 @@ public class MemberController {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("오류가 발생했습니다. 다시 시도해주세요.");
 		}
 	}
-
+	
 	// 비밀번호 변경
 	@PutMapping("/{id}/password")
-	public ResponseEntity<String> changePassword(@PathVariable("id") String id, @RequestBody String newPassword) {
+	public ResponseEntity<String> changePassword(@PathVariable("id") String id, @RequestBody Map<String, String> request) {
 	    try {
-	        // 암호화된 새로운 비밀번호로 업데이트
-	        String hashedPassword = BCrypt.hashpw(newPassword, BCrypt.gensalt());
-	        memberService.updatePassword(id, hashedPassword);
-	        return ResponseEntity.ok("비밀번호가 성공적으로 변경되었습니다");
+	        String password = request.get("password");
+	        MemberDTO memberDTO = memberService.findById(id);
+	        memberDTO.setPassword(password);
+	        memberService.updatePassword(memberDTO);
+	        return ResponseEntity.ok("비밀번호가 성공적으로 변경되었습니다.");
 	    } catch (Exception e) {
-	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("비밀번호 변경에 실패하였습니다.");
 	    }
 	}
 
