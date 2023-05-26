@@ -28,6 +28,14 @@
 		WHERE m_num = #{id}
 	</select>
 
+	<!-- 시퀀스 번호로 회원 조회 -->
+	<select id="findByMNum" parameterType="java.lang.Long"
+		resultType="egovframework.job.dto.MemberDTO">
+		SELECT *
+		FROM member
+		WHERE m_num = #{m_num}
+	</select>
+
 	<!-- 아이디 상세정보 수정 -->
 	<update id="updateMember"
 		parameterType="egovframework.job.dto.MemberDTO">
@@ -49,7 +57,8 @@
 	<!-- 비밀번호 변경 처리 -->
 	<update id="updatePassword" parameterType="java.lang.String">
 		UPDATE member
-		SET password = #{password}
+		SET
+		password = #{password}
 		WHERE id = #{id}
 	</update>
 

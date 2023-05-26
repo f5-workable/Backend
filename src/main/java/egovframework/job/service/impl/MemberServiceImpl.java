@@ -2,6 +2,7 @@ package egovframework.job.service.impl;
 
 import org.egovframe.rte.fdl.cmmn.EgovAbstractServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import egovframework.job.dao.MemberDAO;
@@ -28,7 +29,7 @@ public class MemberServiceImpl extends EgovAbstractServiceImpl implements Member
 	// 아이디 중복 검색
 	public boolean isIdDuplicate(String id) throws Exception {
 		MemberDTO existingMember = memberDAO.findById(id);
-		return  existingMember != null;
+		return existingMember != null;
 	}
 
 	// 아이디 검색
@@ -36,6 +37,12 @@ public class MemberServiceImpl extends EgovAbstractServiceImpl implements Member
 	public MemberDTO findById(String id) throws Exception {
 		return memberDAO.findById(id);
 	}
+	
+	// 시퀀스 넘버 검색
+	@Override
+    public MemberDTO findByMNum(Long m_num) {
+        return memberDAO.findByMNum(m_num);
+    }
 
 	// 아이디 상세정보
 	@Override
@@ -48,18 +55,26 @@ public class MemberServiceImpl extends EgovAbstractServiceImpl implements Member
 	public void updateMemberDetail(MemberDTO memberDTO) throws Exception {
 		memberDAO.updateMemberDetail(memberDTO);
 	}
-	
+
 	// 비밀번호 찾기
 	@Override
-    public String findPassword(String id, String name, String phone) throws Exception {
-        return memberDAO.findPassword(id, name, phone);
-    }
-	
+	public String findPassword(String id, String name, String phone) throws Exception {
+		return memberDAO.findPassword(id, name, phone);
+	}
+
 	// 비밀번호 변경
 	@Override
-    public void updatePassword(String id, String password) throws Exception {
-        memberDAO.updatePassword(id, password);
-    }
+	public void updatePassword(MemberDTO memberDTO) throws Exception {
+		String encryptedPassword = encryptPassword(memberDTO.getPassword());
+		memberDTO.setPassword(encryptedPassword);
+		memberDAO.updatePassword(memberDTO);
+	}
+
+	// 암호화된 비밀번호 반환
+	private String encryptPassword(String password) {
+		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+		return passwordEncoder.encode(password);
+	}
 
 	// 아이디 탈퇴
 	@Override
@@ -72,7 +87,7 @@ public class MemberServiceImpl extends EgovAbstractServiceImpl implements Member
 	public void rdefaultMember(MemberDTO dto) {
 		memberDAO.rdefaultMember(dto);
 	}
-	
+
 	// 시퀀스아이디로 검색
 	@Override
 	public MemberDTO findByLongId(Long id) {

@@ -18,6 +18,11 @@ public class MemberDAO extends EgovAbstractMapper {
 		return (MemberDTO) selectOne("egovframework.mapper.job.MemberMapper.findById", id);
 	}
 
+	// 시퀀스 번호로 회원 조회
+	public MemberDTO findByMNum(Long m_num) {
+		return (MemberDTO) selectOne("egovframework.mapper.job.MemberMapper.findByMNum", m_num);
+	}
+
 	// 아이디 상세정보
 	public MemberDTO getMemberDetail(String id) throws Exception {
 		return (MemberDTO) selectOne("egovframework.mapper.job.MemberMapper.findById", id);
@@ -32,11 +37,8 @@ public class MemberDAO extends EgovAbstractMapper {
 		return (String) selectOne("egovframework.mapper.job.MemberMapper.findPassword", memberDTO);
 	}
 
-	// 비밀번호 변경
-	public void updatePassword(String id, String password) throws Exception {
-		MemberDTO memberDTO = new MemberDTO();
-		memberDTO.setId(id);
-		memberDTO.setPassword(password);
+	// 비밀번호 변경 처리
+	public void updatePassword(MemberDTO memberDTO) throws Exception {
 		update("egovframework.mapper.job.MemberMapper.updatePassword", memberDTO);
 	}
 

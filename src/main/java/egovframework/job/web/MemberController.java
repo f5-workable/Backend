@@ -13,7 +13,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -49,7 +48,7 @@ public class MemberController {
 	public MemberController(MemberService memberService) {
 		this.memberService = memberService;
 	}
-
+	
 	// 회원가입 화면
 	@RequestMapping(value = "/signup", method = RequestMethod.GET)
 	public String signUpView(@ModelAttribute("MemberDTO") MemberDTO memberDTO, HttpServletRequest request,
@@ -100,27 +99,27 @@ public class MemberController {
 	}
 
 	// 상세정보 화면
-	@GetMapping("/info/{id}")
-	public ResponseEntity<?> memberInfo(@PathVariable String id, Authentication authentication) {
-		try {
-			UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-			MemberDTO memberDetail = memberService.getMemberDetail(id);
+	@GetMapping("/info/{m_num}")
+	public ResponseEntity<?> memberInfo(@PathVariable Long m_num, Authentication authentication) {
+	    try {
+	        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+	        MemberDTO memberDetail = memberService.findByMNum(m_num);
 
-			if (memberDetail != null) {
-				// Create a map to hold the member information
-				Map<String, Object> response = new HashMap<>();
-				response.put("id", userDetails.getUsername());
-				response.put("member", memberDetail);
+	        if (memberDetail != null) {
+	            // Create a map to hold the member information
+	            Map<String, Object> response = new HashMap<>();
+	            response.put("id", userDetails.getUsername());
+	            response.put("member", memberDetail);
 
-				return ResponseEntity.ok(response);
-			} else {
-				String errorMessage = "회원 정보를 찾을 수 없습니다.";
-				return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMessage);
-			}
-		} catch (Exception e) {
-			String errorMessage = "서버에서 오류가 발생했습니다.";
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorMessage);
-		}
+	            return ResponseEntity.ok(response);
+	        } else {
+	            String errorMessage = "회원 정보를 찾을 수 없습니다.";
+	            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMessage);
+	        }
+	    } catch (Exception e) {
+	        String errorMessage = "서버에서 오류가 발생했습니다.";
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorMessage);
+	    }
 	}
 
 	// 상세정보 수정 화면
@@ -135,7 +134,6 @@ public class MemberController {
 				Map<String, Object> response = new HashMap<>();
 				response.put("id", userDetails.getUsername());
 				response.put("member", memberDetail);
-
 				return ResponseEntity.ok(response);
 			} else {
 				String errorMessage = "회원 정보를 찾을 수 없습니다.";
@@ -213,17 +211,18 @@ public class MemberController {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("오류가 발생했습니다. 다시 시도해주세요.");
 		}
 	}
-
+	
 	// 비밀번호 변경
 	@PutMapping("/{id}/password")
-	public ResponseEntity<String> changePassword(@PathVariable("id") String id, @RequestBody String newPassword) {
+	public ResponseEntity<String> changePassword(@PathVariable("id") String id, @RequestBody Map<String, String> request) {
 	    try {
-	        // 암호화된 새로운 비밀번호로 업데이트
-	        String hashedPassword = BCrypt.hashpw(newPassword, BCrypt.gensalt());
-	        memberService.updatePassword(id, hashedPassword);
-	        return ResponseEntity.ok("비밀번호가 성공적으로 변경되었습니다");
+	        String password = request.get("password");
+	        MemberDTO memberDTO = memberService.findById(id);
+	        memberDTO.setPassword(password);
+	        memberService.updatePassword(memberDTO);
+	        return ResponseEntity.ok("비밀번호가 성공적으로 변경되었습니다.");
 	    } catch (Exception e) {
-	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("비밀번호 변경에 실패하였습니다.");
 	    }
 	}
 
