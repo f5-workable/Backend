@@ -37,6 +37,12 @@ public class MemberServiceImpl extends EgovAbstractServiceImpl implements Member
 	public MemberDTO findById(String id) throws Exception {
 		return memberDAO.findById(id);
 	}
+	
+	// 시퀀스 넘버 검색
+	@Override
+    public MemberDTO findByMNum(Long m_num) {
+        return memberDAO.findByMNum(m_num);
+    }
 
 	// 아이디 상세정보
 	@Override
