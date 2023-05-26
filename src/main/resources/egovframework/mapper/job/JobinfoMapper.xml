@@ -112,4 +112,20 @@
     <select id="selectJobTypeByCNum"  parameterType="Long" resultType="hashmap" >
         SELECT j_id ,job_type, d_date FROM JOBINFO WHERE c_num = #{c_num}
     </select>
+    
+    <select id="getJobinfoBySelect" parameterType="egovframework.job.vo.JobinfoSelectVO" resultType="egovframework.job.vo.JobinfoResultVO">
+    	SELECT J.j_id , J.d_date, C.c_name, C.address, C.c_type, J.job_type, J.employment_type, J.payment_type, J.payment, J.career, J.edu, J.r_date, J.detail
+	    , (CASE
+	      WHEN J.j_id IN (
+	        SELECT W.j_num
+	        FROM WISH W
+	        WHERE W.m_num = #{memberId}
+	      ) THEN 'True'
+      	  ELSE 'False'
+    	END) AS state
+    	
+	    FROM JOBINFO J INNER JOIN COMPANY C
+	    ON J.c_num = C.c_num
+	    WHERE J.j_id = #{j_id}
+    </select>
 </mapper>
