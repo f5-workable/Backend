@@ -29,8 +29,10 @@ public class WishController {
 	
 //	memberId : 로그인한 회원시퀀스아이디
 	@GetMapping("/wish")
-	public ResponseEntity selectWishList(@RequestParam Long memberId) {
-		PageHelper.startPage(1,3);
+	public ResponseEntity selectWishList(@RequestParam Long memberId
+			, @RequestParam(name="pageNum", required = false,  defaultValue = "1")int pageNum
+    		, @RequestParam(name="pageSize", required = false,  defaultValue = "12")int pageSize) {
+		PageHelper.startPage(pageNum, pageSize);
 		List<JobinfoResultVO> res = service.getWishList(memberId);
 		return ResponseEntity.ok(PageInfo.of(res));
 	}
