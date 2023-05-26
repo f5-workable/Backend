@@ -32,13 +32,10 @@ public class MemberDAO extends EgovAbstractMapper {
 		return (String) selectOne("egovframework.mapper.job.MemberMapper.findPassword", memberDTO);
 	}
 
-	// 비밀번호 변경
-	public void updatePassword(String id, String password) throws Exception {
-		MemberDTO memberDTO = new MemberDTO();
-		memberDTO.setId(id);
-		memberDTO.setPassword(password);
-		update("egovframework.mapper.job.MemberMapper.updatePassword", memberDTO);
-	}
+	// 비밀번호 변경 처리
+    public void updatePassword(MemberDTO memberDTO) throws Exception {
+        update("egovframework.mapper.job.MemberMapper.updatePassword", memberDTO);
+    }
 
 	// 아이디 상세정보 수정
 	public void updateMemberDetail(MemberDTO memberDTO) throws Exception {
