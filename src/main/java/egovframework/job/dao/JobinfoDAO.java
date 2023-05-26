@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import egovframework.job.dto.JobinfoDTO;
 import egovframework.job.vo.JobinfoResultVO;
 import egovframework.job.vo.JobinfoSearchVO;
+import egovframework.job.vo.JobinfoSelectVO;
 import egovframework.job.vo.JobinfoVO;
 
 @Repository
@@ -52,6 +53,12 @@ public class JobinfoDAO {
     	List<JobinfoResultVO> res = sqlSession.selectList("egovframework.mapper.job.JobinfoMapper.searchJobinfo", vo);
         return res;
     }
+    
+    public JobinfoResultVO getJobinfoBySelect(JobinfoSelectVO vo) {
+    	JobinfoResultVO res = sqlSession.selectOne("egovframework.mapper.job.JobinfoMapper.getJobinfoBySelect", vo);
+		return res;
+    }
+    
     // 기업별 업종(JOB_TYPE) 목록 조회
     public List<String> selectJobTypeByCNum(long c_num){
     	 List<String> res = sqlSession.selectList("egovframework.mapper.job.JobinfoMapper.selectJobTypeByCNum",c_num);

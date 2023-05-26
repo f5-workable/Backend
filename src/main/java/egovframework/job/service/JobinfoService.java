@@ -13,6 +13,7 @@ import egovframework.job.dao.WishDAO;
 import egovframework.job.dto.JobinfoDTO;
 import egovframework.job.vo.JobinfoResultVO;
 import egovframework.job.vo.JobinfoSearchVO;
+import egovframework.job.vo.JobinfoSelectVO;
 import egovframework.job.vo.JobinfoVO;
 import egovframework.job.vo.WishVO;
 
@@ -57,6 +58,11 @@ public class JobinfoService {
     public List<JobinfoResultVO> searchJobinfo(JobinfoSearchVO vo) {
     	List<JobinfoResultVO> res = dao.searchJobinfo(vo);
        return res;
+    }
+//  구직정보 조회(위시리스트 여부)
+    public JobinfoResultVO getJobinfoBySelect(JobinfoSelectVO vo) {
+    	JobinfoResultVO res = dao.getJobinfoBySelect(vo);
+    	return res;
     }
     
     // 기업별 업종(JOB_TYPE) 목록 조회
