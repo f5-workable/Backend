@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="egovframework.mapper.job.JobinfoMapper">
+   
    <select id="selectJobinfoList" resultType="egovframework.job.vo.JobinfoVO">
         SELECT * FROM JOBINFO LIMIT 10
     </select>
@@ -38,6 +39,7 @@
     <delete id="deleteJobinfo" parameterType="Long">
         delete from JOBINFO where j_id=#{j_id}
     </delete>
+    
     <!-- member별 본인이 찜한 데이터(True, False로 판단) -->
     <select id="searchJobinfo" resultType="egovframework.job.vo.JobinfoResultVO" parameterType="egovframework.job.vo.JobinfoSearchVO">
       SELECT J.j_id , J.d_date, C.c_name, J.job_type, J.employment_type, J.payment_type, J.payment, J.career, J.edu, J.r_date, J.detail, C.address, C.c_type
@@ -45,7 +47,7 @@
 	      WHEN J.j_id IN (
 	        SELECT W.j_num
 	        FROM WISH W
-	        WHERE W.m_num = #{user_id}
+	        WHERE W.m_num = #{memberId}
 	      ) THEN 'True'
       	  ELSE 'False'
     	END) AS state
