@@ -25,11 +25,11 @@ public class JobinfoService {
    @Autowired
    private WishDAO wishdao;
    
-
+// 구직정보 전체리스트 반환
    public List<JobinfoVO> getJobinfoList() {
         return dao.selectJobinfoList();
     }
-
+//  
     public JobinfoResultVO getJobinfoById(Long id) {
         return dao.selectJobinfoById(id);
     }
@@ -37,23 +37,23 @@ public class JobinfoService {
     public JobinfoVO getJById(Long id) {
     	return dao.selectJById(id);
     }
-    
+//  구직정보 생성
     @Transactional
     public JobinfoVO addJobinfo(JobinfoDTO dto) {
        JobinfoVO vo = dao.addJobinfo(dto);
        return vo;
     }
-    
+//  구직정보 수정
     @Transactional
     public void updateJobinfo(JobinfoDTO dto) {
        dao.updateJobinfo(dto);
     }
-    
+//  구직정보 삭제
     @Transactional
     public void deleteJobinfo(Long id) {
        dao.deleteJobinfo(id);
     }
-    
+//  구직정보 조건검색
     public List<JobinfoResultVO> searchJobinfo(JobinfoSearchVO vo) {
     	List<JobinfoResultVO> res = dao.searchJobinfo(vo);
        return res;

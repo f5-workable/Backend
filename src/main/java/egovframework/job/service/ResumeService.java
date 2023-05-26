@@ -1,5 +1,6 @@
 package egovframework.job.service;
 
+import java.util.Arrays;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -54,7 +55,7 @@ public class ResumeService {
        Long insertId = dao.addResume(dto);
        String[] places = dto.getPlace();
 	   ResumeRegionDTO resumeRegionDTO = new ResumeRegionDTO();
-       if (places != null) {
+       if (places.length != 0) {
     	   for (String place : places) {
         	   resumeRegionDTO.setR_id(insertId);
         	   resumeRegionDTO.setRegion(place);
@@ -82,7 +83,7 @@ public class ResumeService {
 //     다시 등록
 	   String[] places = dto.getPlace();
 	   ResumeRegionDTO resumeRegionDTO = new ResumeRegionDTO();
-	   if (places != null) {
+	   if (places.length != 0) {
 		   for (String place : places) {
 		 	  resumeRegionDTO.setR_id(rId);
 		 	  resumeRegionDTO.setRegion(place);
