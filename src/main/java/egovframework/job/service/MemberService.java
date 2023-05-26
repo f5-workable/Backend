@@ -12,6 +12,9 @@ public interface MemberService {
 
 	// 아이디 검색
 	public MemberDTO findById(String id) throws Exception;
+	
+	// 시퀀스 번호로 회원 조회
+    public MemberDTO findByMNum(Long m_num) throws Exception;
 
 	// 아이디 상세정보
 	public MemberDTO getMemberDetail(String id) throws Exception;
