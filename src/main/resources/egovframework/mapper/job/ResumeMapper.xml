@@ -5,7 +5,6 @@
 	<select id="selectResumeList" resultType="egovframework.job.vo.ResumeVO">
         SELECT * FROM RESUME LIMIT 10
     </select>
-
 	<select id="memberResume" parameterType="Long" resultType="egovframework.job.vo.ResumeResultVO">
 		SELECT R.r_id, R.education, R_R.region, R.job, R.payment_type, R.payment, R.ob_type, R.disease, R.career, R.pr, R.m_num, R.title
 	    , (CASE
