@@ -97,30 +97,19 @@ public class MemberController {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorMessage);
 		}
 	}
-
-	// 상세정보 화면
+	
 	@GetMapping("/info/{m_num}")
-	public ResponseEntity<?> memberInfo(@PathVariable Long m_num, Authentication authentication) {
-	    try {
-	        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-	        MemberDTO memberDetail = memberService.findByMNum(m_num);
-
-	        if (memberDetail != null) {
-	            // Create a map to hold the member information
-	            Map<String, Object> response = new HashMap<>();
-	            response.put("id", userDetails.getUsername());
-	            response.put("member", memberDetail);
-
-	            return ResponseEntity.ok(response);
-	        } else {
-	            String errorMessage = "회원 정보를 찾을 수 없습니다.";
-	            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMessage);
-	        }
-	    } catch (Exception e) {
-	        String errorMessage = "서버에서 오류가 발생했습니다.";
+    public ResponseEntity<?> memberInfo(@PathVariable Long m_num) {
+        try {
+        	// 멤버 정보 조회 로직
+    		MemberDTO memberDTO = memberService.findByMNum(m_num);
+            return ResponseEntity.ok(memberDTO);
+        } catch(Exception e) {
+        	String errorMessage = "서버에서 오류가 발생했습니다.";
 	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorMessage);
-	    }
-	}
+        }
+		
+    }
 
 	// 상세정보 수정 화면
 	@GetMapping("/update/{id}")
