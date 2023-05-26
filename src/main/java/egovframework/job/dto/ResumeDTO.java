@@ -2,6 +2,9 @@ package egovframework.job.dto;
 
 import java.util.List;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
 import egovframework.job.vo.ResumeRegionVO;
 import egovframework.job.vo.ResumeVO;
 import lombok.AllArgsConstructor;
@@ -26,11 +29,11 @@ public class ResumeDTO {
     private String disease;
     private String career;
     private String pr;
-    private boolean r_default;
+	
     private Long m_num;
     private String title;
-    
     private List<ResumeRegionVO> region;
+    private MemberDTO memberDTO;
     
     @Builder
     public ResumeDTO(ResumeVO entity) {
@@ -58,7 +61,6 @@ public class ResumeDTO {
     			.disease(disease)
     			.career(career)
     			.pr(pr)
-    			.r_default(r_default)
     			.m_num(m_num)
     			.title(title)
     			.build();

@@ -2,6 +2,8 @@ package egovframework.job.web;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -49,7 +51,7 @@ public class ResumeController {
 	}
 //  Create
 	@PostMapping("/resume")
-	public ResponseEntity createResume(@RequestBody ResumeDTO resumeDto) {
+	public ResponseEntity createResume(@Valid @RequestBody ResumeDTO resumeDto) {
 //		해당 회원아이디의 시퀀스값을 이력서에 넣어준다
 		Long res = service.addResume(resumeDto);
 		return ResponseEntity.ok(res);
@@ -71,8 +73,10 @@ public class ResumeController {
     }
 //  조건검색
     @GetMapping("/resume/search")
-    public ResponseEntity searchResume(@RequestParam("payment_type") String[] payment_type, @RequestParam("disease") String[] disease, @RequestParam("ob_type") String[] ob_type, @RequestParam("place") String[] place, @RequestParam("education") String[] education, @RequestParam("keyword") String keyword, @RequestParam("sort") String sort) {
-    	PageHelper.startPage(1,6);
+    public ResponseEntity searchResume(@RequestParam("payment_type") String[] payment_type, @RequestParam("disease") String[] disease, @RequestParam("ob_type") String[] ob_type, @RequestParam("place") String[] place, @RequestParam("education") String[] education, @RequestParam("keyword") String keyword, @RequestParam("sort") String sort
+    		, @RequestParam(name="pageNum", required = false,  defaultValue = "1")int pageNum
+    		, @RequestParam(name="pageSize", required = false,  defaultValue = "12")int pageSize) {
+    	PageHelper.startPage(pageNum, pageSize);
     	ResumeSearchVO vo = ResumeSearchVO.builder()
     			.payment_type(payment_type)
     			.disease(disease)
@@ -98,7 +102,7 @@ public class ResumeController {
 	}
 //  대표이력서 설정
     @GetMapping("/resume/rdefault")
-    public ResponseEntity<?> selectRdefault(@RequestParam Long memberId , @RequestParam(required=false) Long r_id) throws Exception {
+    public ResponseEntity<?> selectRdefault(@RequestParam(required=false) Long memberId , @RequestParam(required=false) Long r_id) throws Exception {
 //    	회원정보 조회
     	MemberDTO dto = memberService.findByLongId(memberId);
     	// 대표이력서 설정
