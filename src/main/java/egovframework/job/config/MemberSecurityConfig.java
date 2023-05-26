@@ -75,6 +75,7 @@ public class MemberSecurityConfig extends WebSecurityConfigurerAdapter {
         	.antMatchers("/member/login").permitAll() // 로그인 URL에 대해 권한 필요 없음
         	.antMatchers("/member/logout").permitAll() // 로그아웃 URL에 대해 권한 필요 없음
         	.antMatchers("/member/signup").permitAll() // 회원가입 URL에 대해 권한 필요 없음
+        	.anyRequest().permitAll() // 다른 모든 URL에 대해 권한 필요 없음
         	.and()
         .formLogin()
         	.loginPage("/member/login")
