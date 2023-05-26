@@ -20,7 +20,7 @@ import egovframework.job.service.MemberDetailsService;
 
 @Configuration
 @EnableWebSecurity
-@Order(1) 
+@Order(2) 
 public class MemberSecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Autowired
@@ -70,7 +70,7 @@ public class MemberSecurityConfig extends WebSecurityConfigurerAdapter {
 		
     	http.csrf().disable()
     	.authenticationProvider(memberAuthenticationProvider())
-    		//.antMatcher("/member/**")
+    		.antMatcher("/**")
         .authorizeRequests()
         	.antMatchers("/member/login").permitAll() // 로그인 URL에 대해 권한 필요 없음
         	.antMatchers("/member/logout").permitAll() // 로그아웃 URL에 대해 권한 필요 없음

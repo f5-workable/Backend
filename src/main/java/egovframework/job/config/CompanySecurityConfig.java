@@ -18,7 +18,7 @@ import egovframework.job.service.CompanyDetailsService;
 
 @Configuration
 @EnableWebSecurity
-@Order(2)
+@Order(1)
 public class CompanySecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Autowired
@@ -54,12 +54,13 @@ public class CompanySecurityConfig extends WebSecurityConfigurerAdapter {
 		http.cors();
 		
 		http.csrf().disable()
-			//.antMatcher("/**")
+			.antMatcher("/company/**")
         .authenticationProvider(companyAuthenticationProvider())
         .authorizeRequests()
         .antMatchers("/company/login").permitAll() // 로그인 URL에 대해 권한 필요 없음
         .antMatchers("/company/logout").permitAll() // 로그아웃 URL에 대해 권한 필요 없음
         .antMatchers("/company/signup").permitAll() // 회원가입 URL에 대해 권한 필요 없음
+        .antMatchers("/member/info/**").permitAll() // 멤버 정보 URL에 대해 권한 필요 없음
         .and()
         .formLogin()
             .loginPage("/company/login")
