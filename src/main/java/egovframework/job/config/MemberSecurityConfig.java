@@ -40,13 +40,13 @@ public class MemberSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 	
 	@Bean
-	public AuthenticationSuccessHandler customAuthenticationSuccessHandler() {
-	    return new CustomAuthenticationSuccessHandler();
+	public AuthenticationSuccessHandler memberAuthenticationSuccessHandler() {
+	    return new MemberAuthenticationSuccessHandler();
 	}
 	
 	@Bean
-	public AuthenticationFailureHandler customAuthenticationFailureHandler() {
-	    return new CustomAuthenticationFailureHandler();
+	public AuthenticationFailureHandler memberAuthenticationFailureHandler() {
+	    return new MemberAuthenticationFailureHandler();
 	}
 	
 	@Bean
@@ -70,16 +70,18 @@ public class MemberSecurityConfig extends WebSecurityConfigurerAdapter {
 		
     	http.csrf().disable()
     	.authenticationProvider(memberAuthenticationProvider())
+    		//.antMatcher("/member/**")
         .authorizeRequests()
         	.antMatchers("/member/login").permitAll() // 로그인 URL에 대해 권한 필요 없음
+        	.antMatchers("/member/logout").permitAll() // 로그아웃 URL에 대해 권한 필요 없음
         	.antMatchers("/member/signup").permitAll() // 회원가입 URL에 대해 권한 필요 없음
         	.and()
         .formLogin()
         	.loginPage("/member/login")
         	.permitAll()
             .usernameParameter("id")
-        	.successHandler(customAuthenticationSuccessHandler())
-        	.failureHandler(customAuthenticationFailureHandler())
+        	.successHandler(memberAuthenticationSuccessHandler())
+        	.failureHandler(memberAuthenticationFailureHandler())
             .and()
         .logout()
         	.permitAll();

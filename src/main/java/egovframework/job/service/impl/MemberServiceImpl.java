@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import egovframework.job.dao.MemberDAO;
 import egovframework.job.dto.MemberDTO;
 import egovframework.job.service.MemberService;
-import egovframework.let.utl.sim.service.EgovFileScrty;
 
 @Service("memberService")
 public class MemberServiceImpl extends EgovAbstractServiceImpl implements MemberService {
@@ -26,25 +25,10 @@ public class MemberServiceImpl extends EgovAbstractServiceImpl implements Member
 		memberDAO.registerMember(memberDTO);
 	}
 
-	// 로그인 처리
-	@Override
-	public MemberDTO actionLogin(MemberDTO memberDTO) throws Exception {
-
-		// 1. 입력한 비밀번호를 암호화
-		String enpassword = EgovFileScrty.encryptPassword(memberDTO.getPassword(), memberDTO.getId());
-		memberDTO.setPassword(enpassword);
-
-		// 2. 아이디와 암호화된 비밀번호가 DB와 일치하는지 확인
-		MemberDTO memberDTO2 = memberDAO.actionLogin(memberDTO);
-
-		// 3. 결과를 리턴
-		if (memberDTO2 != null && !memberDTO2.getId().equals("") && !memberDTO2.getPassword().equals("")) {
-			return memberDTO2;
-		} else {
-			memberDTO2 = new MemberDTO();
-		}
-
-		return memberDTO2;
+	// 아이디 중복 검색
+	public boolean isIdDuplicate(String id) throws Exception {
+		MemberDTO existingMember = memberDAO.findById(id);
+		return  existingMember != null;
 	}
 
 	// 아이디 검색
@@ -64,13 +48,25 @@ public class MemberServiceImpl extends EgovAbstractServiceImpl implements Member
 	public void updateMemberDetail(MemberDTO memberDTO) throws Exception {
 		memberDAO.updateMemberDetail(memberDTO);
 	}
+	
+	// 비밀번호 찾기
+	@Override
+    public String findPassword(String id, String name, String phone) throws Exception {
+        return memberDAO.findPassword(id, name, phone);
+    }
+	
+	// 비밀번호 변경
+	@Override
+    public void updatePassword(String id, String password) throws Exception {
+        memberDAO.updatePassword(id, password);
+    }
 
 	// 아이디 탈퇴
 	@Override
 	public void deleteMember(String id) throws Exception {
 		memberDAO.deleteMember(id);
 	}
-	
+
 	// 대표이력서 등록
 	@Override
 	public void rdefaultMember(MemberDTO dto) {

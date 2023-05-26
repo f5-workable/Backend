@@ -22,9 +22,12 @@ public class CompanyDetailsService implements UserDetailsService{
 			
 			if(companyDTO == null) {
 				throw new UsernameNotFoundException("User not found with username: " + id);
-			} else {
-				return new CompanyDetails(companyDTO);
-			}
+			} 
+			
+			CompanyDetails companyDetails = new CompanyDetails(companyDTO);
+			companyDetails.setC_num(companyDTO.getC_num());
+			
+			return companyDetails;
 			
 		} catch(Exception e) {
 			throw new RuntimeException("Error occurred while loading user by username", e);
