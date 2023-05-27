@@ -67,7 +67,7 @@
         WHERE a_id = #{a_id}
     </update>
     
-     <select id="selecteCRAndMemberById" parameterType="hashmap"  resultType="egovframework.job.dto.ApplyDTO" >
+     <select id="selecteCRAndMemberById" parameterType="hashmap"  resultType="hashmap" >
       	SELECT b.cr_num, m.name,  b.ob_type, b.disease, b.payment, b.payment_type
 		FROM APPLY a 
 		JOIN COMPANYRESUME b ON (a.cr_num = b.cr_num)
