@@ -14,9 +14,9 @@
     
    <select id="selectCompanyResumeById" parameterType="Long" resultType="egovframework.job.dto.CompanyResumeDTO">
         SELECT * 
-        FROM COMPANYRESUME
+        FROM COMPANYRESUME cr
         JOIN APPLY a 
-        WHERE cr_num = #{cr_num}
+        WHERE cr.cr_num = #{cr_num}
     </select>
     
     <delete id="deleteCompanyResumeById" parameterType="Long" >
