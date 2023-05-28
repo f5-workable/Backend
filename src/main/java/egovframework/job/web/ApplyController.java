@@ -87,9 +87,9 @@ public class ApplyController {
 	}
 	
 	// 지원 상태 변경
-	@PutMapping("/company/apply/update")
-	public  ResponseEntity<Integer> updateApplyState(@RequestBody ApplyDTO dto) {
-		int res = applyService.updateApplyState(dto); // 1이라면 성공
+	@PutMapping("/company/apply/update/{cr_num}")
+	public  ResponseEntity<Integer> updateApplyState(@PathVariable(name = "cr_num") long cr_num,@RequestParam(name="state", defaultValue = "지원완료")String state) {
+		int res = applyService.updateApplyState(cr_num, state); // 1이라면 성공
 		return ResponseEntity.ok(res);
 	}
 	

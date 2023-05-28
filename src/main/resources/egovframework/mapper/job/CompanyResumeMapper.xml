@@ -13,7 +13,10 @@
     </insert>
     
    <select id="selectCompanyResumeById" parameterType="Long" resultType="egovframework.job.dto.CompanyResumeDTO">
-        SELECT * FROM COMPANYRESUME WHERE cr_num = #{cr_num}
+        SELECT * 
+        FROM COMPANYRESUME
+        JOIN APPLY a 
+        WHERE cr_num = #{cr_num}
     </select>
     
     <delete id="deleteCompanyResumeById" parameterType="Long" >

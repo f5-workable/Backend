@@ -66,7 +66,10 @@ public class ApplyService {
 	}
 	
 	// 지원 상태 변경
-	public int updateApplyState(ApplyDTO dto) {
+	public int updateApplyState(long cr_num, String state) {
+		ApplyDTO dto = new ApplyDTO();
+		dto.setCr_num(cr_num);
+		dto.setState(state);
 		return applyDAO.updateApplyState(dto);
 	}
 	
