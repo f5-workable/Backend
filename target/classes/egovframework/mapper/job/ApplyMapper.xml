@@ -77,10 +77,10 @@
     </update>
     
      <select id="selecteCRAndMemberById" parameterType="hashmap"  resultType="hashmap" >
-      	SELECT b.cr_num, m.name,  b.ob_type, b.disease, b.payment, b.payment_type
+      	SELECT cr.cr_num, m.name,  cr.ob_type, cr.disease, cr.payment, cr.payment_type, cr.job
 		FROM APPLY a 
-		JOIN COMPANYRESUME b ON (a.cr_num = b.cr_num)
-		JOIN MEMBER m ON (m.m_num = b.m_num)
+		JOIN COMPANYRESUME cr ON (a.cr_num = cr.cr_num)
+		JOIN MEMBER m ON (m.m_num = cr.m_num)
 		<where>
 			a.j_num = #{j_num}
 			<if test=" state =='지원완료' || state =='최종합격' || state =='불합격'">AND a.STATE = #{state} </if>
