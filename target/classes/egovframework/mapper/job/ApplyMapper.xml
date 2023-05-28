@@ -15,7 +15,7 @@
         INSERT INTO APPLY (j_num, cr_num)
         VALUES (#{j_num}, #{cr_num})
     </insert>
-    
+
      <select id="selectApplyListByMemberAndState" parameterType="hashmap" resultType="hashmap">
         SELECT j.j_id, c.c_name, j.job_type, j.payment, j.payment_type, c.address,
           (CASE
@@ -73,7 +73,7 @@
     <update id="updateApply" parameterType="egovframework.job.dto.ApplyDTO">
         UPDATE APPLY SET 
            state = #{state}
-        WHERE a_id = #{a_id}
+        WHERE cr_num = #{cr_num}
     </update>
     
      <select id="selecteCRAndMemberById" parameterType="hashmap"  resultType="hashmap" >
