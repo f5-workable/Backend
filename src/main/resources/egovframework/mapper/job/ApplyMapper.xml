@@ -17,7 +17,7 @@
     </insert>
 
      <select id="selectApplyListByMemberAndState" parameterType="hashmap" resultType="hashmap">
-        SELECT j.j_id, c.c_name, j.job_type, j.payment, j.payment_type, c.address,
+        SELECT a.a_id, j.j_id, c.c_name, j.job_type, j.payment, j.payment_type, c.address,
           (CASE
 	      WHEN j.j_id IN (
 	        SELECT W.j_num
