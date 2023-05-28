@@ -17,7 +17,16 @@
     </insert>
     
      <select id="selectApplyListByMemberAndState" parameterType="hashmap" resultType="hashmap">
-        SELECT j.j_id, c.c_name, j.job_type, j.payment, j.payment_type, c.address
+        SELECT j.j_id, c.c_name, j.job_type, j.payment, j.payment_type, c.address,
+          (CASE
+	      WHEN j.j_id IN (
+	        SELECT W.j_num
+	        FROM WISH W
+	        WHERE W.m_num = #{m_num}
+	      ) THEN 'True'
+      	  ELSE 'False'
+    	END) AS state
+        
         FROM APPLY a 
         JOIN JOBINFO j ON (a.j_num = j.j_id)
         JOIN COMPANY c ON (j.c_num = c.c_num) 
