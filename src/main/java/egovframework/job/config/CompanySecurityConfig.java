@@ -66,7 +66,7 @@ public class CompanySecurityConfig extends WebSecurityConfigurerAdapter {
             .loginPage("/company/login")
             .permitAll()
             .usernameParameter("c_id")
-            .passwordParameter("c_password")
+            .passwordParameter("c_password") 
             .successHandler(companyAuthenticationSuccessHandler())
             .failureHandler(companyAuthenticationFailureHandler())
         .and()

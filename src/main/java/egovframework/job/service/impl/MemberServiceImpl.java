@@ -22,8 +22,8 @@ public class MemberServiceImpl extends EgovAbstractServiceImpl implements Member
 
 	// 회원가입 처리
 	@Override
-	public void registerMember(MemberDTO memberDTO) throws Exception {
-		memberDAO.registerMember(memberDTO);
+	public void insertMember(MemberDTO memberDTO) throws Exception {
+		memberDAO.insertMember(memberDTO);
 	}
 
 	// 아이디 중복 검색

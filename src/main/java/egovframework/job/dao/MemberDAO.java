@@ -9,8 +9,8 @@ import egovframework.job.dto.MemberDTO;
 public class MemberDAO extends EgovAbstractMapper {
 
 	// 회원가입 처리
-	public void registerMember(MemberDTO memberDTO) throws Exception {
-		insert("egovframework.mapper.job.MemberMapper.registerMember", memberDTO);
+	public void insertMember(MemberDTO memberDTO) throws Exception {
+		insert("egovframework.mapper.job.MemberMapper.insertMember", memberDTO);
 	}
 
 	// 아이디 검색
