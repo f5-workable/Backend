@@ -62,6 +62,12 @@ public class CompanyServiceImpl extends EgovAbstractServiceImpl implements Compa
 		companyDAO.updateSequenceCompanyDetail(companyDTO);
 	}
 
+	// 이전 비밀번호 찾기
+	@Override
+	public String getPasswordByMNum(Long c_num) throws Exception {
+		return companyDAO.getPasswordByMNum(c_num);
+	}
+
 	// 비밀번호 찾기
 	@Override
 	public String findPassword(String c_id, String c_name, String phone) throws Exception {

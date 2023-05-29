@@ -25,6 +25,9 @@ public interface CompanyService {
 	// 아이디 상세정보 수정
 	public void updateSequenceCompanyDetail(CompanyDTO companyDTO) throws Exception;
 
+	// 이전 비밀번호 찾기
+	public String getPasswordByMNum(Long c_num) throws Exception;
+
 	// 비밀번호 찾기
 	public String findPassword(String c_id, String c_name, String phone) throws Exception;
 

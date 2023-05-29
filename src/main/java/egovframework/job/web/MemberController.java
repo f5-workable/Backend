@@ -71,13 +71,11 @@ public class MemberController {
 		}
 	}
 
+	// 아이디 중복 체크
 	@GetMapping("/checkId/{id}")
-	public ResponseEntity<String> checkDuplicateId(@PathVariable("id") String id) throws Exception {
-	    boolean isDuplicate = memberService.isIdDuplicate(id);
-	    String message = isDuplicate ? "이미 사용 중인 아이디입니다." : "사용 가능한 아이디입니다.";
-
-	    HttpStatus status = isDuplicate ? HttpStatus.CONFLICT : HttpStatus.OK;
-	    return ResponseEntity.status(status).body(message);
+	public ResponseEntity<Boolean> checkDuplicateId(@PathVariable("id") String id) throws Exception {
+		boolean isDuplicate = memberService.isIdDuplicate(id);
+		return ResponseEntity.ok(isDuplicate);
 	}
 
 	// 로그아웃 처리
@@ -115,6 +113,18 @@ public class MemberController {
 	@PutMapping("/update/{m_num}")
 	public ResponseEntity<?> updateMemberInfo(@PathVariable Long m_num, @RequestBody MemberDTO memberDTO) {
 		try {
+			// 이전 비밀번호를 조회하여 비교
+			String previousPassword = memberService.getPasswordByMNum(m_num);
+
+			if (memberDTO.getPassword() != null && !memberDTO.getPassword().equals(previousPassword)) {
+				// 입력받은 비밀번호를 암호화하여 저장
+				String encodedPassword = memberPasswordEncoder.encode(memberDTO.getPassword());
+				memberDTO.setPassword(encodedPassword);
+			} else {
+				// 이전 비밀번호를 그대로 저장
+				memberDTO.setPassword(previousPassword);
+			}
+
 			// 멤버 정보 업데이트 로직
 			memberDTO.setM_num(m_num);
 			memberService.updateSequenceMemberDetail(memberDTO);

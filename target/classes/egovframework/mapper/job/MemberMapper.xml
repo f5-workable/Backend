@@ -57,10 +57,18 @@
 	<update id="updateMemberSequence"
 		parameterType="egovframework.job.dto.MemberDTO">
 		UPDATE member
-		SET email = #{email}, phone = #{phone},
+		SET password = #{password}, email =
+		#{email}, phone = #{phone},
 		profil = #{profil}
 		WHERE m_num = #{m_num}
 	</update>
+
+	<!-- 이전 비밀번호 찾기 -->
+	<select id="getPasswordByMNum" resultType="java.lang.String">
+		SELECT password
+		FROM member
+		WHERE m_num = #{m_num}
+	</select>
 
 	<!-- 비밀번호 찾기 -->
 	<select id="findPassword" resultType="java.lang.String">

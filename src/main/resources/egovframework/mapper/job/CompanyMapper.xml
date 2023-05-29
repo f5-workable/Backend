@@ -55,6 +55,14 @@
 		WHERE c_num = #{c_num}
 	</update>
 
+	<!-- 이전 비밀번호 찾기 -->
+	<select id="getPasswordByMNum" resultType="java.lang.String">
+		SELECT c_password
+		FROM
+		company
+		WHERE c_num = #{c_num}
+	</select>
+
 	<!-- 비밀번호 찾기 -->
 	<select id="findPassword" resultType="java.lang.String">
 		SELECT c_password

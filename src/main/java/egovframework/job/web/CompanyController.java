@@ -73,12 +73,9 @@ public class CompanyController {
 
 	// 아이디 중복 체크
 	@GetMapping("/checkId/{c_id}")
-	public ResponseEntity<String> checkDuplicateId(@PathVariable("c_id") String c_id) throws Exception {
+	public ResponseEntity<Boolean> checkDuplicateId(@PathVariable("c_id") String c_id) throws Exception {
 		boolean isDuplicate = companyService.isIdDuplicate(c_id);
-		String message = isDuplicate ? "이미 사용 중인 아이디입니다." : "사용 가능한 아이디입니다.";
-
-		HttpStatus status = isDuplicate ? HttpStatus.CONFLICT : HttpStatus.OK;
-		return ResponseEntity.status(status).body(message);
+		return ResponseEntity.ok(isDuplicate);
 	}
 
 	// 로그아웃 처리
@@ -115,6 +112,18 @@ public class CompanyController {
 	@PutMapping("/update/{c_num}")
 	public ResponseEntity<?> updateCompanyInfo(@PathVariable Long c_num, @RequestBody CompanyDTO companyDTO) {
 		try {
+			// 이전 비밀번호를 조회하여 비교
+			String previousPassword = companyService.getPasswordByMNum(c_num);
+			
+			if (companyDTO.getC_password() != null && !companyDTO.getC_password().equals(previousPassword)) {
+				// 입력받은 비밀번호를 암호화하여 저장
+				String encodedPassword = companyPasswordEncoder.encode(companyDTO.getC_password());
+				companyDTO.setC_password(encodedPassword);
+			} else {
+				// 이전 비밀번호를 그대로 저장
+				companyDTO.setC_password(previousPassword);
+			}
+			
 			// 멤버 정보 업데이트 로직
 			companyDTO.setC_num(c_num);
 			companyService.updateSequenceCompanyDetail(companyDTO);
