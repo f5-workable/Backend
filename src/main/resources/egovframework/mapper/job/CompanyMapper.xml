@@ -51,7 +51,7 @@
 		parameterType="egovframework.job.dto.CompanyDTO">
 		UPDATE company
 		SET rnum = #{rnum}, phone = #{phone},
-		address = #{address}
+		address = #{address}, c_password = #{c_password}
 		WHERE c_num = #{c_num}
 	</update>
 
