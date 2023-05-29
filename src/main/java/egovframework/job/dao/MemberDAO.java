@@ -34,6 +34,11 @@ public class MemberDAO extends EgovAbstractMapper {
 		return (MemberDTO) selectOne("egovframework.mapper.job.MemberMapper.findById", id);
 	}
 
+	// 이전 비밀번호 찾기
+	public String getPasswordByMNum(Long m_num) throws Exception {
+		return selectOne("egovframework.mapper.job.MemberMapper.getPasswordByMNum", m_num);
+	}
+
 	// 비밀번호 찾기
 	public String findPassword(String id, String name, String phone) throws Exception {
 		MemberDTO memberDTO = new MemberDTO();

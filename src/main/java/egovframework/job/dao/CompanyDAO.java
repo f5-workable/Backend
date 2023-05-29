@@ -34,6 +34,11 @@ public class CompanyDAO extends EgovAbstractMapper {
 		return (CompanyDTO) selectOne("egovframework.mapper.job.CompanyMapper.findById", id);
 	}
 
+	// 이전 비밀번호 찾기
+	public String getPasswordByMNum(Long c_num) throws Exception {
+		return selectOne("egovframework.mapper.job.CompanyMapper.getPasswordByMNum", c_num);
+	}
+
 	// 비밀번호 찾기
 	public String findPassword(String c_id, String c_name, String phone) throws Exception {
 		CompanyDTO companyDTO = new CompanyDTO();

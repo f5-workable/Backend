@@ -28,9 +28,9 @@ public class MemberServiceImpl extends EgovAbstractServiceImpl implements Member
 
 	// 아이디 중복 검색
 	@Override
-    public boolean isIdDuplicate(String id) throws Exception {
-        return memberDAO.isIdDuplicate(id);
-    }
+	public boolean isIdDuplicate(String id) throws Exception {
+		return memberDAO.isIdDuplicate(id);
+	}
 
 	// 아이디 검색
 	@Override
@@ -60,6 +60,12 @@ public class MemberServiceImpl extends EgovAbstractServiceImpl implements Member
 	@Override
 	public void updateSequenceMemberDetail(MemberDTO memberDTO) throws Exception {
 		memberDAO.updateSequenceMemberDetail(memberDTO);
+	}
+
+	// 이전 비밀번호 찾기
+	@Override
+	public String getPasswordByMNum(Long m_num) throws Exception {
+		return memberDAO.getPasswordByMNum(m_num);
 	}
 
 	// 비밀번호 찾기

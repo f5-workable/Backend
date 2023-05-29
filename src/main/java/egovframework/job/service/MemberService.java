@@ -24,6 +24,9 @@ public interface MemberService {
 
 	// 아이디 상세정보 수정
 	public void updateSequenceMemberDetail(MemberDTO memberDTO) throws Exception;
+	
+	// 이전 비밀번호 찾기
+	public String getPasswordByMNum(Long m_num) throws Exception;
 
 	// 비밀번호 찾기
 	public String findPassword(String id, String name, String phone) throws Exception;
