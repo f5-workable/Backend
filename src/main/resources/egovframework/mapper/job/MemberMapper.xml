@@ -91,7 +91,7 @@
 	<delete id="deleteMember">
 		DELETE
 		FROM member
-		WHERE id = #{id}
+		WHERE m_num = #{m_num}
 	</delete>
 
 	<!-- 대표이력서 설정 -->

@@ -189,13 +189,13 @@ public class MemberController {
 	}
 
 	// 회원 탈퇴
-	@PostMapping("/delete/{id}")
-	public ResponseEntity<String> deleteMember(@PathVariable String id) {
+	@PostMapping("/delete/{m_num}")
+	public ResponseEntity<String> deleteMember(@PathVariable Long m_num) {
 		try {
 
-			memberService.deleteMember(id);
+			memberService.deleteMember(m_num);
 
-			String successMessage = "회원 ID: " + id + "님, 탈퇴가 성공적으로 처리되었습니다.";
+			String successMessage = "회원 ID: " + m_num + "님, 탈퇴가 성공적으로 처리되었습니다.";
 			return ResponseEntity.ok(successMessage);
 		} catch (Exception e) {
 			String errorMessage = "회원 탈퇴 중 오류가 발생했습니다.";

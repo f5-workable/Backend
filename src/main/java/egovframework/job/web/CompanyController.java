@@ -182,13 +182,13 @@ public class CompanyController {
 	}
 
 	// 기업 탈퇴
-	@PostMapping("/delete/{c_id}")
-	public ResponseEntity<String> deleteMember(@PathVariable String c_id) {
+	@PostMapping("/delete/{c_num}")
+	public ResponseEntity<String> deleteMember(@PathVariable Long c_num) {
 		try {
 
-			companyService.deleteCompany(c_id);
+			companyService.deleteCompany(c_num);
 
-			String successMessage = "기업 ID: " + c_id + "님, 탈퇴가 성공적으로 처리되었습니다.";
+			String successMessage = "기업 ID: " + c_num + "님, 탈퇴가 성공적으로 처리되었습니다.";
 			return ResponseEntity.ok(successMessage);
 		} catch (Exception e) {
 			String errorMessage = "회원 탈퇴 중 오류가 발생했습니다.";

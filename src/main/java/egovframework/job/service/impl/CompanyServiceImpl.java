@@ -90,7 +90,7 @@ public class CompanyServiceImpl extends EgovAbstractServiceImpl implements Compa
 
 	// 아이디 탈퇴
 	@Override
-	public void deleteCompany(String id) throws Exception {
-		companyDAO.deleteCompany(id);
+	public void deleteCompany(Long c_num) throws Exception {
+		companyDAO.deleteCompany(c_num);
 	}
 }

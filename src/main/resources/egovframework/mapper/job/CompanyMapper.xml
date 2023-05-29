@@ -85,6 +85,6 @@
 	<delete id="deleteCompany">
 		DELETE
 		FROM company
-		WHERE c_id = #{c_id}
+		WHERE c_num = #{c_num}
 	</delete>
 </mapper>
