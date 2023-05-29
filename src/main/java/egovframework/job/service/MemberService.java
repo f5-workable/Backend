@@ -35,7 +35,7 @@ public interface MemberService {
 	void updatePassword(MemberDTO memberDTO) throws Exception;
 
 	// 아이디 탈퇴
-	public void deleteMember(String id) throws Exception;
+	public void deleteMember(Long m_num) throws Exception;
 
 	// 대표이력서 등록
 	public void rdefaultMember(MemberDTO dto);

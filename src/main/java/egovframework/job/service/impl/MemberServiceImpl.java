@@ -90,8 +90,8 @@ public class MemberServiceImpl extends EgovAbstractServiceImpl implements Member
 
 	// 아이디 탈퇴
 	@Override
-	public void deleteMember(String id) throws Exception {
-		memberDAO.deleteMember(id);
+	public void deleteMember(Long m_num) throws Exception {
+		memberDAO.deleteMember(m_num);
 	}
 
 	// 대표이력서 등록

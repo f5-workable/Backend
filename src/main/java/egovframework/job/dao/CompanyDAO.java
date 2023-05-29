@@ -64,7 +64,7 @@ public class CompanyDAO extends EgovAbstractMapper {
 	}
 
 	// 아이디 탈퇴
-	public void deleteCompany(String id) throws Exception {
-		delete("egovframework.mapper.job.CompanyMapper.deleteCompany", id);
+	public void deleteCompany(Long c_num) throws Exception {
+		delete("egovframework.mapper.job.CompanyMapper.deleteCompany", c_num);
 	}
 }

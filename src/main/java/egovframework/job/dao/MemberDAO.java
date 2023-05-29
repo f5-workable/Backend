@@ -64,8 +64,8 @@ public class MemberDAO extends EgovAbstractMapper {
 	}
 
 	// 아이디 탈퇴
-	public void deleteMember(String id) throws Exception {
-		delete("egovframework.mapper.job.MemberMapper.deleteMember", id);
+	public void deleteMember(Long m_num) throws Exception {
+		delete("egovframework.mapper.job.MemberMapper.deleteMember", m_num);
 	}
 
 	// 대표이력서 등록

@@ -35,5 +35,5 @@ public interface CompanyService {
 	void updatePassword(CompanyDTO companyDTO) throws Exception;
 
 	// 아이디 탈퇴
-	public void deleteCompany(String id) throws Exception;
+	public void deleteCompany(Long c_num) throws Exception;
 }
