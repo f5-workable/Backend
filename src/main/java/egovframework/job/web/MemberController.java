@@ -1,7 +1,6 @@
 package egovframework.job.web;
 
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,9 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -59,28 +55,21 @@ public class MemberController {
 
 	// 회원가입 처리
 	@PostMapping("/signup")
-	public ResponseEntity<?> actionSignUp(@RequestBody MemberDTO memberDTO) {
-
+    public ResponseEntity<String> memberSignUp(@RequestBody MemberDTO memberDTO) {
+        
 		try {
-			// 아이디 중복 체크
-			String id = memberDTO.getId();
-			if (memberService.isIdDuplicate(id)) {
-				return ResponseEntity.badRequest().body("아이디를 이미 사용 중입니다.");
-			}
-
 			// 입력받은 비밀번호를 암호화하여 저장
-			String encodedPassword = memberPasswordEncoder.encode(memberDTO.getPassword());
-			memberDTO.setPassword(encodedPassword);
+            String encodedPassword = memberPasswordEncoder.encode(memberDTO.getPassword());
+            memberDTO.setPassword(encodedPassword);
 
-			// 회원 정보 저장
-			memberService.registerMember(memberDTO);
-			return ResponseEntity.ok(memberDTO); // 회원가입이 성공하면 회원 정보를 응답으로 반환
-		} catch (Exception e) {
-
-			String errorMessage = "회원가입 중 오류가 발생했습니다.";
+            // 회원 정보 저장
+            memberService.insertMember(memberDTO);
+            return ResponseEntity.ok("회원가입이 성공적으로 처리되었습니다.");
+        } catch (Exception e) {
+        	String errorMessage = "회원가입 중 오류가 발생했습니다.";
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorMessage);
-		}
-	}
+        }
+    }
 
 	// 로그아웃 처리
 	@GetMapping("/logout")
@@ -123,7 +112,8 @@ public class MemberController {
 			return ResponseEntity.ok("멤버 정보가 업데이트되었습니다.");
 		} catch (Exception e) {
 			String errorMessage = "회원 정보 업데이트 중 오류가 발생했습니다.";
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Collections.singletonMap("errorMessage", errorMessage));
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body(Collections.singletonMap("errorMessage", errorMessage));
 		}
 	}
 

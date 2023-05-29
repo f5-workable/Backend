@@ -1,6 +1,6 @@
 package egovframework.job.web;
 
-import java.util.HashMap;
+import java.util.Collections;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -10,10 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -58,16 +55,16 @@ public class CompanyController {
 
 	// 회원가입 처리
 	@PostMapping("/signup")
-	public ResponseEntity<?> actionSignUp(@RequestBody CompanyDTO companyDTO) {
-
-		// 입력받은 비밀번호를 암호화하여 저장
-		String encodedPassword = companyPasswordEncoder.encode(companyDTO.getC_password());
-		companyDTO.setC_password(encodedPassword);
+	public ResponseEntity<String> companySignUp(@RequestBody CompanyDTO companyDTO) {
 
 		try {
+			// 입력받은 비밀번호를 암호화하여 저장
+			String encodedPassword = companyPasswordEncoder.encode(companyDTO.getC_password());
+			companyDTO.setC_password(encodedPassword);
+
 			// 회원 정보 저장
-			companyService.registerCompany(companyDTO);
-			return ResponseEntity.ok(companyDTO);
+			companyService.insertCompany(companyDTO);
+			return ResponseEntity.ok("회원가입이 성공적으로 처리되었습니다.");
 		} catch (Exception e) {
 			String errorMessage = "회원가입 중 오류가 발생했습니다.";
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorMessage);
@@ -92,75 +89,48 @@ public class CompanyController {
 	}
 
 	// 상세정보 화면
-	@GetMapping("/info/{id}")
-	public ResponseEntity<?> companyInfo(@PathVariable String id, Authentication authentication) {
+	@GetMapping("/info/{c_num}")
+	public ResponseEntity<?> companyInfo(@PathVariable Long c_num) {
 		try {
-			UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-			CompanyDTO companyDetail = companyService.getCompanyDetail(id);
-
-			if (companyDetail != null) {
-				// Create a map to hold the member information
-				Map<String, Object> response = new HashMap<>();
-				response.put("id", userDetails.getUsername());
-				response.put("company", companyDetail);
-
-				return ResponseEntity.ok(response);
-			} else {
-				String errorMessage = "회원 정보를 찾을 수 없습니다.";
-				return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMessage);
-			}
+			// 멤버 정보 조회 로직
+			CompanyDTO companyDTO = companyService.findByCNum(c_num);
+			return ResponseEntity.ok(companyDTO);
 		} catch (Exception e) {
 			String errorMessage = "서버에서 오류가 발생했습니다.";
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorMessage);
 		}
 	}
 
-	// 상세정보 수정 화면
-	@RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
-	public String companyUpdate(@PathVariable String id, Authentication authentication, Model model) {
-
-		// 현재 로그인한 사용자의 정보를 얻어온다.
+	// 상세정보 처리
+	@PutMapping("/update/{c_num}")
+	public ResponseEntity<?> updateCompanyInfo(@PathVariable Long c_num, @RequestBody CompanyDTO companyDTO) {
 		try {
-			UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-			CompanyDTO companyDetail = companyService.getCompanyDetail(id);
-
-			model.addAttribute("id", userDetails.getUsername());
-			model.addAttribute("company", companyDetail);
-			return "/company/update";
+			// 멤버 정보 업데이트 로직
+			companyDTO.setC_num(c_num);
+			companyService.updateSequenceCompanyDetail(companyDTO);
+			return ResponseEntity.ok("멤버 정보가 업데이트되었습니다.");
 		} catch (Exception e) {
-			// Handle the exception or show an error page
-			return "error";
+			String errorMessage = "회원 정보 업데이트 중 오류가 발생했습니다.";
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body(Collections.singletonMap("errorMessage", errorMessage));
 		}
 	}
 
-	// 상세정보 수정 처리
-	@RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
-	public String updateCompanyDetail(@PathVariable String id, @ModelAttribute("company") CompanyDTO companyDTO) {
-		try {
-			companyDTO.setC_id(id);
-			companyService.updateCompanyDetail(companyDTO);
-			return "redirect:/company/info.do/" + id;
-		} catch (Exception e) {
-			// Handle the exception or show an error page
-			return "error";
-		}
-	}
-	
 	// 비밀번호 찾기 페이지로 이동
 	@GetMapping("/{c_id}/password")
 	public ResponseEntity<String> getPasswordRecoveryPage(@PathVariable("c_id") String c_id) {
 		try {
 			CompanyDTO companyDTO = companyService.getCompanyDetail(c_id);
-			if(companyDTO != null) {
+			if (companyDTO != null) {
 				return ResponseEntity.ok(companyDTO.toString());
 			} else {
 				return ResponseEntity.status(HttpStatus.NOT_FOUND).body("기업 정보가 존재하지 않습니다.");
 			}
-		} catch(Exception e) {
+		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 		}
 	}
-	
+
 	// 비밀번호 찾기
 	@PostMapping("/{c_id}/password")
 	public ResponseEntity<String> findPassword(@PathVariable("c_id") String c_id, @RequestParam("c_name") String c_name,
@@ -172,14 +142,15 @@ public class CompanyController {
 			} else {
 				return ResponseEntity.status(HttpStatus.NOT_FOUND).body("잘못된 정보입니다. 다시 시도해주세요.");
 			}
-		} catch(Exception e) {
+		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("오류가 발생했습니다. 다시 시도해주세요.");
 		}
 	}
-	
+
 	// 비밀번호 변경
 	@PutMapping("/{c_id}/password")
-	public ResponseEntity<String> changePassword(@PathVariable("c_id") String c_id, @RequestBody Map<String, String> request) {
+	public ResponseEntity<String> changePassword(@PathVariable("c_id") String c_id,
+			@RequestBody Map<String, String> request) {
 		try {
 			String c_password = request.get("c_password");
 			CompanyDTO companyDTO = companyService.findById(c_id);
@@ -187,53 +158,22 @@ public class CompanyController {
 			companyService.updatePassword(companyDTO);
 			return ResponseEntity.ok("비밀번호가 성공적으로 변경되었습니다.");
 		} catch (Exception e) {
-	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("비밀번호 변경에 실패하였습니다.");
-	    }
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("비밀번호 변경에 실패하였습니다.");
+		}
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 
 	// 기업 탈퇴
-	@RequestMapping(value = "/delete", method = RequestMethod.GET)
-	public String deleteCompany(Authentication authentication) {
+	@PostMapping("/delete/{c_id}")
+	public ResponseEntity<String> deleteMember(@PathVariable String c_id) {
 		try {
-			UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-			String id = userDetails.getUsername();
 
-			companyService.deleteCompany(id);
+			companyService.deleteCompany(c_id);
 
-			return "redirect:/company/login.do";
+			String successMessage = "기업 ID: " + c_id + "님, 탈퇴가 성공적으로 처리되었습니다.";
+			return ResponseEntity.ok(successMessage);
 		} catch (Exception e) {
-			// Handle the exception or show an error page
-			return "error";
+			String errorMessage = "회원 탈퇴 중 오류가 발생했습니다.";
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorMessage);
 		}
 	}
 }

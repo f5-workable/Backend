@@ -22,14 +22,20 @@ public class CompanyServiceImpl extends EgovAbstractServiceImpl implements Compa
 
 	// 회원가입 처리
 	@Override
-	public void registerCompany(CompanyDTO companyDTO) throws Exception {
-		companyDAO.registerCompany(companyDTO);
+	public void insertCompany(CompanyDTO companyDTO) throws Exception {
+		companyDAO.insertCompany(companyDTO);
 	}
 
 	// 아이디 검색
 	@Override
 	public CompanyDTO findById(String id) throws Exception {
 		return companyDAO.findById(id);
+	}
+
+	// 시퀀스 넘버 검색
+	@Override
+	public CompanyDTO findByCNum(Long c_num) {
+		return companyDAO.findByCNum(c_num);
 	}
 
 	// 아이디 상세정보
@@ -42,6 +48,12 @@ public class CompanyServiceImpl extends EgovAbstractServiceImpl implements Compa
 	@Override
 	public void updateCompanyDetail(CompanyDTO companyDTO) throws Exception {
 		companyDAO.updateCompanyDetail(companyDTO);
+	}
+
+	// 아이디 상세정보 수정
+	@Override
+	public void updateSequenceCompanyDetail(CompanyDTO companyDTO) throws Exception {
+		companyDAO.updateSequenceCompanyDetail(companyDTO);
 	}
 
 	// 비밀번호 찾기
