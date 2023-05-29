@@ -26,6 +26,12 @@ public class CompanyServiceImpl extends EgovAbstractServiceImpl implements Compa
 		companyDAO.insertCompany(companyDTO);
 	}
 
+	// 아이디 중복 검색
+	@Override
+	public boolean isIdDuplicate(String id) throws Exception {
+		return companyDAO.isIdDuplicate(id);
+	}
+
 	// 아이디 검색
 	@Override
 	public CompanyDTO findById(String id) throws Exception {

@@ -71,6 +71,16 @@ public class CompanyController {
 		}
 	}
 
+	// 아이디 중복 체크
+	@GetMapping("/checkId/{c_id}")
+	public ResponseEntity<String> checkDuplicateId(@PathVariable("c_id") String c_id) throws Exception {
+		boolean isDuplicate = companyService.isIdDuplicate(c_id);
+		String message = isDuplicate ? "이미 사용 중인 아이디입니다." : "사용 가능한 아이디입니다.";
+
+		HttpStatus status = isDuplicate ? HttpStatus.CONFLICT : HttpStatus.OK;
+		return ResponseEntity.status(status).body(message);
+	}
+
 	// 로그아웃 처리
 	@GetMapping("/logout")
 	public ResponseEntity<String> logout(HttpServletRequest request, HttpServletResponse response) {

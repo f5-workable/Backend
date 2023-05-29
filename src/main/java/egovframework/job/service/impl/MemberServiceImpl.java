@@ -27,10 +27,10 @@ public class MemberServiceImpl extends EgovAbstractServiceImpl implements Member
 	}
 
 	// 아이디 중복 검색
-	public boolean isIdDuplicate(String id) throws Exception {
-		MemberDTO existingMember = memberDAO.findById(id);
-		return existingMember != null;
-	}
+	@Override
+    public boolean isIdDuplicate(String id) throws Exception {
+        return memberDAO.isIdDuplicate(id);
+    }
 
 	// 아이디 검색
 	@Override

@@ -55,21 +55,30 @@ public class MemberController {
 
 	// 회원가입 처리
 	@PostMapping("/signup")
-    public ResponseEntity<String> memberSignUp(@RequestBody MemberDTO memberDTO) {
-        
+	public ResponseEntity<String> memberSignUp(@RequestBody MemberDTO memberDTO) {
+
 		try {
 			// 입력받은 비밀번호를 암호화하여 저장
-            String encodedPassword = memberPasswordEncoder.encode(memberDTO.getPassword());
-            memberDTO.setPassword(encodedPassword);
+			String encodedPassword = memberPasswordEncoder.encode(memberDTO.getPassword());
+			memberDTO.setPassword(encodedPassword);
 
-            // 회원 정보 저장
-            memberService.insertMember(memberDTO);
-            return ResponseEntity.ok("회원가입이 성공적으로 처리되었습니다.");
-        } catch (Exception e) {
-        	String errorMessage = "회원가입 중 오류가 발생했습니다.";
+			// 회원 정보 저장
+			memberService.insertMember(memberDTO);
+			return ResponseEntity.ok("회원가입이 성공적으로 처리되었습니다.");
+		} catch (Exception e) {
+			String errorMessage = "회원가입 중 오류가 발생했습니다.";
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorMessage);
-        }
-    }
+		}
+	}
+
+	@GetMapping("/checkId/{id}")
+	public ResponseEntity<String> checkDuplicateId(@PathVariable("id") String id) throws Exception {
+	    boolean isDuplicate = memberService.isIdDuplicate(id);
+	    String message = isDuplicate ? "이미 사용 중인 아이디입니다." : "사용 가능한 아이디입니다.";
+
+	    HttpStatus status = isDuplicate ? HttpStatus.CONFLICT : HttpStatus.OK;
+	    return ResponseEntity.status(status).body(message);
+	}
 
 	// 로그아웃 처리
 	@GetMapping("/logout")

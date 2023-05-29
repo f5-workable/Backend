@@ -13,6 +13,12 @@ public class CompanyDAO extends EgovAbstractMapper {
 		insert("egovframework.mapper.job.CompanyMapper.insertCompany", companyDTO);
 	}
 
+	// 아이디 중복 검색
+	public boolean isIdDuplicate(String id) throws Exception {
+		Integer count = selectOne("egovframework.mapper.job.CompanyMapper.isIdDuplicate", id);
+		return count != null && count > 0;
+	}
+
 	// 아이디 검색
 	public CompanyDTO findById(String id) throws Exception {
 		return (CompanyDTO) selectOne("egovframework.mapper.job.CompanyMapper.findById", id);
