@@ -22,15 +22,15 @@ public class MemberServiceImpl extends EgovAbstractServiceImpl implements Member
 
 	// 회원가입 처리
 	@Override
-	public void registerMember(MemberDTO memberDTO) throws Exception {
-		memberDAO.registerMember(memberDTO);
+	public void insertMember(MemberDTO memberDTO) throws Exception {
+		memberDAO.insertMember(memberDTO);
 	}
 
 	// 아이디 중복 검색
-	public boolean isIdDuplicate(String id) throws Exception {
-		MemberDTO existingMember = memberDAO.findById(id);
-		return existingMember != null;
-	}
+	@Override
+    public boolean isIdDuplicate(String id) throws Exception {
+        return memberDAO.isIdDuplicate(id);
+    }
 
 	// 아이디 검색
 	@Override

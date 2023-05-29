@@ -4,8 +4,8 @@ import egovframework.job.dto.MemberDTO;
 
 public interface MemberService {
 
-	// 회원가입 처리
-	public void registerMember(MemberDTO memberDTO) throws Exception;
+	// 회원가입
+	public void insertMember(MemberDTO memberDTO) throws Exception;
 
 	// 아이디 중복 검색
 	public boolean isIdDuplicate(String id) throws Exception;
