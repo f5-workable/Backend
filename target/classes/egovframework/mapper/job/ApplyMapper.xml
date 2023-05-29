@@ -14,6 +14,9 @@
     <insert id="createApply" parameterType="egovframework.job.dto.ApplyDTO">
         INSERT INTO APPLY (j_num, cr_num)
         VALUES (#{j_num}, #{cr_num})
+        <selectKey resultType="long" keyProperty="a_id" order="AFTER">
+        	SELECT LAST_INSERT_ID()
+    	</selectKey>
     </insert>
 
      <select id="selectApplyListByMemberAndState" parameterType="hashmap" resultType="hashmap">

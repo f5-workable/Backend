@@ -27,12 +27,13 @@ public class ApplyService {
     }
     
     // 지원 등록
-    public int addApply(long j_num, long cr_num) {
+    public long addApply(long j_num, long cr_num) {
     	ApplyDTO dto = new ApplyDTO();
 		dto.setJ_num(j_num);	
 		// 등록된 기업이력서 set
 		dto.setCr_num(cr_num);
-    	return applyDAO.createApply(dto);
+		applyDAO.createApply(dto);
+    	return dto.getA_id();
     }
     
     // 지원내역 상태별 조회 (사용자별 -> 지원상태별)
