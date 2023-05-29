@@ -7,6 +7,9 @@ public interface CompanyService {
 	// 회원가입 처리
 	public void insertCompany(CompanyDTO companyDTO) throws Exception;
 
+	// 아이디 중복 검색
+	public boolean isIdDuplicate(String id) throws Exception;
+
 	// 아이디 검색
 	public CompanyDTO findById(String id) throws Exception;
 
