@@ -5,6 +5,8 @@
 	<select id="selectResumeList" resultType="egovframework.job.vo.ResumeVO">
         SELECT * FROM RESUME LIMIT 10
     </select>
+    
+    <!-- 회원별 이력서조회 -->
 	<select id="memberResume" parameterType="Long" resultType="egovframework.job.vo.ResumeResultVO">
 		SELECT R.r_id, R.education, R_R.region, R.job, R.payment_type, R.payment, R.ob_type, R.disease, R.career, R.pr, R.m_num, R.title
 	    , (CASE
@@ -29,6 +31,7 @@
         SELECT * FROM RESUME WHERE r_id = #{r_id}
     </select>
     
+    <!-- 이력서 생성 -->
     <insert id="createResume" parameterType="egovframework.job.dto.ResumeDTO">
         INSERT INTO RESUME (job, payment_type, payment, ob_type, disease, career, pr, m_num, title, education)
         VALUES (
@@ -48,6 +51,7 @@
     	</selectKey>
     </insert>
     
+    <!-- 이력서 수정 -->
     <update id="updateResume" parameterType="egovframework.job.dto.ResumeDTO">
         UPDATE RESUME SET 
            education = #{education},
@@ -62,10 +66,12 @@
         WHERE r_id = #{r_id}
     </update>
     
+    <!-- 이력서 삭제 -->
     <delete id="deleteResume" parameterType="Long">
         delete from RESUME where r_id=#{r_id}
     </delete>
     
+    <!-- 이력서 조건검색 -->
     <select id="searchResume" resultType="egovframework.job.vo.ResumeResultVO" parameterType="egovframework.job.vo.ResumeSearchVO">
       SELECT R.r_id, R.education, R_R.region, R.job, R.payment_type, R.payment, R.ob_type, R.disease, R.career, R.pr, R.m_num, R.title, 
       (SELECT M.name FROM MEMBER M WHERE M.m_num = R.m_num) AS name

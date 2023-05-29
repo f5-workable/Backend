@@ -28,10 +28,10 @@ import egovframework.job.vo.JobinfoVO;
 public class JobinfoController {
    @Autowired
    private JobinfoService service;
-//   
+   
+// 구직정보 전체리스트 반환
    @GetMapping("/jobinfo")
    public ResponseEntity<List> selectJobinfo() {
-//	  JobinfoResultVO
       List<JobinfoVO> res =  service.getJobinfoList();
       return ResponseEntity.ok(res);
    }
@@ -57,7 +57,6 @@ public class JobinfoController {
 //       dto의 j_id : null, 쿼리스트링으로 받아온 id값을 set
        jobinfoDto.setJ_id(id);
        service.updateJobinfo(jobinfoDto);    
-//     수정필요
        JobinfoVO res = service.getJById(id);
        return ResponseEntity.ok(res);
     }

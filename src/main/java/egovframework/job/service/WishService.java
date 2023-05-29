@@ -20,14 +20,16 @@ public class WishService {
 	@Autowired
 	private WishDAO dao;
 	
+//	회원별 찜목록 조회
 	public List<JobinfoResultVO> getWishList(Long memberId) {
 		return dao.selectWishList(memberId);
 	}
+//	찜 등록
 	@Transactional
 	public void createWish(WishCreateVO vo) {
 		dao.createWish(vo);
 	}
-	
+//	찜 삭제
 	@Transactional
 	public void deleteWish(WishCreateVO vo) {
 		dao.deleteWish(vo);
