@@ -81,7 +81,7 @@ public class ResumeService {
 //     이력서지역 update
 //     기존에 있던걸 모두 삭제후
    	   resumeRegionDAO.deleteResumeRegion(rId);
-//     다시 등록
+//     다시 등록(새로운 resume_region의 id로 생성)
 	   String[] places = dto.getPlace();
 	   ResumeRegionDTO resumeRegionDTO = new ResumeRegionDTO();
 //	   희망지역을 입력했다면
@@ -106,8 +106,6 @@ public class ResumeService {
     public void deleteResume(Long id) {
 //      이력서 삭제
     	dao.deleteResume(id);
-//      이력서지역 삭제
-    	resumeRegionDAO.deleteResumeRegion(id);
     }
 //  조건검색
     public List<ResumeResultVO> searchResume(ResumeSearchVO vo) {

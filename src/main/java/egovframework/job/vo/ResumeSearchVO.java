@@ -2,6 +2,7 @@ package egovframework.job.vo;
 
 import java.util.List;
 
+import egovframework.job.dto.MemberDTO;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

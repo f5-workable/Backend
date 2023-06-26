@@ -30,7 +30,7 @@
     <select id="selectResumeById" resultType="egovframework.job.dto.ResumeDTO">
         SELECT * FROM RESUME WHERE r_id = #{r_id}
     </select>
-    
+
     <!-- 이력서 생성 -->
     <insert id="createResume" parameterType="egovframework.job.dto.ResumeDTO">
         INSERT INTO RESUME (job, payment_type, payment, ob_type, disease, career, pr, m_num, title, education)

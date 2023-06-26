@@ -54,13 +54,13 @@ public class JobinfoController {
 //   Update
     @PutMapping("/jobinfo/{id}")
     public ResponseEntity updateJobinfo(@PathVariable Long id, @RequestBody JobinfoDTO jobinfoDto) {
-//       dto의 j_id : null, 쿼리스트링으로 받아온 id값을 set
+//     쿼리스트링으로 받아온 id값을 set
        jobinfoDto.setJ_id(id);
        service.updateJobinfo(jobinfoDto);    
        JobinfoVO res = service.getJById(id);
        return ResponseEntity.ok(res);
     }
-//  Delete
+//   Delete
     @DeleteMapping("/jobinfo/{id}")
     public ResponseEntity deleteJobinfo(@PathVariable Long id) {
        service.deleteJobinfo(id);
