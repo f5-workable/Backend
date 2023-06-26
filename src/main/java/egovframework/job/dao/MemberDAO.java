@@ -9,8 +9,14 @@ import egovframework.job.dto.MemberDTO;
 public class MemberDAO extends EgovAbstractMapper {
 
 	// 회원가입 처리
-	public void registerMember(MemberDTO memberDTO) throws Exception {
-		insert("egovframework.mapper.job.MemberMapper.registerMember", memberDTO);
+	public void insertMember(MemberDTO memberDTO) throws Exception {
+		insert("egovframework.mapper.job.MemberMapper.insertMember", memberDTO);
+	}
+
+	// 아이디 중복 검색
+	public boolean isIdDuplicate(String id) throws Exception {
+		Integer count = selectOne("egovframework.mapper.job.MemberMapper.isIdDuplicate", id);
+		return count != null && count > 0;
 	}
 
 	// 아이디 검색
@@ -26,6 +32,11 @@ public class MemberDAO extends EgovAbstractMapper {
 	// 아이디 상세정보
 	public MemberDTO getMemberDetail(String id) throws Exception {
 		return (MemberDTO) selectOne("egovframework.mapper.job.MemberMapper.findById", id);
+	}
+
+	// 이전 비밀번호 찾기
+	public String getPasswordByMNum(Long m_num) throws Exception {
+		return selectOne("egovframework.mapper.job.MemberMapper.getPasswordByMNum", m_num);
 	}
 
 	// 비밀번호 찾기
@@ -53,8 +64,8 @@ public class MemberDAO extends EgovAbstractMapper {
 	}
 
 	// 아이디 탈퇴
-	public void deleteMember(String id) throws Exception {
-		delete("egovframework.mapper.job.MemberMapper.deleteMember", id);
+	public void deleteMember(Long m_num) throws Exception {
+		delete("egovframework.mapper.job.MemberMapper.deleteMember", m_num);
 	}
 
 	// 대표이력서 등록

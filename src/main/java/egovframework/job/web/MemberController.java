@@ -1,7 +1,6 @@
 package egovframework.job.web;
 
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,9 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -59,27 +55,27 @@ public class MemberController {
 
 	// 회원가입 처리
 	@PostMapping("/signup")
-	public ResponseEntity<?> actionSignUp(@RequestBody MemberDTO memberDTO) {
+	public ResponseEntity<String> memberSignUp(@RequestBody MemberDTO memberDTO) {
 
 		try {
-			// 아이디 중복 체크
-			String id = memberDTO.getId();
-			if (memberService.isIdDuplicate(id)) {
-				return ResponseEntity.badRequest().body("아이디를 이미 사용 중입니다.");
-			}
-
 			// 입력받은 비밀번호를 암호화하여 저장
 			String encodedPassword = memberPasswordEncoder.encode(memberDTO.getPassword());
 			memberDTO.setPassword(encodedPassword);
 
 			// 회원 정보 저장
-			memberService.registerMember(memberDTO);
-			return ResponseEntity.ok(memberDTO); // 회원가입이 성공하면 회원 정보를 응답으로 반환
+			memberService.insertMember(memberDTO);
+			return ResponseEntity.ok("회원가입이 성공적으로 처리되었습니다.");
 		} catch (Exception e) {
-
 			String errorMessage = "회원가입 중 오류가 발생했습니다.";
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorMessage);
 		}
+	}
+
+	// 아이디 중복 체크
+	@GetMapping("/checkId/{id}")
+	public ResponseEntity<Boolean> checkDuplicateId(@PathVariable("id") String id) throws Exception {
+		boolean isDuplicate = memberService.isIdDuplicate(id);
+		return ResponseEntity.ok(isDuplicate);
 	}
 
 	// 로그아웃 처리
@@ -117,13 +113,26 @@ public class MemberController {
 	@PutMapping("/update/{m_num}")
 	public ResponseEntity<?> updateMemberInfo(@PathVariable Long m_num, @RequestBody MemberDTO memberDTO) {
 		try {
+			// 이전 비밀번호를 조회하여 비교
+			String previousPassword = memberService.getPasswordByMNum(m_num);
+
+			if (memberDTO.getPassword() != null && !memberDTO.getPassword().equals(previousPassword)) {
+				// 입력받은 비밀번호를 암호화하여 저장
+				String encodedPassword = memberPasswordEncoder.encode(memberDTO.getPassword());
+				memberDTO.setPassword(encodedPassword);
+			} else {
+				// 이전 비밀번호를 그대로 저장
+				memberDTO.setPassword(previousPassword);
+			}
+
 			// 멤버 정보 업데이트 로직
 			memberDTO.setM_num(m_num);
 			memberService.updateSequenceMemberDetail(memberDTO);
 			return ResponseEntity.ok("멤버 정보가 업데이트되었습니다.");
 		} catch (Exception e) {
 			String errorMessage = "회원 정보 업데이트 중 오류가 발생했습니다.";
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Collections.singletonMap("errorMessage", errorMessage));
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body(Collections.singletonMap("errorMessage", errorMessage));
 		}
 	}
 
@@ -180,13 +189,13 @@ public class MemberController {
 	}
 
 	// 회원 탈퇴
-	@PostMapping("/delete/{id}")
-	public ResponseEntity<String> deleteMember(@PathVariable String id) {
+	@PostMapping("/delete/{m_num}")
+	public ResponseEntity<String> deleteMember(@PathVariable Long m_num) {
 		try {
 
-			memberService.deleteMember(id);
+			memberService.deleteMember(m_num);
 
-			String successMessage = "회원 ID: " + id + "님, 탈퇴가 성공적으로 처리되었습니다.";
+			String successMessage = "회원 ID: " + m_num + "님, 탈퇴가 성공적으로 처리되었습니다.";
 			return ResponseEntity.ok(successMessage);
 		} catch (Exception e) {
 			String errorMessage = "회원 탈퇴 중 오류가 발생했습니다.";

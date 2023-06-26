@@ -43,7 +43,7 @@ public class ApplyController {
 	}
 	
 	@PostMapping("/apply")
-	public ResponseEntity<Integer> addApply(@RequestParam(name="jobinfo") long j_id, @RequestParam(name="resume")long r_id) {
+	public ResponseEntity<Long> addApply(@RequestParam(name="jobinfo") long j_id, @RequestParam(name="resume")long r_id) {
 		// 이력서 id로 이력서 조회
 		ResumeDTO resumeDto = ResumeService.getResumeById(r_id);
 		// 이력서 id로  ResumeRegion List 조회
@@ -51,7 +51,7 @@ public class ApplyController {
 		// 기업 이력서 등록
 		long cr_num = CompanyResumeService.addCompanyResume(resumeDto, region);
 		// 등록된 기업 이력서의 cr_num 과 j_num으로 apply 등록
-		int res = applyService.addApply(j_id, cr_num);
+		long res = applyService.addApply(j_id, cr_num);
 		return ResponseEntity.ok(res);
 	}
 	
@@ -87,9 +87,9 @@ public class ApplyController {
 	}
 	
 	// 지원 상태 변경
-	@PutMapping("/company/apply/update")
-	public  ResponseEntity<Integer> updateApplyState(@RequestBody ApplyDTO dto) {
-		int res = applyService.updateApplyState(dto); // 1이라면 성공
+	@PutMapping("/company/apply/update/{cr_num}")
+	public  ResponseEntity<Integer> updateApplyState(@PathVariable(name = "cr_num") long cr_num,@RequestParam(name="state", defaultValue = "지원완료")String state) {
+		int res = applyService.updateApplyState(cr_num, state); // 1이라면 성공
 		return ResponseEntity.ok(res);
 	}
 	

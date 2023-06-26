@@ -4,8 +4,8 @@ import egovframework.job.dto.MemberDTO;
 
 public interface MemberService {
 
-	// 회원가입 처리
-	public void registerMember(MemberDTO memberDTO) throws Exception;
+	// 회원가입
+	public void insertMember(MemberDTO memberDTO) throws Exception;
 
 	// 아이디 중복 검색
 	public boolean isIdDuplicate(String id) throws Exception;
@@ -24,6 +24,9 @@ public interface MemberService {
 
 	// 아이디 상세정보 수정
 	public void updateSequenceMemberDetail(MemberDTO memberDTO) throws Exception;
+	
+	// 이전 비밀번호 찾기
+	public String getPasswordByMNum(Long m_num) throws Exception;
 
 	// 비밀번호 찾기
 	public String findPassword(String id, String name, String phone) throws Exception;
@@ -32,7 +35,7 @@ public interface MemberService {
 	void updatePassword(MemberDTO memberDTO) throws Exception;
 
 	// 아이디 탈퇴
-	public void deleteMember(String id) throws Exception;
+	public void deleteMember(Long m_num) throws Exception;
 
 	// 대표이력서 등록
 	public void rdefaultMember(MemberDTO dto);

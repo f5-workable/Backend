@@ -1,23 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="egovframework.mapper.job.ApplyMapper">
+    <!-- 지원내역 모두 조회 -->
    <select id="selectApplyList" resultType="egovframework.job.vo.ApplyVO">
         SELECT * FROM APPLY
     </select>
     
-     <select id="selectApplyById" parameterType="Long" resultType="egovframework.job.vo.ApplyVO">
-        SELECT * FROM APPLY WHERE a_id = #{j_id}
+    <!-- 지원내역 id로 조회 -->
+    <select id="selectApplyById" parameterType="Long" resultType="egovframework.job.vo.ApplyVO">
+        SELECT * FROM APPLY WHERE a_id = #{a_id}
     </select>
+    
+    <!-- 지원내역 id로 cr_num조회 -->
     <select id="selecteCrNumById" parameterType="Long" resultType="Long">
         SELECT cr_num FROM APPLY WHERE a_id = #{a_id}
     </select>
+    
+    <!-- 지원내역 등록 -->
     <insert id="createApply" parameterType="egovframework.job.dto.ApplyDTO">
         INSERT INTO APPLY (j_num, cr_num)
         VALUES (#{j_num}, #{cr_num})
+        <selectKey resultType="long" keyProperty="a_id" order="AFTER">
+        	SELECT LAST_INSERT_ID()
+    	</selectKey>
     </insert>
-    
-     <select id="selectApplyListByMemberAndState" parameterType="hashmap" resultType="hashmap">
-        SELECT j.j_id, c.c_name, j.job_type, j.payment, j.payment_type, c.address
+
+	<!-- 회원별 지원내역별 지원내역 조회(찜 여부 추가) -->
+    <select id="selectApplyListByMemberAndState" parameterType="hashmap" resultType="hashmap">
+        SELECT a.a_id, j.j_id, c.c_name, j.job_type, j.payment, j.payment_type, c.address,
+          (CASE
+	      WHEN j.j_id IN (
+	        SELECT W.j_num
+	        FROM WISH W
+	        WHERE W.m_num = #{m_num}
+	      ) THEN 'True'
+      	  ELSE 'False'
+    	END) AS state
+        
         FROM APPLY a 
         JOIN JOBINFO j ON (a.j_num = j.j_id)
         JOIN COMPANY c ON (j.c_num = c.c_num) 
@@ -29,10 +48,12 @@
 		</where>
     </select>
     
+    <!-- 지원내역 삭제 -->
     <delete id="deleteApply" parameterType="Long">
     	DELETE FROM APPLY WHERE A_ID=#{a_id}
     </delete>
     
+    <!-- 멤버별 지원상태별 목록 개수 조회(한꺼번에) -->
     <select id="countApplyState" parameterType="Long" resultType="map">
         SELECT STATE, count(*) AS CNT
         FROM APPLY
@@ -43,6 +64,7 @@
 		GROUP BY STATE
     </select>
     
+     <!-- 멤버별 지원상태에 따른 목록 개수 조회(지원상태 각각) -->
     <select id="countApplyStateByMember" parameterType="hashmap" resultType="Integer">
       	SELECT count(*) AS CNT
         FROM APPLY
@@ -61,17 +83,19 @@
 		</where>
     </select>
     
+    <!-- 지원내역 상태 수정 -->
     <update id="updateApply" parameterType="egovframework.job.dto.ApplyDTO">
         UPDATE APPLY SET 
            state = #{state}
-        WHERE a_id = #{a_id}
+        WHERE cr_num = #{cr_num}
     </update>
     
-     <select id="selecteCRAndMemberById" parameterType="hashmap"  resultType="egovframework.job.dto.ApplyDTO" >
-      	SELECT b.cr_num, m.name,  b.ob_type, b.disease, b.payment, b.payment_type
+    <!-- 지원내역 상세 목록 조회 -->
+    <select id="selecteCRAndMemberById" parameterType="hashmap"  resultType="hashmap" >
+      	SELECT cr.cr_num, m.name,  cr.ob_type, cr.disease, cr.payment, cr.payment_type, cr.job
 		FROM APPLY a 
-		JOIN COMPANYRESUME b ON (a.cr_num = b.cr_num)
-		JOIN MEMBER m ON (m.m_num = b.m_num)
+		JOIN COMPANYRESUME cr ON (a.cr_num = cr.cr_num)
+		JOIN MEMBER m ON (m.m_num = cr.m_num)
 		<where>
 			a.j_num = #{j_num}
 			<if test=" state =='지원완료' || state =='최종합격' || state =='불합격'">AND a.STATE = #{state} </if>
@@ -94,7 +118,7 @@
 	 <sql id="common_join_member">
 		LEFT JOIN member m ON (m.M_NUM = cr.m_num)
 	</sql>
-	
+	<!-- 장애유형 통계 -->
     <select id="statisticsObType" parameterType="Long" resultType="hashmap">
     	<include refid="common_select_table">
         	<property name="alias" value="cr.ob_type"/>
@@ -106,6 +130,7 @@
     	</include>
     </select>
     
+     <!-- 중증여부 통계 -->
     <select id="statisticsDisease" parameterType="Long"  resultType="hashmap">
     	<include refid="common_select_table">
         	<property name="alias" value="cr.DISEASE"/>
@@ -116,7 +141,8 @@
         	<property name="idproperty" value="#{j_num}"/>
     	</include>
     </select>
-    
+     
+     <!-- 성별 통계 -->
      <select id="statisticsGender" parameterType="Long" resultType="hashmap">
      	<include refid="common_select_table">
         	<property name="alias" value="m.GENDER"/>
@@ -129,6 +155,7 @@
     	</include>
     </select>
     
+    <!-- 학력 통계 -->
     <select id="statisticsEducation" parameterType="Long" resultType="hashmap">
         <include refid="common_select_table">
         	<property name="alias" value="cr.EDUCATION"/>
@@ -139,11 +166,13 @@
         	<property name="idproperty" value="#{j_num}"/>
     	</include>
     </select>
-    
+   
+   	<!-- 생년월일로 나이 계산하는 쿼리문 --> 
     <sql id="age">
 		ROUND(TRUNCATE((TO_DAYS(NOW()) - TO_DAYS(m.BIRTH)) / 365, 0) / 10) * 10 + 5
 	</sql>
   
+  	<!-- 나이 통계 -->
 	<select id="statisticsAge" parameterType="Long" resultType="hashmap">
   		SELECT 
     		IF( <include refid="age"></include> <![CDATA[<]]> 26, 25,
@@ -156,6 +185,7 @@
   		GROUP BY age;
 	</select>
 	
+	<!-- 공고 지원자 수 합계 -->
     <select id="statisticsCount" parameterType="Long" resultType="Integer" >
     	SELECT COUNT(*) AS cnt 
 		FROM apply a

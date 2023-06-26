@@ -2,38 +2,72 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="egovframework.mapper.job.CompanyMapper">
-	
-	<!-- 회원가입 처리 -->
-	<insert id="registerCompany" parameterType="egovframework.job.dto.CompanyDTO">
-        INSERT INTO company (c_id, c_password, c_name, rnum, address, c_type, phone, logo) 
-        VALUES (#{c_id}, #{c_password}, #{c_name}, #{rnum}, #{address}, #{c_type}, #{phone}, #{logo})
-    </insert>
 
-	<!-- 로그인 처리 -->
-	<select id="actionLogin" resultType="egovframework.job.dto.CompanyDTO">
-		SELECT c_id, c_password, c_name, rnum, address, c_type, phone, logo
-		FROM company
-		WHERE c_id = #{c_id} AND c_password = #{c_password}
+	<!-- 회원가입 처리 -->
+	<insert id="insertCompany"
+		parameterType="egovframework.job.dto.CompanyDTO">
+		INSERT INTO company (c_id, c_password, c_name, rnum,
+		address, c_type, phone,
+		logo)
+		VALUES (#{c_id}, #{c_password}, #{c_name},
+		#{rnum}, #{address}, #{c_type},
+		#{phone}, #{logo})
+	</insert>
+
+	<!-- 아이디 중복 검색 -->
+	<select id="isIdDuplicate" resultType="java.lang.Integer"
+		parameterType="java.lang.String">
+		SELECT COUNT(*) FROM company WHERE c_id = #{c_id}
 	</select>
-	
+
 	<!-- 아이디 검색 -->
-	<select id="findById" resultType="egovframework.job.dto.CompanyDTO">
+	<select id="findById"
+		resultType="egovframework.job.dto.CompanyDTO">
 		SELECT *
-        FROM company
-        WHERE c_id = #{c_id}
+		FROM company
+		WHERE c_id = #{c_id}
 	</select>
-	
+
+	<!-- 시퀀스 넘버로 기업 조회 -->
+	<select id="findByCNum" parameterType="java.lang.Long"
+		resultType="egovframework.job.dto.CompanyDTO">
+		SELECT *
+		FROM company
+		WHERE c_num = #{c_num}
+	</select>
+
 	<!-- 아이디 상세정보 수정 -->
-	<update id="updateCompany" parameterType="egovframework.job.dto.CompanyDTO">
-  		UPDATE company
-  		SET address = #{address}, c_type = #{c_type}, phone = #{phone}, logo = #{logo}
-  		WHERE c_id = #{c_id}
+	<update id="updateCompany"
+		parameterType="egovframework.job.dto.CompanyDTO">
+		UPDATE company
+		SET address = #{address}, c_type =
+		#{c_type}, phone = #{phone}, logo =
+		#{logo}
+		WHERE c_id = #{c_id}
 	</update>
-	
-		<!-- 비밀번호 찾기 -->
+
+	<!-- 아이디 상세정보 수정 -->
+	<update id="updateCompanySequence"
+		parameterType="egovframework.job.dto.CompanyDTO">
+		UPDATE company
+		SET rnum = #{rnum}, phone = #{phone},
+		address = #{address}, c_password = #{c_password}
+		WHERE c_num = #{c_num}
+	</update>
+
+	<!-- 이전 비밀번호 찾기 -->
+	<select id="getPasswordByMNum" resultType="java.lang.String">
+		SELECT c_password
+		FROM
+		company
+		WHERE c_num = #{c_num}
+	</select>
+
+	<!-- 비밀번호 찾기 -->
 	<select id="findPassword" resultType="java.lang.String">
 		SELECT c_password
-		FROM company
+		FROM
+		company
 		WHERE c_id = #{c_id}
 		AND c_name = #{c_name}
 		AND phone = #{phone}
@@ -46,11 +80,11 @@
 		c_password = #{c_password}
 		WHERE c_id = #{c_id}
 	</update>
-	
+
 	<!-- 아이디 탈퇴 -->
 	<delete id="deleteCompany">
-        DELETE 
-        FROM company
-        WHERE c_id = #{c_id}
-    </delete>
+		DELETE
+		FROM company
+		WHERE c_num = #{c_num}
+	</delete>
 </mapper>

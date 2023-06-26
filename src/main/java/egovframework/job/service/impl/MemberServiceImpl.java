@@ -22,14 +22,14 @@ public class MemberServiceImpl extends EgovAbstractServiceImpl implements Member
 
 	// 회원가입 처리
 	@Override
-	public void registerMember(MemberDTO memberDTO) throws Exception {
-		memberDAO.registerMember(memberDTO);
+	public void insertMember(MemberDTO memberDTO) throws Exception {
+		memberDAO.insertMember(memberDTO);
 	}
 
 	// 아이디 중복 검색
+	@Override
 	public boolean isIdDuplicate(String id) throws Exception {
-		MemberDTO existingMember = memberDAO.findById(id);
-		return existingMember != null;
+		return memberDAO.isIdDuplicate(id);
 	}
 
 	// 아이디 검색
@@ -62,6 +62,12 @@ public class MemberServiceImpl extends EgovAbstractServiceImpl implements Member
 		memberDAO.updateSequenceMemberDetail(memberDTO);
 	}
 
+	// 이전 비밀번호 찾기
+	@Override
+	public String getPasswordByMNum(Long m_num) throws Exception {
+		return memberDAO.getPasswordByMNum(m_num);
+	}
+
 	// 비밀번호 찾기
 	@Override
 	public String findPassword(String id, String name, String phone) throws Exception {
@@ -84,8 +90,8 @@ public class MemberServiceImpl extends EgovAbstractServiceImpl implements Member
 
 	// 아이디 탈퇴
 	@Override
-	public void deleteMember(String id) throws Exception {
-		memberDAO.deleteMember(id);
+	public void deleteMember(Long m_num) throws Exception {
+		memberDAO.deleteMember(m_num);
 	}
 
 	// 대표이력서 등록
