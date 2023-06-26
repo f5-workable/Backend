@@ -79,6 +79,7 @@ public class ResumeService {
 //     이력서 update
        dao.updateResume(dto);
 //     이력서지역 update
+       
 //     기존에 있던걸 모두 삭제후
    	   resumeRegionDAO.deleteResumeRegion(rId);
 //     다시 등록(새로운 resume_region의 id로 생성)
