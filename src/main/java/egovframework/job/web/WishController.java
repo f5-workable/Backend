@@ -19,12 +19,13 @@ import egovframework.job.dto.WishDTO;
 import egovframework.job.service.WishService;
 import egovframework.job.vo.JobinfoVO;
 import egovframework.job.vo.WishVO;
+import lombok.RequiredArgsConstructor;
 
 @RestController
+@RequiredArgsConstructor
 public class WishController {
 
-	@Autowired
-	private WishService service;
+	private final WishService service;
 	
 //	한 회원의 찜목록
 	@GetMapping("/wish")

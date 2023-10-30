@@ -22,11 +22,13 @@ import egovframework.job.dto.JobinfoSearchRequest;
 import egovframework.job.dto.JobinfoSearchResponse;
 import egovframework.job.service.JobinfoService;
 import egovframework.job.vo.JobinfoVO;
+import lombok.RequiredArgsConstructor;
 
 @RestController
+@RequiredArgsConstructor
 public class JobinfoController {
-   @Autowired
-   private JobinfoService service;
+	
+   private final JobinfoService service;
    
 // 구직정보 전체리스트 반환
    @GetMapping("/jobinfo")

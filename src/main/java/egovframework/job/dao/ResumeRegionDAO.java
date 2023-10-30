@@ -8,12 +8,13 @@ import org.springframework.stereotype.Repository;
 
 import egovframework.job.dto.ResumeRegionDTO;
 import egovframework.job.vo.ResumeRegionVO;
+import lombok.RequiredArgsConstructor;
 
 @Repository
+@RequiredArgsConstructor
 public class ResumeRegionDAO {
 	
-	@Autowired
-	private SqlSession sqlSession;
+	private final SqlSession sqlSession;
 	
 	// 지역 등록
 	public int insertResumeRegion(ResumeRegionDTO resumeRegionDTO) {

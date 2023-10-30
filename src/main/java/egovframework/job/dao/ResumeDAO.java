@@ -10,12 +10,13 @@ import egovframework.job.dto.ResumeDTO;
 import egovframework.job.dto.ResumeSearchRequest;
 import egovframework.job.dto.ResumeSearchResponse;
 import egovframework.job.vo.ResumeVO;
+import lombok.RequiredArgsConstructor;
 
 @Repository
+@RequiredArgsConstructor
 public class ResumeDAO {
 
-	@Autowired
-	private SqlSession sqlSession;
+	private final SqlSession sqlSession;
 	
 //  이력서 전체 조회
 	public List<ResumeDTO> selectResumeList() {

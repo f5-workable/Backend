@@ -10,12 +10,13 @@ import egovframework.job.dto.JobinfoDTO;
 import egovframework.job.dto.JobinfoSearchRequest;
 import egovframework.job.dto.JobinfoSearchResponse;
 import egovframework.job.vo.JobinfoVO;
+import lombok.RequiredArgsConstructor;
 
 @Repository
+@RequiredArgsConstructor
 public class JobinfoDAO {
    
-   @Autowired
-   private SqlSession sqlSession;
+   private final SqlSession sqlSession;
    
 // 구직정보 전체 리스트
    public List<JobinfoDTO> selectJobinfoList() {

@@ -15,12 +15,13 @@ import egovframework.job.dto.JobinfoSearchRequest;
 import egovframework.job.dto.JobinfoSearchResponse;
 import egovframework.job.vo.JobinfoVO;
 import egovframework.job.vo.WishVO;
+import lombok.RequiredArgsConstructor;
 
 @Service
+@RequiredArgsConstructor
 public class JobinfoService {
 
-   @Autowired
-   private JobinfoDAO dao;
+   private final JobinfoDAO dao;
    
 // 구직정보 전체리스트 반환
    public List<JobinfoDTO> getJobinfoList() {

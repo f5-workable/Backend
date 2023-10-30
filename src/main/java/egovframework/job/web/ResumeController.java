@@ -27,15 +27,14 @@ import egovframework.job.service.MemberService;
 import egovframework.job.service.ResumeService;
 import egovframework.job.vo.MemberVO;
 import egovframework.job.vo.ResumeVO;
+import lombok.RequiredArgsConstructor;
 
 @RestController
+@RequiredArgsConstructor
 public class ResumeController {
 	
-	@Autowired
-	private ResumeService service;
-	
-	@Autowired
-	private MemberService memberService;
+	private final ResumeService service;
+	private final MemberService memberService;
 //	전체 조회
 	@GetMapping("/resume")
 	public ResponseEntity selectResumeList() {

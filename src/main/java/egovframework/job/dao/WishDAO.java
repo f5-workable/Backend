@@ -10,12 +10,13 @@ import egovframework.job.dto.JobinfoSearchResponse;
 import egovframework.job.dto.WishDTO;
 import egovframework.job.vo.JobinfoVO;
 import egovframework.job.vo.WishVO;
+import lombok.RequiredArgsConstructor;
 
 @Repository
+@RequiredArgsConstructor
 public class WishDAO {
 	
-	@Autowired
-	private SqlSession sqlSession;
+	private final SqlSession sqlSession;
 //	한 회원의 찜목록
 	public List<JobinfoSearchResponse> selectWishList(Long memberId) {
 		List<JobinfoSearchResponse> res = sqlSession.selectList("egovframework.mapper.job.WishMapper.selectWishList", memberId);

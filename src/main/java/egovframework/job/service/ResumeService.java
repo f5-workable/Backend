@@ -17,18 +17,15 @@ import egovframework.job.dto.ResumeSearchRequest;
 import egovframework.job.dto.ResumeSearchResponse;
 import egovframework.job.vo.ResumeRegionVO;
 import egovframework.job.vo.ResumeVO;
+import lombok.RequiredArgsConstructor;
 
 @Service
+@RequiredArgsConstructor
 public class ResumeService {
 	
-	@Autowired
-	private ResumeDAO dao;
-	
-	@Autowired
-	private ResumeRegionDAO resumeRegionDAO;
-	
-	@Autowired
-	private MemberDAO memberDAO;
+	private final ResumeDAO dao;
+	private final ResumeRegionDAO resumeRegionDAO;
+	private final MemberDAO memberDAO;
 //	조회
 	public List<ResumeDTO> getResumeList() {
         return dao.selectResumeList();

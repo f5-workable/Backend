@@ -12,12 +12,13 @@ import egovframework.job.dto.JobinfoSearchResponse;
 import egovframework.job.dto.WishDTO;
 import egovframework.job.vo.JobinfoVO;
 import egovframework.job.vo.WishVO;
+import lombok.RequiredArgsConstructor;
 
 @Service
+@RequiredArgsConstructor
 public class WishService {
 
-	@Autowired
-	private WishDAO dao;
+	private final WishDAO dao;
 	
 //	회원별 찜목록 조회
 	public List<JobinfoSearchResponse> getWishList(Long memberId) {
