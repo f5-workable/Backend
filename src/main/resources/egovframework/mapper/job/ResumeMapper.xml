@@ -2,12 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="egovframework.mapper.job.ResumeMapper">
 
-	<select id="selectResumeList" resultType="egovframework.job.vo.ResumeVO">
+	<select id="selectResumeList" resultType="egovframework.job.dto.ResumeDTO">
         SELECT * FROM RESUME LIMIT 10
     </select>
     
     <!-- 회원별 이력서조회 -->
-	<select id="memberResume" parameterType="Long" resultType="egovframework.job.vo.ResumeResultVO">
+	<select id="memberResume" parameterType="Long" resultType="egovframework.job.dto.ResumeSearchResponse">
 		SELECT R.r_id, R.education, R_R.region, R.job, R.payment_type, R.payment, R.ob_type, R.disease, R.career, R.pr, R.m_num, R.title
 	    , (CASE
 	      	WHEN R.r_id IN (
@@ -53,16 +53,36 @@
     
     <!-- 이력서 수정 -->
     <update id="updateResume" parameterType="egovframework.job.dto.ResumeDTO">
-        UPDATE RESUME SET 
-           education = #{education},
-           job = #{job}, 
-           payment_type = #{payment_type}, 
-           payment = #{payment}, 
-           ob_type = #{ob_type}, 
-           disease = #{disease},
-           career = #{career},
-           pr = #{pr},
-           title = #{title}
+        UPDATE RESUME 
+           <set>
+		      <if test="education != null">
+		        education = #{education},
+		      </if>
+		      <if test="job != null">
+		        job = #{job},
+		      </if>
+		      <if test="payment_type != null">
+		        payment_type = #{payment_type},
+		      </if>
+		      <if test="payment != null">
+		        payment = #{payment},
+		      </if>
+		      <if test="ob_type != null">
+		        ob_type = #{ob_type},
+		      </if>
+		      <if test="disease != null">
+		        disease = #{disease},
+		      </if>
+		      <if test="career != null">
+		        career = #{career},
+		      </if>
+		      <if test="pr != null">
+		        pr = #{pr},
+		      </if>
+		      <if test="title != null">
+		        title = #{title}
+		      </if>
+    		</set>
         WHERE r_id = #{r_id}
     </update>
     
@@ -72,7 +92,7 @@
     </delete>
     
     <!-- 이력서 조건검색 -->
-    <select id="searchResume" resultType="egovframework.job.vo.ResumeResultVO" parameterType="egovframework.job.vo.ResumeSearchVO">
+    <select id="searchResume" resultType="egovframework.job.dto.ResumeSearchResponse" parameterType="egovframework.job.dto.ResumeSearchRequest">
       SELECT R.r_id, R.education, R_R.region, R.job, R.payment_type, R.payment, R.ob_type, R.disease, R.career, R.pr, R.m_num, R.title, 
       (SELECT M.name FROM MEMBER M WHERE M.m_num = R.m_num) AS name
       FROM RESUME R INNER JOIN RESUME_REGION R_R

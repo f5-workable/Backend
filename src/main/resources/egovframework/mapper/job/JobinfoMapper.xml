@@ -2,19 +2,19 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="egovframework.mapper.job.JobinfoMapper">
    
-   <select id="selectJobinfoList" resultType="egovframework.job.vo.JobinfoVO">
+   <select id="selectJobinfoList" resultType="egovframework.job.dto.JobinfoDTO">
         SELECT * FROM JOBINFO LIMIT 10
     </select>
     
     <!-- 구직정보 단일 단순조회(찜여부X) -->
-    <select id="selectJobinfoById" resultType="egovframework.job.vo.JobinfoResultVO">
+    <select id="selectJobinfoById" resultType="egovframework.job.dto.JobinfoSearchResponse">
     SELECT J.j_id , J.d_date, C.c_name, C.address, C.c_type, J.job_type, J.employment_type, J.payment_type, J.payment, J.career, J.edu, J.r_date, J.detail
       FROM JOBINFO J INNER JOIN COMPANY C
       ON J.c_num = C.c_num
       WHERE j_id = #{j_id}
     </select>
 
-    <select id="selectJById" resultType="egovframework.job.vo.JobinfoVO">
+    <select id="selectJById" resultType="egovframework.job.dto.JobinfoDTO">
         SELECT * FROM JOBINFO WHERE j_id = #{j_id}
     </select>
     
@@ -26,16 +26,39 @@
     
     <!-- 구직정보 수정 -->
     <update id="updateJobinfo" parameterType="egovframework.job.dto.JobinfoDTO">
-        UPDATE JOBINFO SET 
-           d_date = #{d_date},
-           job_type = #{job_type}, 
-           employment_type = #{employment_type}, 
-           payment_type = #{payment_type}, 
-           payment = #{payment}, 
-           career = #{career}, 
-           edu = #{edu}, 
-           r_date = #{r_date},
-           detail = #{detail}
+        UPDATE JOBINFO
+	        <set>
+		      <if test="d_date != null">
+		        d_date = #{d_date},
+		      </if>
+		      <if test="job_type != null">
+		        job_type = #{job_type},
+		      </if>
+		      <if test="employment_type != null">
+		        employment_type = #{employment_type},
+		      </if>
+		      <if test="payment_type != null">
+		        payment_type = #{payment_type},
+		      </if>
+		      <if test="payment != null">
+		        payment = #{payment},
+		      </if>
+		      <if test="career != null">
+		        career = #{career},
+		      </if>
+		      <if test="career != null">
+		        career = #{career},
+		      </if>
+		      <if test="edu != null">
+		        edu = #{edu},
+		      </if>
+		      <if test="r_date != null">
+		        r_date = #{r_date},
+		      </if>
+		      <if test="detail != null">
+		        detail = #{detail}
+		      </if>
+	   		</set>
         WHERE j_id = #{j_id}
     </update>
     
@@ -45,7 +68,7 @@
     </delete>
     
     <!-- 회원별 본인이 찜한 데이터(True, False로 판단) -->
-    <select id="searchJobinfo" resultType="egovframework.job.vo.JobinfoResultVO" parameterType="egovframework.job.vo.JobinfoSearchVO">
+    <select id="searchJobinfo" resultType="egovframework.job.dto.JobinfoSearchResponse" parameterType="egovframework.job.dto.JobinfoSearchRequest">
       SELECT J.j_id , J.d_date, C.c_name, J.job_type, J.employment_type, J.payment_type, J.payment, J.career, J.edu, J.r_date, J.detail, C.address, C.c_type
       , (CASE
 	      WHEN J.j_id IN (
@@ -117,20 +140,4 @@
         SELECT j_id ,job_type, d_date FROM JOBINFO WHERE c_num = #{c_num}
     </select>
     
-    <!-- 구직정보 단일 조회(찜여부 state = true, false반환) -->
-    <select id="getJobinfoBySelect" parameterType="egovframework.job.vo.JobinfoSelectVO" resultType="egovframework.job.vo.JobinfoResultVO">
-    	SELECT J.j_id , J.d_date, C.c_name, C.address, C.c_type, J.job_type, J.employment_type, J.payment_type, J.payment, J.career, J.edu, J.r_date, J.detail
-	    , (CASE
-	      WHEN J.j_id IN (
-	        SELECT W.j_num
-	        FROM WISH W
-	        WHERE W.m_num = #{memberId}
-	      ) THEN 'True'
-      	  ELSE 'False'
-    	END) AS state
-    	
-	    FROM JOBINFO J INNER JOIN COMPANY C
-	    ON J.c_num = C.c_num
-	    WHERE J.j_id = #{j_id}
-    </select>
 </mapper>

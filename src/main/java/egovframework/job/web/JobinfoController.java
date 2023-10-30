@@ -18,6 +18,8 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
 import egovframework.job.dto.JobinfoDTO;
+import egovframework.job.dto.JobinfoSearchRequest;
+import egovframework.job.dto.JobinfoSearchResponse;
 import egovframework.job.service.JobinfoService;
 import egovframework.job.vo.JobinfoResultVO;
 import egovframework.job.vo.JobinfoSearchVO;
@@ -32,23 +34,13 @@ public class JobinfoController {
 // 구직정보 전체리스트 반환
    @GetMapping("/jobinfo")
    public ResponseEntity<List> selectJobinfo() {
-      List<JobinfoVO> res =  service.getJobinfoList();
-      return ResponseEntity.ok(res);
-   }
-//   id별(기본키) 조회 
-   @GetMapping("/jobinfo/select")
-   public ResponseEntity selectOne(@RequestParam Long j_id, @RequestParam(required = false) Long memberId) {
-	   JobinfoSelectVO vo = JobinfoSelectVO.builder()
-		   .j_id(j_id)
-		   .memberId(memberId)
-		   .build();
-	  JobinfoResultVO res = service.getJobinfoBySelect(vo);
+      List<JobinfoDTO> res =  service.getJobinfoList();
       return ResponseEntity.ok(res);
    }
 //   Create
    @PostMapping("/jobinfo")
    public ResponseEntity createJobinfo(@RequestBody JobinfoDTO jobinfoDto) {
-      JobinfoVO res = service.addJobinfo(jobinfoDto);
+      JobinfoDTO res = service.addJobinfo(jobinfoDto);
       return ResponseEntity.ok(res);
    }
 //   Update
@@ -57,7 +49,7 @@ public class JobinfoController {
 //     쿼리스트링으로 받아온 id값을 set
        jobinfoDto.setJ_id(id);
        service.updateJobinfo(jobinfoDto);    
-       JobinfoVO res = service.getJById(id);
+       JobinfoDTO res = service.getJById(id);
        return ResponseEntity.ok(res);
     }
 //   Delete
@@ -73,7 +65,7 @@ public class JobinfoController {
     		, @RequestParam(name="pageSize", required = false,  defaultValue = "12")int pageSize
     		, @RequestParam(required=false) Long memberId) {
     	PageHelper.startPage(pageNum, pageSize);
-    	JobinfoSearchVO vo = JobinfoSearchVO.builder()
+    	JobinfoSearchRequest req = JobinfoSearchRequest.builder()
     			.employment_type(employment_type)
     			.payment_type(payment_type)
     			.address(address)
@@ -83,13 +75,13 @@ public class JobinfoController {
     			.sort(sort)
     			.memberId(memberId)
     			.build();
-    	List<JobinfoResultVO> res = service.searchJobinfo(vo);
+    	List<JobinfoSearchResponse> res = service.searchJobinfo(req);
     	return ResponseEntity.ok(PageInfo.of(res));
     }
     
     // 기업별 업종(JOB_TYPE) 목록 조회
     @GetMapping("/jobinfo/jobtype/{c_num}")
-    public ResponseEntity selectJobTypeByCNum(@PathVariable long c_num) {
+    public ResponseEntity selectJobTypeByCNum(@PathVariable Long c_num) {
      	List<String> res = service.selectJobTypeByCNum(c_num);
         return ResponseEntity.ok(res);
     }

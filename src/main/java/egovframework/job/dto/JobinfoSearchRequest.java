@@ -1,4 +1,4 @@
-package egovframework.job.vo;
+package egovframework.job.dto;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class JobinfoSearchVO {
+public class JobinfoSearchRequest {
 //	고용형태, 임금형태, 지역, 기업형태
 	private String[] employment_type;
 	private String[] payment_type;
@@ -22,7 +22,7 @@ public class JobinfoSearchVO {
 	private String sort;
 	
 	@Builder
-	public JobinfoSearchVO(String[] employment_type, String[] payment_type, String[] address,
+	public JobinfoSearchRequest(String[] employment_type, String[] payment_type, String[] address,
 			String[] c_type, String job_type, String keyword, String sort, Long memberId) {
 		this.employment_type = employment_type;
 		this.payment_type = payment_type;

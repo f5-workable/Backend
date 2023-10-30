@@ -1,20 +1,19 @@
 package egovframework.job.vo;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-
 import lombok.Builder;
 import lombok.Getter;
 
 @Getter
-@Builder
 public class WishVO {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long w_id;
-	
 	private Long m_num;
 	private Long j_num;
+	
+	@Builder
+	public WishVO(Long w_id, Long m_num, Long j_num) {
+		this.w_id = w_id;
+		this.m_num = m_num;
+		this.j_num = j_num;
+	}
 }

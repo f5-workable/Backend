@@ -1,6 +1,8 @@
 package egovframework.job.dto;
 
 import egovframework.job.vo.ResumeRegionVO;
+import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -14,17 +16,17 @@ public class ResumeRegionDTO {
 	private Long r_id;
 	private String region;
 	
-	public ResumeRegionDTO(ResumeRegionVO entity) {
-		this.region_id = entity.getRegion_id();
-		this.r_id = entity.getR_id();
-		this.region = entity.getRegion();
+	@Builder
+	public ResumeRegionDTO(Long r_id, String region) {
+		this.r_id = r_id;
+		this.region = region;
 	}
 	
-	public ResumeRegionVO toEntity() {
-		return ResumeRegionVO.builder()
-				.region_id(region_id)
-				.r_id(r_id)
-				.region(region)
-				.build();
-	}
+//	public ResumeRegionVO toEntity() {
+//		return ResumeRegionVO.builder()
+//				.region_id(region_id)
+//				.r_id(r_id)
+//				.region(region)
+//				.build();
+//	}
 }

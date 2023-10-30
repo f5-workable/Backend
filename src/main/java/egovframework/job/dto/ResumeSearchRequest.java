@@ -1,4 +1,4 @@
-package egovframework.job.vo;
+package egovframework.job.dto;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class ResumeSearchVO {
+public class ResumeSearchRequest {
 //	임금형태, 장애유형, 중증여부, 지역, 학력
 	private String[] payment_type;
 	private String[] disease;
@@ -19,7 +19,7 @@ public class ResumeSearchVO {
 	private String sort;
 	
 	@Builder
-	public ResumeSearchVO(String[] payment_type, String[] disease, String[] ob_type, String[] place, String[] education,
+	public ResumeSearchRequest(String[] payment_type, String[] disease, String[] ob_type, String[] place, String[] education,
 			String keyword, String sort) {
 		this.payment_type = payment_type;
 		this.disease = disease;
@@ -29,5 +29,4 @@ public class ResumeSearchVO {
 		this.keyword = keyword;
 		this.sort = sort;
 	}
-	
 }

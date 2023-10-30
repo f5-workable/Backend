@@ -1,12 +1,10 @@
-package egovframework.job.vo;
+package egovframework.job.dto;
 
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 @Getter
-@NoArgsConstructor
-public class ResumeResultVO {
-	
+public class ResumeSearchResponse {
+
 	private Long r_id;
 	private String education;
 	private String region;

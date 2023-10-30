@@ -1,24 +1,15 @@
 package egovframework.job.vo;
 
 import java.util.List;
-
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
-@Builder
 @NoArgsConstructor
-@AllArgsConstructor
 public class ResumeVO {
 
 	/** 지원자 아이디 */
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long r_id;
 	/** 학력 */
 	private String education;
@@ -35,4 +26,19 @@ public class ResumeVO {
     private String title;
     
     private List<ResumeRegionVO> region;
+    
+    @Builder
+    public ResumeVO(Long r_id, String education, String job, int payment, String payment_type, String ob_type, String disease, String career, String pr, Long m_num, String title) {
+		this.r_id = r_id;
+		this.education = education;
+		this.job = job;
+		this.payment = payment;
+		this.payment_type = payment_type;
+		this.ob_type = ob_type;
+		this.disease = disease;
+		this.career = career;
+		this.pr = pr;
+		this.m_num = m_num;
+		this.title = title;
+	}
 }

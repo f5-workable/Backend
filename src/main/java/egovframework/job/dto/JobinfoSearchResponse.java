@@ -1,11 +1,9 @@
-package egovframework.job.vo;
+package egovframework.job.dto;
 
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 @Getter
-@NoArgsConstructor
-public class JobinfoResultVO {
+public class JobinfoSearchResponse {
 	private Long j_id;
 //	마감일
 	private String d_date;

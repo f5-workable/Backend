@@ -7,6 +7,7 @@ import javax.validation.constraints.NotNull;
 
 import egovframework.job.vo.ResumeRegionVO;
 import egovframework.job.vo.ResumeVO;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -16,7 +17,6 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 public class ResumeDTO {
 
 	private Long r_id;
@@ -48,7 +48,6 @@ public class ResumeDTO {
     	this.pr = entity.getPr();
     	this.title = entity.getTitle();
     }
-    
     
     public ResumeVO toEntity() {
     	return ResumeVO.builder()

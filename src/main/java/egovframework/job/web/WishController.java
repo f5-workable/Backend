@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
+import egovframework.job.dto.JobinfoSearchResponse;
 import egovframework.job.dto.WishDTO;
 import egovframework.job.service.WishService;
 import egovframework.job.vo.JobinfoResultVO;
@@ -33,27 +34,27 @@ public class WishController {
 			, @RequestParam(name="pageNum", required = false,  defaultValue = "1")int pageNum
     		, @RequestParam(name="pageSize", required = false,  defaultValue = "12")int pageSize) {
 		PageHelper.startPage(pageNum, pageSize);
-		List<JobinfoResultVO> res = service.getWishList(memberId);
+		List<JobinfoSearchResponse> res = service.getWishList(memberId);
 		return ResponseEntity.ok(PageInfo.of(res));
 	}
 //	찜등록 create
 	@PostMapping("/wish")
 	public ResponseEntity createWish(@RequestParam Long memberId, @RequestParam Long g_id) {
-		WishCreateVO vo = WishCreateVO.builder()
+		WishDTO dto = WishDTO.builder()
 			.m_num(memberId)
 			.j_num(g_id)
 			.build();
-		service.createWish(vo);
+		service.createWish(dto);
 		return ResponseEntity.ok(g_id);
 	}
 //	찜해제 delete
 	@DeleteMapping("/wish")
 	public ResponseEntity deleteWish(@RequestParam Long memberId, @RequestParam Long g_id) {
-		WishCreateVO vo = WishCreateVO.builder()
+		WishDTO dto = WishDTO.builder()
 			.m_num(memberId)
 			.j_num(g_id)
 			.build();
-       service.deleteWish(vo);
+       service.deleteWish(dto);
        return ResponseEntity.ok(memberId);
     }
 }

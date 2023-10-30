@@ -21,6 +21,8 @@ import com.github.pagehelper.PageInfo;
 
 import egovframework.job.dto.MemberDTO;
 import egovframework.job.dto.ResumeDTO;
+import egovframework.job.dto.ResumeSearchRequest;
+import egovframework.job.dto.ResumeSearchResponse;
 import egovframework.job.service.MemberService;
 import egovframework.job.service.ResumeService;
 import egovframework.job.vo.JobinfoResultVO;
@@ -41,12 +43,6 @@ public class ResumeController {
 	@GetMapping("/resume")
 	public ResponseEntity selectResumeList() {
 		List<ResumeVO> res =  service.getResumeList();
-		return ResponseEntity.ok(res);
-	}
-//  id별(기본키) 조회 
-	@GetMapping("/resume/{id}")
-	public ResponseEntity selectOne(@PathVariable Long id) {
-		ResumeDTO res =  service.getResumeById(id);
 		return ResponseEntity.ok(res);
 	}
 //  Create
@@ -77,7 +73,7 @@ public class ResumeController {
     		, @RequestParam(name="pageNum", required = false,  defaultValue = "1")int pageNum
     		, @RequestParam(name="pageSize", required = false,  defaultValue = "12")int pageSize) {
     	PageHelper.startPage(pageNum, pageSize);
-    	ResumeSearchVO vo = ResumeSearchVO.builder()
+    	ResumeSearchRequest req = ResumeSearchRequest.builder()
     			.payment_type(payment_type)
     			.disease(disease)
     			.ob_type(ob_type)
@@ -86,7 +82,7 @@ public class ResumeController {
     			.keyword(keyword)
     			.sort(sort)
     			.build();
-    	List<ResumeResultVO> res = service.searchResume(vo);
+    	List<ResumeSearchResponse> res = service.searchResume(req);
     	return ResponseEntity.ok(PageInfo.of(res));
     }
     
@@ -95,23 +91,19 @@ public class ResumeController {
     @GetMapping("/resume/member")
 	public ResponseEntity selectWishList(@RequestParam(required=false) Long memberId) throws Exception {
 		PageHelper.startPage(1,3);
-		List<ResumeResultVO> res = service.memberResume(memberId);
-		// 로그인한 회원만이 해당 API를 실행가능(따로 memberId여부를 따지지 않음)
-		// 대표이력서 설정
+		List<ResumeSearchResponse> res = service.memberResume(memberId);
+		// 로그인한 회원만이 해당 API를 실행가능
 		return ResponseEntity.ok(PageInfo.of(res));
 	}
 //  대표이력서 설정
     @GetMapping("/resume/rdefault")
-    public ResponseEntity<?> selectRdefault(@RequestParam(required=false) Long memberId , @RequestParam(required=false) Long r_id) throws Exception {
+    public ResponseEntity selectRdefault(@RequestParam(required=false) Long memberId , @RequestParam(required=false) Long r_id) throws Exception {
 //    	회원정보 조회
     	MemberDTO dto = memberService.findByLongId(memberId);
     	// 대표이력서 설정
 		if (r_id != null) {
 	    	dto.setR_default(r_id);
 	    	memberService.rdefaultMember(dto);
-		}
-		else {
-			dto.setR_default(null);
 		}
     	return ResponseEntity.ok(dto);
     }

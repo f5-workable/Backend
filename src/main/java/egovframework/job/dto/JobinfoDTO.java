@@ -10,7 +10,6 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 public class JobinfoDTO {
    private Long j_id;
    private String d_date;
@@ -39,19 +38,19 @@ public class JobinfoDTO {
        this.detail = entity.getDetail();
     }
     
-    public JobinfoVO toEntity() {
-       return JobinfoVO.builder()
-             .j_id(j_id)
-             .d_date(d_date)
-             .j_name(j_name)
-             .job_type(job_type)
-             .employment_type(employment_type)
-             .payment_type(payment_type)
-             .payment(payment)
-             .career(career)
-             .edu(edu)
-             .r_date(r_date)
-             .detail(detail)
-             .build();
-    }
+//    public JobinfoVO toEntity() {
+//       return JobinfoVO.builder()
+//             .j_id(j_id)
+//             .d_date(d_date)
+//             .j_name(j_name)
+//             .job_type(job_type)
+//             .employment_type(employment_type)
+//             .payment_type(payment_type)
+//             .payment(payment)
+//             .career(career)
+//             .edu(edu)
+//             .r_date(r_date)
+//             .detail(detail)
+//             .build();
+//    }
 }

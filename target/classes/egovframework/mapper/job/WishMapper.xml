@@ -3,7 +3,7 @@
 <mapper namespace="egovframework.mapper.job.WishMapper">
 	
 	<!-- 회원의 찜목록 -->
-	<select id="selectWishList" parameterType="Long" resultType="egovframework.job.vo.JobinfoResultVO">
+	<select id="selectWishList" parameterType="Long" resultType="egovframework.job.dto.JobinfoSearchResponse">
         <!-- parameter : memberId -->
         SELECT J.j_id, J.d_date, C.c_name, C.address, C.c_type, J.job_type, J.employment_type, J.payment_type, J.payment, J.career, J.edu, J.r_date, J.detail, 'True' AS state
         FROM (JOBINFO J INNER JOIN COMPANY C ON J.c_num = C.c_num)
@@ -17,13 +17,13 @@
     </select>
     
     <!-- 찜생성 -->
-    <insert id="createWish" parameterType="egovframework.job.vo.WishCreateVO">
+    <insert id="createWish" parameterType="egovframework.job.dto.WishDTO">
         INSERT INTO WISH (m_num, j_num)
         VALUES (#{m_num}, #{j_num})
     </insert>
     
     <!-- 찜삭제 -->
-    <delete id="deleteWish" parameterType="egovframework.job.vo.WishCreateVO">
+    <delete id="deleteWish" parameterType="egovframework.job.dto.WishDTO">
         DELETE FROM WISH
     	WHERE m_num = #{m_num} AND j_num = #{j_num};
     </delete>

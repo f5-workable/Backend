@@ -1,14 +1,11 @@
 package egovframework.job.vo;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
-@Builder
 @NoArgsConstructor
-@AllArgsConstructor
 public class JobinfoVO {
 	
 	private Long j_id;
@@ -25,4 +22,19 @@ public class JobinfoVO {
 //	등록일
 	private String r_date;
 	private String detail;
+	
+	@Builder
+    public JobinfoVO(Long j_id, String d_date, String j_name, String job_type, String employment_type, String payment_type, int payment, String career, String edu, String r_date, String detail) {
+		this.j_id = j_id;
+		this.d_date = d_date;
+		this.j_name = j_name;
+		this.job_type = job_type;
+		this.employment_type = employment_type;
+		this.payment_type = payment_type;
+		this.payment = payment;
+		this.career = career;
+		this.edu = edu;
+		this.r_date = r_date;
+		this.detail = detail;
+	}
 }
