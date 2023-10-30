@@ -10,9 +10,7 @@ import org.springframework.stereotype.Service;
 import egovframework.job.dao.WishDAO;
 import egovframework.job.dto.JobinfoSearchResponse;
 import egovframework.job.dto.WishDTO;
-import egovframework.job.vo.JobinfoResultVO;
 import egovframework.job.vo.JobinfoVO;
-import egovframework.job.vo.WishCreateVO;
 import egovframework.job.vo.WishVO;
 
 @Service

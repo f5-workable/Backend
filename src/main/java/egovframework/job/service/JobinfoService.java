@@ -13,9 +13,6 @@ import egovframework.job.dao.WishDAO;
 import egovframework.job.dto.JobinfoDTO;
 import egovframework.job.dto.JobinfoSearchRequest;
 import egovframework.job.dto.JobinfoSearchResponse;
-import egovframework.job.vo.JobinfoResultVO;
-import egovframework.job.vo.JobinfoSearchVO;
-import egovframework.job.vo.JobinfoSelectVO;
 import egovframework.job.vo.JobinfoVO;
 import egovframework.job.vo.WishVO;
 

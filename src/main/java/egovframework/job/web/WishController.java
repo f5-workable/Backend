@@ -17,9 +17,7 @@ import com.github.pagehelper.PageInfo;
 import egovframework.job.dto.JobinfoSearchResponse;
 import egovframework.job.dto.WishDTO;
 import egovframework.job.service.WishService;
-import egovframework.job.vo.JobinfoResultVO;
 import egovframework.job.vo.JobinfoVO;
-import egovframework.job.vo.WishCreateVO;
 import egovframework.job.vo.WishVO;
 
 @RestController

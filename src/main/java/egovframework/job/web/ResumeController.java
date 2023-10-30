@@ -25,10 +25,7 @@ import egovframework.job.dto.ResumeSearchRequest;
 import egovframework.job.dto.ResumeSearchResponse;
 import egovframework.job.service.MemberService;
 import egovframework.job.service.ResumeService;
-import egovframework.job.vo.JobinfoResultVO;
 import egovframework.job.vo.MemberVO;
-import egovframework.job.vo.ResumeResultVO;
-import egovframework.job.vo.ResumeSearchVO;
 import egovframework.job.vo.ResumeVO;
 
 @RestController
@@ -42,7 +39,7 @@ public class ResumeController {
 //	전체 조회
 	@GetMapping("/resume")
 	public ResponseEntity selectResumeList() {
-		List<ResumeVO> res =  service.getResumeList();
+		List<ResumeDTO> res =  service.getResumeList();
 		return ResponseEntity.ok(res);
 	}
 //  Create

@@ -8,9 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import egovframework.job.dto.JobinfoSearchResponse;
 import egovframework.job.dto.WishDTO;
-import egovframework.job.vo.JobinfoResultVO;
 import egovframework.job.vo.JobinfoVO;
-import egovframework.job.vo.WishCreateVO;
 import egovframework.job.vo.WishVO;
 
 @Repository

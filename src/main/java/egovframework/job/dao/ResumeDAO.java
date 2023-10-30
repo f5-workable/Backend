@@ -9,10 +9,6 @@ import org.springframework.stereotype.Repository;
 import egovframework.job.dto.ResumeDTO;
 import egovframework.job.dto.ResumeSearchRequest;
 import egovframework.job.dto.ResumeSearchResponse;
-import egovframework.job.vo.JobinfoResultVO;
-import egovframework.job.vo.JobinfoSearchVO;
-import egovframework.job.vo.ResumeResultVO;
-import egovframework.job.vo.ResumeSearchVO;
 import egovframework.job.vo.ResumeVO;
 
 @Repository
@@ -22,8 +18,8 @@ public class ResumeDAO {
 	private SqlSession sqlSession;
 	
 //  이력서 전체 조회
-	public List<ResumeVO> selectResumeList() {
-        List<ResumeVO> resumeDto = sqlSession.selectList("egovframework.mapper.job.ResumeMapper.selectResumeList");
+	public List<ResumeDTO> selectResumeList() {
+        List<ResumeDTO> resumeDto = sqlSession.selectList("egovframework.mapper.job.ResumeMapper.selectResumeList");
         return resumeDto;
     }
 //  한 개의 이력서 조회

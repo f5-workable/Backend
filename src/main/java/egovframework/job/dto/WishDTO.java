@@ -1,7 +1,5 @@
 package egovframework.job.dto;
 
-import egovframework.job.vo.WishCreateVO;
-import egovframework.job.vo.WishVO;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

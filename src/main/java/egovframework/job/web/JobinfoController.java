@@ -21,9 +21,6 @@ import egovframework.job.dto.JobinfoDTO;
 import egovframework.job.dto.JobinfoSearchRequest;
 import egovframework.job.dto.JobinfoSearchResponse;
 import egovframework.job.service.JobinfoService;
-import egovframework.job.vo.JobinfoResultVO;
-import egovframework.job.vo.JobinfoSearchVO;
-import egovframework.job.vo.JobinfoSelectVO;
 import egovframework.job.vo.JobinfoVO;
 
 @RestController

@@ -30,7 +30,7 @@ public class ResumeService {
 	@Autowired
 	private MemberDAO memberDAO;
 //	조회
-	public List<ResumeVO> getResumeList() {
+	public List<ResumeDTO> getResumeList() {
         return dao.selectResumeList();
     }
 //	id별 조회(이력서지역포함)

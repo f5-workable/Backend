@@ -9,9 +9,6 @@ import org.springframework.stereotype.Repository;
 import egovframework.job.dto.JobinfoDTO;
 import egovframework.job.dto.JobinfoSearchRequest;
 import egovframework.job.dto.JobinfoSearchResponse;
-import egovframework.job.vo.JobinfoResultVO;
-import egovframework.job.vo.JobinfoSearchVO;
-import egovframework.job.vo.JobinfoSelectVO;
 import egovframework.job.vo.JobinfoVO;
 
 @Repository
@@ -29,20 +26,18 @@ public class JobinfoDAO {
     	JobinfoSearchResponse res = sqlSession.selectOne("egovframework.mapper.job.JobinfoMapper.selectJobinfoById", id);
         return res;
     }
-//  구직정보 JobinfoVO로 단일 조회
+//  구직정보 단일 조회
     public JobinfoDTO selectJById(Long id) {
     	JobinfoDTO dto = sqlSession.selectOne("egovframework.mapper.job.JobinfoMapper.selectJById", id);
     	return dto;
     }
 //  구직정보 생성
     public JobinfoDTO addJobinfo(JobinfoDTO dto) {
-//       JobinfoVO vo = dto.toEntity();
        sqlSession.insert("egovframework.mapper.job.JobinfoMapper.createJobinfo", dto);
        return dto;
     }
 //  구직정보 수정
     public void updateJobinfo(JobinfoDTO dto) {
-//       JobinfoVO vo = dto.toEntity();
        sqlSession.update("egovframework.mapper.job.JobinfoMapper.updateJobinfo", dto);
     }
 //  구직정보 삭제
