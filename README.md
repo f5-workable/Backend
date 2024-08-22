@@ -63,4 +63,29 @@ Workable은 장애인과 기업에 제공하는 구인 구직 사이트로 서�
 
 <img src="https://github.com/user-attachments/assets/49324f01-184a-4699-9398-5abbf602052a" alt="image"></img>
 
+## 기술 스택
+### Backend
+eGovFramework, Java, MyBatis
+
+### Frontend
+JavaScript, React, tailwind CSS
+
+### Database
+MariaDB
+
+## 화면 흐름도
+### 회원(장애인)
+<img src="https://github.com/user-attachments/assets/cfa19df0-c28d-4c44-9b85-bcdfb5d7a3e4" alt="image"></img>
+### 기업
+<img src="https://github.com/user-attachments/assets/b5b816e6-3d0a-48a1-9b7b-3de361618846" alt="image"></img>
+
+## 시스템 개발 구성도
+<img src="https://github.com/user-attachments/assets/89b0e089-7f8d-4c8f-8a68-c4564f69a8e7" alt="image"></img>
+
+## 세부 개발 일정
+<img src="https://github.com/user-attachments/assets/bce1f954-1790-4fe0-95c7-52ac39600a27" alt="image"></img>
+
+## ERD
+<img src="https://github.com/user-attachments/assets/9f18984c-ce12-4410-8438-29da5ed6da85" alt="image"></img>
+
 
