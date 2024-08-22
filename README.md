@@ -65,13 +65,17 @@ Workable은 장애인과 기업에 제공하는 구인 구직 사이트로 서�
 
 ## 기술 스택
 ### Backend
-eGovFramework, Java, MyBatis
+- eGovFramework
+- Java
+- MyBatis
 
 ### Frontend
-JavaScript, React, tailwind CSS
+- JavaScript
+- React
+- tailwind CSS
 
 ### Database
-MariaDB
+- MariaDB
 
 ## 화면 흐름도
 ### 회원(장애인)
