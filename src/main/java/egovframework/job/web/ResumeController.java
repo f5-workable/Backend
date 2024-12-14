@@ -1,5 +1,6 @@
 package egovframework.job.web;
 
+import java.io.IOException;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
+import co.elastic.clients.elasticsearch._types.ElasticsearchException;
 import egovframework.job.dto.MemberDTO;
 import egovframework.job.dto.ResumeDTO;
 import egovframework.job.dto.ResumeSearchRequest;

@@ -1,12 +1,16 @@
 package egovframework.job.service;
 
+import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import co.elastic.clients.elasticsearch._types.ElasticsearchException;
 import egovframework.job.dao.MemberDAO;
 import egovframework.job.dao.ResumeDAO;
 import egovframework.job.dao.ResumeRegionDAO;
@@ -61,6 +65,7 @@ public class ResumeService {
         	   resumeRegionDAO.insertResumeRegion(resumeRegionDTO);
            }
        }
+       
 //     희망지역을 입력하지 않았다면 이력서만 저장
        return insertId;
     }
@@ -88,10 +93,12 @@ public class ResumeService {
     }
 //  삭제
     @Transactional
-    public void deleteResume(Long id) {
+    public void deleteResume(Long id){
 //      이력서 삭제
     	dao.deleteResume(id);
     }
+    
+    
 //  조건검색
     public List<ResumeSearchResponse> searchResume(ResumeSearchRequest req) {
        List<ResumeSearchResponse> res = dao.searchResume(req);
