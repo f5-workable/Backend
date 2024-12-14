@@ -1,11 +1,7 @@
 package egovframework.job.dto;
 
-import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import egovframework.job.vo.ResumeRegionVO;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
