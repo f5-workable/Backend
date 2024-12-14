@@ -93,10 +93,12 @@
     
     <!-- 이력서 조건검색 -->
     <select id="searchResume" resultType="egovframework.job.dto.ResumeSearchResponse" parameterType="egovframework.job.dto.ResumeSearchRequest">
-      SELECT R.r_id, R.education, R_R.region, R.job, R.payment_type, R.payment, R.ob_type, R.disease, R.career, R.pr, R.m_num, R.title, 
-      (SELECT M.name FROM MEMBER M WHERE M.m_num = R.m_num) AS name
-      FROM RESUME R INNER JOIN RESUME_REGION R_R
-      ON R.r_id = R_R.r_id
+      SELECT R.r_id, R.education, R_R.region, R.job, R.payment_type, R.payment, R.ob_type, R.disease, R.title, M.name
+	  FROM RESUME R
+	  INNER JOIN RESUME_REGION R_R
+	  ON R.r_id = R_R.r_id
+	  LEFT JOIN MEMBER M
+	  ON R.m_num = M.m_num
       <where>
          <if test="payment_type != null">
          	<if test="payment_type.length > 0">
@@ -139,12 +141,11 @@
             </if>
          </if>
          <if test="keyword != null">
-         	<if test="keyword.length > 0">
-         		and R.job LIKE CONCAT('%', #{keyword}, '%')
-         	</if>
-         </if>
+		    <if test="keyword.length > 0">
+		        and R.job LIKE CONCAT('%', #{keyword}, '%')
+		    </if>
+		</if>
       </where>
-      GROUP BY R.r_id
       <choose>
          <when test="sort == '최신순'">
          	ORDER BY R.r_id DESC

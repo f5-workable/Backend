@@ -122,3 +122,4 @@ $RECYCLE.BIN/
 .svn
 
 # End of https://www.toptal.com/developers/gitignore/api/windows,eclipse,java
+echo "/target/" >> .gitignore
